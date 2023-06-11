@@ -11,9 +11,9 @@ func loadEnv() -> [String: String] {
     let envPath = Bundle.main.path(forResource: "env", ofType: "txt")!
     var env: [String: String] = [:]
     do {
-        // 将 `.env` 文件读入字符串
+
         let envContent = try String(contentsOfFile: envPath)
-        // 拆分字符串成行
+
         let envLines = envContent.components(separatedBy: .newlines)
         for line in envLines {
 
