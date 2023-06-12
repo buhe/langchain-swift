@@ -11,6 +11,10 @@ import AsyncHTTPClient
 import OpenAIKit
 
 public struct OpenAIEmbeddings: Embeddings {
+    public init() {
+        
+    }
+    
     public func embedDocuments(texts: [String]) -> [[Float]] {
         []
     }
