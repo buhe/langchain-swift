@@ -17,6 +17,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/dylanshine/openai-kit", .upToNextMajor(from: "1.8.0")),
+        .package(url: "https://github.com/supabase-community/supabase-swift", .upToNextMajor(from: "0.2.1")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
