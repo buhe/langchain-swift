@@ -8,13 +8,13 @@
 import Foundation
 import Supabase
 
-
-
-
-
 struct SearchVectorParams: Codable {
     let query_embedding: [Float]
     let match_count: Int
+}
+struct DocModel: Encodable, Decodable {
+    let content: String?
+    let embedding: [Float]
 }
 
 public struct Supabase: VectorStore {
@@ -26,14 +26,14 @@ public struct Supabase: VectorStore {
         client = SupabaseClient(supabaseURL: URL(string: env["SUPABASE_URL"]!)!, supabaseKey: env["SUPABASE_KEY"]!)
     }
     
-    public func similaritySearch(query: String, k: Int) async -> [MactchedModel] {
+    public func similaritySearch(query: String, k: Int) async -> [MatchedModel] {
         let params = SearchVectorParams(query_embedding: await embeddings.embedQuery(text: query), match_count: k)
         let query = client.database.rpc(fn: "match_documents", params: params)
-            .single()
+
         do {
-            let response: String = try await query.execute().value // Where DataModel is the model of the data returned by the function
-               print("### RPC Returned: \(response)")
-            return []
+            let response: [MatchedModel] = try await query.execute().value // Where DataModel is the model of the data returned by the function
+            print("### RPC Returned: \(response.first!.content!)")
+            return response
            } catch {
                print("### RPC Error: \(error)")
                return []
@@ -52,8 +52,8 @@ public struct Supabase: VectorStore {
             .single() // specify you want to return a single value.
         
         do {
-            let response: String = try await query.execute().value
-            print("### Returned: \(response)")
+            let _: String = try await query.execute().value
+//          print("### Save Returned: \(response)")
         } catch {
             print("### Insert Error: \(error)")
         }
