@@ -26,6 +26,7 @@ let package = Package(
             name: "LangChain",
             dependencies: [
                 .product(name: "OpenAIKit", package: "openai-kit"),
+                .product(name: "Supabase", package: "supabase-swift"),
             ]
         
         ),

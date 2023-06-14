@@ -24,7 +24,7 @@ public struct OpenAIEmbeddings: Embeddings {
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
        
-        var env = loadEnv()
+        let env = loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
             let baseUrl = env["OPENAI_API_BASE"] ?? "api.openai.com"
@@ -38,7 +38,7 @@ public struct OpenAIEmbeddings: Embeddings {
             }
             let embedding = try! await openAIClient.embeddings.create(input: text)
                  
-            print(embedding.data[0].embedding)
+//            print(embedding.data[0].embedding)
             return embedding.data[0].embedding
         } else {
             print("Please set openai api key.")
