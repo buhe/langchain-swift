@@ -1,5 +1,5 @@
 ## LangChain Swift
-A serious swift langchain copy, for ios or mac apps.
+A serious and mini swift langchain copy, for ios or mac apps.
 
 
 ### Setup
