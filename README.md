@@ -21,3 +21,6 @@ A serious and mini swift langchain copy, for ios or mac apps.
   - [x] Supabase
 - [ ] Embedding
   - [x] OpenAI
+- [ ] Chain
+- [ ] Tools
+- [ ] Agent
