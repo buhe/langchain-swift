@@ -9,13 +9,15 @@ import Foundation
 
 public struct PromptTemplate {
     // Schema to represent a prompt for an LLM.
+    public init(input_variables: [String], template: String) {
+        self.input_variables = input_variables
+        self.template = template
+    }
     
-    let input_variables: [String]
+    public let input_variables: [String]
     // A list of the names of the variables the prompt template expects.
     
-    let template: String
+    public let template: String
     // The prompt template.
-    func format(args: [String]) -> String {
-        String(format: template, args)
-    }
+
 }
