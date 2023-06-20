@@ -28,3 +28,5 @@ Begin!
 Question: {%@}
 Thought:{%@}
 """
+
+public let FINAL_ANSWER_ACTION = "Final Answer:"

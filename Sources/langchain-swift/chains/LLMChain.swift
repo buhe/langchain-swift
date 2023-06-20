@@ -12,8 +12,8 @@ public class LLMChain: DefaultChain {
     public init(llm: LLM) {
         self.llm = llm
     }
-    public override func call(args: Any) throws {
-        print("call child....")
+    public override func call(args: Any) async throws {
+        await self.llm.send(text: "", stops:  ["\\nObservation: ", "\\n\\tObservation: "])
     }
     
 }

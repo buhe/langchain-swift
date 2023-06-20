@@ -7,13 +7,13 @@
 
 import Foundation
 public class DefaultChain: Chain {
-    public func call(args: Any) throws{
+    public func call(args: Any) async throws {
         print("call base.")
     }
     
-    public func run(args: Any) {
+    public func run(args: Any) async {
         do {
-            try self.call(args: args)
+            try await self.call(args: args)
         } catch {
             print(error)
         }
@@ -21,5 +21,5 @@ public class DefaultChain: Chain {
 }
 
 public protocol Chain {
-    func call(args: Any) throws
+    func call(args: Any) async throws
 }
