@@ -6,22 +6,22 @@
 //
 
 import Foundation
-public class AgentExecutor: Chain {
+public class AgentExecutor: DefaultChain {
     let agent: Agent
     
     public init(agent: Agent) {
         self.agent = agent
     }
     
-    public func call() {
+    public override func call(args: Any) {
         // chain run -> call -> agent plan -> llm send
         
         // while should_continue and call
     }
 }
 
-public func initialize_agent() -> AgentExecutor {
-    return AgentExecutor(agent: ZeroShotAgent(llm_chain: LLMChain()))
+public func initialize_agent(llm: LLM) -> AgentExecutor {
+    return AgentExecutor(agent: ZeroShotAgent(llm_chain: LLMChain(llm: llm)))
 }
 
 public class Agent {

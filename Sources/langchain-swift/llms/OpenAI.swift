@@ -14,7 +14,7 @@ public struct OpenAI: LLM {
     public init() {
         
     }
-    public func send(text: String) async -> String {
+    public func send(text: String, stops: [String] = []) async -> String {
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
@@ -31,7 +31,7 @@ public struct OpenAI: LLM {
                 // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
                 try? httpClient.syncShutdown()
             }
-            let completion = try! await openAIClient.chats.create(model: Model.GPT3.gpt3_5Turbo, messages: [.user(content: text)])
+            let completion = try! await openAIClient.chats.create(model: Model.GPT3.gpt3_5Turbo, messages: [.user(content: text)], temperature: 0, stops: stops)
             return completion.choices.first!.message.content
         } else {
             print("Please set openai api key.")

@@ -7,5 +7,13 @@
 
 import Foundation
 
-public class LLMChain: Chain {
+public class LLMChain: DefaultChain {
+    let llm: LLM
+    public init(llm: LLM) {
+        self.llm = llm
+    }
+    public override func call(args: Any) throws {
+        print("call child....")
+    }
+    
 }

@@ -6,8 +6,20 @@
 //
 
 import Foundation
-public class Chain {
-    public func run() {
-        
+public class DefaultChain: Chain {
+    public func call(args: Any) throws{
+        print("call base.")
     }
+    
+    public func run(args: Any) {
+        do {
+            try self.call(args: args)
+        } catch {
+            print(error)
+        }
+    }
+}
+
+public protocol Chain {
+    func call(args: Any) throws
 }
