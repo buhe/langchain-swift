@@ -1,4 +1,7 @@
 ## LangChain Swift
+
+[![Swift](https://github.com/buhe/langchain-swift/actions/workflows/swift.yml/badge.svg)](https://github.com/buhe/langchain-swift/actions/workflows/swift.yml)
+
 A serious and mini swift langchain copy, for ios or mac apps.
 
 
