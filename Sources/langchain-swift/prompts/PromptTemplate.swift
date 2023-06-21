@@ -19,5 +19,7 @@ public struct PromptTemplate {
     
     public let template: String
     // The prompt template.
-
+    public func format(args: [String]) -> String {
+        String(format: template, arguments: args)
+    }
 }

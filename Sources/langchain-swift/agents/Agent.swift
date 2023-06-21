@@ -13,22 +13,23 @@ public class AgentExecutor: DefaultChain {
         self.agent = agent
     }
     
-    public override func call(args: Any) async {
+    public override func call(args: String) async throws -> String {
         // chain run -> call -> agent plan -> llm send
         
         // while should_continue and call
+        ""
     }
 }
 
 public func initialize_agent(llm: LLM) -> AgentExecutor {
-    return AgentExecutor(agent: ZeroShotAgent(llm_chain: LLMChain(llm: llm)))
+    return AgentExecutor(agent: ZeroShotAgent())
 }
 
 public class Agent {
-    let llm_chain: LLMChain
+    let llm_chain: LLMChain? = nil
     
-    public init(llm_chain: LLMChain) {
-        self.llm_chain = llm_chain
+    public init() {
+        
     }
     
     public func plan() {
@@ -48,30 +49,37 @@ public enum ActionStep {
     case action(AgentAction)
     case finish(AgentFinish)
     case error
-}
-public struct MRKLOutputParser {
-    public init() {}
-    public func parse(text: String) -> ActionStep {
-        if text.contains(FINAL_ANSWER_ACTION) {
-            return ActionStep.finish(AgentFinish(final: text.components(separatedBy: FINAL_ANSWER_ACTION)[1]))
-        }
-        let pattern = "Action\\s*:[\\s]*(.*)[\\s]*Action\\s*Input\\s*:[\\s]*(.*)"
-        let regex = try! NSRegularExpression(pattern: pattern)
-        
-        if let match = regex.firstMatch(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count)) {
-            
-            let firstCaptureGroup = Range(match.range(at: 1), in: text).map { String(text[$0]) }
-            print(firstCaptureGroup!)
-            
-            
-            let secondCaptureGroup = Range(match.range(at: 2), in: text).map { String(text[$0]) }
-            print(secondCaptureGroup!)
-            return ActionStep.action(AgentAction(action: firstCaptureGroup!, input: secondCaptureGroup!))
-        } else {
-            return ActionStep.error
-        }
-    }
+    case pass(String)
 }
 public class ZeroShotAgent: Agent {
     let output_parser: MRKLOutputParser = MRKLOutputParser()
+        
+//        @classmethod
+//            def create_prompt(
+//                cls,
+//                tools: Sequence[BaseTool],
+//                prefix: str = PREFIX,
+//                suffix: str = SUFFIX,
+//                format_instructions: str = FORMAT_INSTRUCTIONS,
+//                input_variables: Optional[List[str]] = None,
+//            ) -> PromptTemplate:
+//                """Create prompt in the style of the zero shot agent.
+//
+//                Args:
+//                    tools: List of tools the agent will have access to, used to format the
+//                        prompt.
+//                    prefix: String to put before the list of tools.
+//                    suffix: String to put after the list of tools.
+//                    input_variables: List of input variables the final prompt will expect.
+//
+//                Returns:
+//                    A PromptTemplate with the template assembled from the pieces here.
+//                """
+//                tool_strings = "\n".join([f"{tool.name}: {tool.description}" for tool in tools])
+//                tool_names = ", ".join([tool.name for tool in tools])
+//                format_instructions = format_instructions.format(tool_names=tool_names)
+//                template = "\n\n".join([prefix, tool_strings, format_instructions, suffix])
+//                if input_variables is None:
+//                    input_variables = ["input", "agent_scratchpad"]
+//                return PromptTemplate(template=template, input_variables=input_variables)
 }
