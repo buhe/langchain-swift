@@ -1,5 +1,4 @@
 import XCTest
-@testable import langchain_swift
 @testable import LangChain
 
 final class langchain_swiftTests: XCTestCase {
