@@ -22,7 +22,7 @@ A serious and mini swift langchain copy, for ios or mac apps.
 - [ ] Embedding
   - [x] OpenAI
 - [ ] Chain
-  - [ ] Base
-  - [ ] LLM
+  - [x] Base
+  - [x] LLM
 - [ ] Tools
 - [ ] Agent
