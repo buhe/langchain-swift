@@ -10,12 +10,20 @@ A serious and mini swift langchain copy, for ios or mac apps.
 1. Create env.txt file in main project.
 2. Set some var like OPENAI_API_KEY or OPENAI_API_BASE
 
-### Support env var
+#### Support env var
 
 - OPENAI_API_KEY
 - OPENAI_API_BASE
 - SUPABASE_URL
 - SUPABASE_KEY
+
+### Get stated
+
+#### LLM
+
+#### QA bot
+
+#### Agent
 
 ### Roadmap
 - [ ] LLMs
@@ -29,3 +37,4 @@ A serious and mini swift langchain copy, for ios or mac apps.
   - [x] LLM
 - [ ] Tools
 - [ ] Agent
+- [ ] Memory
