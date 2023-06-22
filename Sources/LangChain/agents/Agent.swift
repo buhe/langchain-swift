@@ -84,6 +84,15 @@ public enum ActionStep {
 public class ZeroShotAgent: Agent {
     let output_parser: MRKLOutputParser = MRKLOutputParser()
         
+    public func create_prompt(tools: [BaseTool], prefix0: String = PREFIX, suffix: String = SUFFIX, format_instructions: String = FORMAT_INSTRUCTIONS)
+        -> PromptTemplate
+    {
+        let tool_strings = tools.map{$0.name() + ":" + $0.description()}.joined(separator: "\n")
+        let tool_names = tools.map{$0.name()}.joined(separator: ", ")
+        let format_instructions2 = String(format: format_instructions, tool_names)
+        let template = [prefix0, tool_strings, format_instructions2, suffix].joined(separator: "\n\n")
+        return PromptTemplate(input_variables: [], template: template)
+    }
 //        @classmethod
 //            def create_prompt(
 //                cls,
