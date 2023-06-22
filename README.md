@@ -29,3 +29,4 @@ A serious and mini swift langchain copy, for ios or mac apps.
   - [x] LLM
 - [ ] Tools
 - [ ] Agent
+- [ ] Memory
