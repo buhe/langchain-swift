@@ -8,28 +8,58 @@
 import Foundation
 public class AgentExecutor: DefaultChain {
     let agent: Agent
-    
-    public init(agent: Agent) {
+    let tools: [BaseTool]
+    public init(agent: Agent, tools: [BaseTool]) {
         self.agent = agent
+        self.tools = tools
     }
     
     public override func call(args: String) async throws -> String {
         // chain run -> call -> agent plan -> llm send
         
         // while should_continue and call
-        ""
+        let name_to_tool_map = tools.map { [$0.name(): $0] }
+        
+        let intermediate_steps: [(AgentAction, String)] = []
+        while true {
+            let next_step_output = ActionStep.error
+            
+            switch next_step_output {
+            case .finish:
+                print("finish.")
+                return ""
+            case .action:
+                return ""
+            default:
+                print("default.")
+                return ""
+            }
+        }
     }
 }
 
-public func initialize_agent(llm: LLM) -> AgentExecutor {
-    return AgentExecutor(agent: ZeroShotAgent())
+public func initialize_agent(llm: LLM, tools: [BaseTool]) -> AgentExecutor {
+    return AgentExecutor(agent: ZeroShotAgent(), tools: tools)
 }
 
 public class Agent {
     let llm_chain: LLMChain? = nil
     
     public init() {
-        
+//        prompt = cls.create_prompt(
+//                   tools,
+//                   prefix=prefix,
+//                   suffix=suffix,
+//                   format_instructions=format_instructions,
+//                   input_variables=input_variables,
+//               )
+//               llm_chain = LLMChain(
+//                   llm=llm,
+//                   prompt=prompt,
+//                   callback_manager=callback_manager,
+//               )
+//               tool_names = [tool.name for tool in tools]
+//               _output_parser = output_parser or cls._get_default_output_parser()
     }
     
     public func plan() {

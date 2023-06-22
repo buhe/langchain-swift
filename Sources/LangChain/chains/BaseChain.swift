@@ -14,7 +14,7 @@ public class DefaultChain: Chain {
     
     public func run(args: String) async {
         do {
-            try await self.call(args: args)
+            let _ = try await self.call(args: args)
         } catch {
             print(error)
         }
