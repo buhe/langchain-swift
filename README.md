@@ -36,5 +36,7 @@ A serious and mini swift langchain copy, for ios or mac apps.
   - [x] Base
   - [x] LLM
 - [ ] Tools
+  - [ ] Some dummy
 - [ ] Agent
+  - [ ] ZeroShotAgent
 - [ ] Memory
