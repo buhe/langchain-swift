@@ -63,7 +63,7 @@ public class LLMChain: DefaultChain {
         return results
     }
     
-    public func plan(intermediate_steps: [AgentAction]) {
-        
+    public func plan(input: String, agent_scratchpad: String) async -> ActionStep{
+        return await apply(input_list: [input, agent_scratchpad])
     }
 }

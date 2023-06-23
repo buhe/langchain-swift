@@ -16,7 +16,7 @@ public struct Dummy: BaseTool {
         "Useful for test."
     }
     
-    public func _run(args: Any) -> Any {
+    public func _run(args: String) throws -> String {
         "Dummy test"
     }
     

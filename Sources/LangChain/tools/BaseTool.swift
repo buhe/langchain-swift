@@ -14,5 +14,5 @@ public protocol BaseTool {
     // The unique name of the tool that clearly communicates its purpose.
     func description() -> String
     
-    func _run(args: Any) -> Any
+    func _run(args: String) throws -> String
 }

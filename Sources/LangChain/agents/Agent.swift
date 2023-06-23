@@ -104,14 +104,34 @@ public class AgentExecutor: DefaultChain {
 //                    )
 //                result.append((agent_action, observation))
 //            return result
-    
+    func take_next_step(input: String, intermediate_steps: [(AgentAction, String)]) async -> (ActionStep, String) {
+        let step = await self.agent.plan(input: input, intermediate_steps: intermediate_steps)
+        switch step {
+        case .finish(let finish):
+            print("finish.")
+            return (step, finish.final)
+        case .action(let action):
+            let tool = tools.filter{$0.name() == action.action}.first!
+            do {
+                let observation = try tool._run(args: action.input)
+                return (step, observation)
+            } catch {
+                print("\(error) at run \(tool.name()) tool.")
+                let observation = InvalidTool(tool_name: tool.name())._run(args: action.input)
+                return (step, observation)
+            }
+        default:
+            print("default.")
+            return (step, "default")
+        }
+    }
     public override func call(args: String) async throws -> String {
         // chain run -> call -> agent plan -> llm send
         
         // while should_continue and call
-        let name_to_tool_map = tools.map { [$0.name(): $0] }
-        
-        let intermediate_steps: [AgentAction] = []
+//        let name_to_tool_map = tools.map { [$0.name(): $0] }
+//        
+        var intermediate_steps: [(AgentAction, String)] = []
         while true {
 //            next_step_output = self._take_next_step(
 //                name_to_tool_map,
@@ -120,14 +140,14 @@ public class AgentExecutor: DefaultChain {
 //                intermediate_steps,
 //                run_manager=run_manager,
 //            )
-            let next_step_output = ActionStep.error
+            let next_step_output = await self.take_next_step(input: args, intermediate_steps: intermediate_steps)
             
-            switch next_step_output {
+            switch next_step_output.0 {
             case .finish:
                 print("finish.")
-                return ""
-            case .action:
-                return ""
+                return next_step_output.1
+            case .action(let action):
+                intermediate_steps.append((action, next_step_output.1))
             default:
                 print("default.")
                 return ""
@@ -161,7 +181,7 @@ public class Agent {
 //               _output_parser = output_parser or cls._get_default_output_parser()
     }
     
-    public func plan(intermediate_steps: [AgentAction]) {
+    public func plan(input: String, intermediate_steps: [(AgentAction, String)]) async -> ActionStep {
 //        """Given input, decided what to do.
 //
 //                Args:
@@ -180,6 +200,23 @@ public class Agent {
 //                    **kwargs,
 //                )
 //                return self.output_parser.parse(output)
+        return await llm_chain.plan(input: input, agent_scratchpad: construct_agent_scratchpad(intermediate_steps: intermediate_steps))
+    }
+    
+    func construct_agent_scratchpad(intermediate_steps: [(AgentAction, String)]) -> String{
+        if intermediate_steps.isEmpty {
+            return ""
+        }
+        var thoughts = ""
+        for (action, observation) in intermediate_steps {
+            thoughts += action.log
+            thoughts += "\nObservation: \(observation)\nThought: "
+        }
+        return """
+            This was your previous work
+            but I haven't seen any of it! I only see what "
+            you return as final answer):\n\(thoughts)
+        """
     }
     
 //    def _construct_agent_scratchpad(
@@ -201,6 +238,7 @@ public class Agent {
 public struct AgentAction{
     let action: String
     let input: String
+    let log: String
 }
 public struct AgentFinish {
     let final: String

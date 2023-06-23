@@ -24,7 +24,7 @@ public struct MRKLOutputParser: BaseOutputParse {
             
             let secondCaptureGroup = Range(match.range(at: 2), in: text).map { String(text[$0]) }
             print(secondCaptureGroup!)
-            return ActionStep.action(AgentAction(action: firstCaptureGroup!, input: secondCaptureGroup!))
+            return ActionStep.action(AgentAction(action: firstCaptureGroup!, input: secondCaptureGroup!, log: text))
         } else {
             return ActionStep.error
         }
