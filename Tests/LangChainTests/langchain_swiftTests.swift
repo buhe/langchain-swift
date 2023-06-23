@@ -13,9 +13,10 @@ final class langchain_swiftTests: XCTestCase {
     }
     
     func testZeroShotAgent() throws {
-        let agent = ZeroShotAgent()
+      
         let tools: [BaseTool] = [Dummy()]
-        let p = agent.create_prompt(tools: tools)
+        let p = ZeroShotAgent.create_prompt(tools: tools)
+       
 //        print(p.format(args: ["cat", "dog"]))
         let c = """
 Answer the following questions as best you can. You have access to the following tools:

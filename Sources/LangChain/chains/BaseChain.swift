@@ -12,11 +12,12 @@ public class DefaultChain: Chain {
         return args
     }
     
-    public func run(args: String) async {
+    public func run(args: String) async -> String {
         do {
-            let _ = try await self.call(args: args)
+            return try await self.call(args: args)
         } catch {
             print(error)
+            return ""
         }
     }
 }
