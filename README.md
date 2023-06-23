@@ -35,7 +35,7 @@ A serious and mini swift langchain copy, for ios or mac apps.
   - [x] Dummy
   - [x] InvalidTool
 - [ ] Agent
-  - [ ] ZeroShotAgent
+  - [x] ZeroShotAgent
 - [ ] Memory
 
 ## 💁 Contributing
