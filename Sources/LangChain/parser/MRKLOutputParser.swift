@@ -19,11 +19,11 @@ public struct MRKLOutputParser: BaseOutputParse {
         if let match = regex.firstMatch(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count)) {
             
             let firstCaptureGroup = Range(match.range(at: 1), in: text).map { String(text[$0]) }
-            print(firstCaptureGroup!)
+//            print(firstCaptureGroup!)
             
             
             let secondCaptureGroup = Range(match.range(at: 2), in: text).map { String(text[$0]) }
-            print(secondCaptureGroup!)
+//            print(secondCaptureGroup!)
             return ActionStep.action(AgentAction(action: firstCaptureGroup!, input: secondCaptureGroup!, log: text))
         } else {
             return ActionStep.error

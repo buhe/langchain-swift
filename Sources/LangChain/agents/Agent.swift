@@ -108,11 +108,11 @@ public class AgentExecutor: DefaultChain {
         let step = await self.agent.plan(input: input, intermediate_steps: intermediate_steps)
         switch step {
         case .finish(let finish):
-            print("finish.")
             return (step, finish.final)
         case .action(let action):
             let tool = tools.filter{$0.name() == action.action}.first!
             do {
+                print("try call \(tool.name()) tool.")
                 let observation = try tool._run(args: action.input)
                 return (step, observation)
             } catch {
@@ -121,7 +121,6 @@ public class AgentExecutor: DefaultChain {
                 return (step, observation)
             }
         default:
-            print("default.")
             return (step, "default")
         }
     }
@@ -144,12 +143,12 @@ public class AgentExecutor: DefaultChain {
             
             switch next_step_output.0 {
             case .finish:
-                print("finish.")
+                print("final answer.")
                 return next_step_output.1
             case .action(let action):
                 intermediate_steps.append((action, next_step_output.1))
             default:
-                print("default.")
+                print("error step.")
                 return ""
             }
         }
@@ -157,7 +156,7 @@ public class AgentExecutor: DefaultChain {
 }
 
 public func initialize_agent(llm: LLM, tools: [BaseTool]) -> AgentExecutor {
-    return AgentExecutor(agent: ZeroShotAgent(llm_chain: LLMChain(llm: llm, prompt: ZeroShotAgent.create_prompt(tools: tools), parser: ZeroShotAgent.output_parser, stop: ["\\nObservation: ", "\\n\\tObservation: "])), tools: tools)
+    return AgentExecutor(agent: ZeroShotAgent(llm_chain: LLMChain(llm: llm, prompt: ZeroShotAgent.create_prompt(tools: tools), parser: ZeroShotAgent.output_parser, stop: ["\nObservation: ", "\n\tObservation: "])), tools: tools)
 }
 
 public class Agent {
