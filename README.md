@@ -74,6 +74,7 @@ final answer.
 - [ ] Tools
   - [x] Dummy
   - [x] InvalidTool
+  - [ ] Serper
 - [ ] Agent
   - [x] ZeroShotAgent
 - [ ] Memory
