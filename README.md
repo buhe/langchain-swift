@@ -75,6 +75,7 @@ final answer.
   - [x] Dummy
   - [x] InvalidTool
   - [ ] Serper
+  - [ ] Zapier
 - [ ] Agent
   - [x] ZeroShotAgent
 - [ ] Memory
