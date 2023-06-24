@@ -89,7 +89,7 @@ final answer.
   - [x] ZeroShotAgent
 - [ ] Memory
 - [ ] Text Splitter
-    - [ ] CharacterTextSplitter
+    - [x] CharacterTextSplitter
 - [ ] Document Loader
     - [x] TextLoader
 
