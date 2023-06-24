@@ -8,6 +8,15 @@ A serious and mini swift langchain copy, for ios or mac apps.
 1. Create env.txt file in main project.
 2. Set some var like OPENAI_API_KEY or OPENAI_API_BASE
 
+Like this.
+
+```
+OPENAI_API_KEY=sk-xxx
+OPENAI_API_BASE=xxx
+SUPABASE_URL=xxx
+SUPABASE_KEY=xxx
+```
+
 ### Support env var
 - OPENAI_API_KEY
 - OPENAI_API_BASE
