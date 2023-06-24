@@ -41,9 +41,9 @@ public struct Supabase: VectorStore {
         
     }
     
-    public func addTexts(texts: [String]) async {
-        let embedding = await embeddings.embedQuery(text: texts[0])
-        let insertData = DocModel(content: texts[0], embedding: embedding)
+    public func addText(text: String) async {
+        let embedding = await embeddings.embedQuery(text: text)
+        let insertData = DocModel(content: text, embedding: embedding)
         let query = client.database
             .from("documents")
             .insert(values: insertData,

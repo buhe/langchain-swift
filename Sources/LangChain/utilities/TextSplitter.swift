@@ -10,9 +10,9 @@ import Foundation
 public class TextSplitter {
     let _chunk_size: Int
     let _chunk_overlap: Int
-    public init(_chunk_size: Int, _chunk_overlap: Int) {
-        self._chunk_size = _chunk_size
-        self._chunk_overlap = _chunk_overlap
+    public init(chunk_size: Int, chunk_overlap: Int) {
+        self._chunk_size = chunk_size
+        self._chunk_overlap = chunk_overlap
     }
     func _split_text_with_regex(text: String) -> [String] {
         text.components(separatedBy: "\n\n")
@@ -65,7 +65,10 @@ public class TextSplitter {
     }
 }
     
-class CharacterTextSplitter: TextSplitter {
+public class CharacterTextSplitter: TextSplitter {
+    public override init(chunk_size: Int, chunk_overlap: Int) {
+        super.init(chunk_size: chunk_size, chunk_overlap: chunk_overlap)
+    }
     public func split_text(text: String) -> [String] {
         let splits = _split_text_with_regex(text: text)
         //        _separator = "" if self._keep_separator else self._separator

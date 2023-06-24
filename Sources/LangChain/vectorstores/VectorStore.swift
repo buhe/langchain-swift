@@ -12,7 +12,7 @@ public struct MatchedModel: Encodable, Decodable {
     let similarity: Float
 }
 public protocol VectorStore {
-    func addTexts(texts: [String]) async
+    func addText(text: String) async
     
     func similaritySearch(query: String, k: Int) async -> [MatchedModel]
 }

@@ -7,8 +7,8 @@
 
 import Foundation
 public struct Document {
-    let page_content: String
-    let metadata: [String: String]
+    public let page_content: String
+    public let metadata: [String: String]
 }
 public protocol BaseLoader {
     func load() -> [Document]
