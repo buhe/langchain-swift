@@ -43,7 +43,7 @@ Thought: dog
     }
     
     func testCharacterTextSplitter() throws {
-        let split = CharacterTextSplitter(_chunk_size: 2000, _chunk_overlap: 200)
+        let split = CharacterTextSplitter(chunk_size: 2000, chunk_overlap: 200)
         let text = """
 Madam Speaker, Madam Vice President, our First Lady and Second Gentleman. Members of Congress and the Cabinet. Justices of the Supreme Court. My fellow Americans.
 
