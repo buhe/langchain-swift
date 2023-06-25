@@ -776,4 +776,15 @@ May God bless you all. May God protect our troops.
         XCTAssertEqual(docs.first!.count, 1983)
 //        print(docs.first!.count)
     }
+    
+    func testConversationBufferWindowMemory() throws {
+        let memory = ConversationBufferWindowMemory(k: 4)
+        memory.save_context(inputs: ["Q:": "1"], outputs: ["A:": "2"])
+        memory.save_context(inputs: ["Q:": "3"], outputs: ["A:": "4"])
+        let ctx = memory.load_memory_variables(inputs: [:])
+        
+//        print(ctx)
+        
+        XCTAssertEqual(4, ctx["history"]!.count)
+    }
 }

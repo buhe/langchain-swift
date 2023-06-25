@@ -14,11 +14,12 @@ public class LLMChain: DefaultChain {
     let stop: [String]
     // todo memory
     
-    public init(llm: LLM, prompt: PromptTemplate, parser: BaseOutputParse, stop: [String] = []) {
+    public init(llm: LLM, prompt: PromptTemplate, parser: BaseOutputParse, stop: [String] = [], memory: BaseMemory? = nil) {
         self.llm = llm
         self.prompt = prompt
         self.parser = parser
         self.stop = stop
+        super.init(memory: memory)
     }
     public override func call(args: String) async throws -> String {
         // ["\\nObservation: ", "\\n\\tObservation: "]
@@ -29,7 +30,7 @@ public class LLMChain: DefaultChain {
         // call rest api
         let input_prompt = self.prompt.format(args: input_list)
         do {
-            print(input_prompt)
+//            print(input_prompt)
             let response = try await call(args: input_prompt)
             return response
         } catch {
@@ -67,4 +68,29 @@ public class LLMChain: DefaultChain {
     public func plan(input: String, agent_scratchpad: String) async -> ActionStep{
         return await apply(input_list: [input, agent_scratchpad])
     }
+    
+    public func predict(args: [String: String] ) async -> [String: String] {
+        // predict -> __call__ -> _call
+        let inputAndContext = prep_inputs(inputs: args)
+        let output = await self.generate(input_list: inputAndContext.values.map{$0})
+        let outputs = prep_outputs(inputs: inputAndContext, outputs: ["Answer": output])
+        return outputs
+    }
+    
+//    def predict(self, callbacks: Callbacks = None, **kwargs: Any) -> str:
+//            """Format prompt with kwargs and pass to LLM.
+//
+//            Args:
+//                callbacks: Callbacks to pass to LLMChain
+//                **kwargs: Keys to pass to prompt template.
+//
+//            Returns:
+//                Completion from LLM.
+//
+//            Example:
+//                .. code-block:: python
+//
+//                    completion = llm.predict(adjective="funny")
+//            """
+//            return self(kwargs, callbacks=callbacks)[self.output_key]
 }

@@ -12,12 +12,14 @@ public struct BaseMessage {
     let type: String
 }
 public protocol BaseMemory {
-    func load_memory_variables(inputs: [String: Any]) -> [String: Any]
+    func load_memory_variables(inputs: [String: Any]) -> [String: [String]]
     
-    func save_context(inputs: [String: Any], outputs: [String: String])
+    func save_context(inputs: [String: String], outputs: [String: String])
     
     func clear()
 }
+
+
 
 public class BaseChatMessageHistory {
     public func add_user_message(message: String) {
