@@ -10,7 +10,7 @@ public struct Serper: BaseTool{
     let client = GoogleSerperAPIWrapper()
     public init(){}
     public func name() -> String {
-        "Google Serrper Results JSON"
+        "Google Serper Results JSON"
     }
     
     public func description() -> String {
