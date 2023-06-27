@@ -25,8 +25,10 @@ public class DefaultChain: Chain {
         }
     }
     
-    func prep_outputs(inputs: [String: String], outputs: [String: String]) -> [String: String]{
-        self.memory!.save_context(inputs: inputs, outputs: outputs)
+    func prep_outputs(inputs: [String: String], outputs: [String: String]) -> [String: String] {
+        if self.memory != nil {
+            self.memory!.save_context(inputs: inputs, outputs: outputs)
+        }
         var m = inputs
         outputs.forEach { (key, value) in
             m[key] = value
@@ -35,12 +37,16 @@ public class DefaultChain: Chain {
     }
     
     func prep_inputs(inputs: [String: String]) -> [String: String] {
-        var external_context = Dictionary(uniqueKeysWithValues: self.memory!.load_memory_variables(inputs: inputs).map {(key, value) in return (key, value.joined(separator: "\n"))})
-//        print("ctx: \(external_context)")
-        inputs.forEach { (key, value) in
-            external_context[key] = value
+        if self.memory != nil {
+            var external_context = Dictionary(uniqueKeysWithValues: self.memory!.load_memory_variables(inputs: inputs).map {(key, value) in return (key, value.joined(separator: "\n"))})
+            //        print("ctx: \(external_context)")
+            inputs.forEach { (key, value) in
+                external_context[key] = value
+            }
+            return external_context
+        } else {
+            return inputs
         }
-        return external_context
     }
     
 //    def prep_outputs(

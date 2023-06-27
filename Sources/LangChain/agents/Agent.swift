@@ -113,7 +113,10 @@ public class AgentExecutor: DefaultChain {
             let tool = tools.filter{$0.name() == action.action}.first!
             do {
                 print("try call \(tool.name()) tool.")
-                let observation = try tool._run(args: action.input)
+                var observation = try await tool._run(args: action.input)
+                if observation.count > 1000 {
+                    observation = String(observation.prefix(1000))
+                }
                 return (step, observation)
             } catch {
                 print("\(error) at run \(tool.name()) tool.")

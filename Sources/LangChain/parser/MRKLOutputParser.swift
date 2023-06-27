@@ -10,6 +10,7 @@ import Foundation
 public struct MRKLOutputParser: BaseOutputParse {
     public init() {}
     public func parse(text: String) -> ActionStep {
+//        print(text)
         if text.contains(FINAL_ANSWER_ACTION) {
             return ActionStep.finish(AgentFinish(final: text.components(separatedBy: FINAL_ANSWER_ACTION)[1]))
         }
