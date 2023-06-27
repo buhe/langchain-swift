@@ -57,9 +57,10 @@ struct GoogleSerperAPIWrapper {
 //                let body = try await response.body.collect(upTo: 1024 * 1024) // 1 MB
 //                print(body.getString(at: 0, length: body.readableBytes)!)
                 var strResponse = ""
-                for try await r in response.body {
-                    strResponse += r.getString(at: 0, length: r.readableBytes)!
-                }
+//                for try await r in response.body {
+//                    strResponse += r.getString(at: 0, length: r.readableBytes)!
+//                }
+                strResponse = String(buffer: try await response.body.collect(upTo: 1024 * 1024) )
 //                print(strResponse)
                 return strResponse
             } else {

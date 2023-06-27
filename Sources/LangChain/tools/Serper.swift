@@ -8,7 +8,12 @@
 import Foundation
 public struct Serper: BaseTool{
     let client = GoogleSerperAPIWrapper()
-    public init(){}
+    let gl: String
+    let hl: String
+    public init(gl: String = "us", hl: String = "en") {
+        self.gl = gl
+        self.hl = hl
+    }
     public func name() -> String {
         "Google Serper Results JSON"
     }
@@ -22,7 +27,7 @@ Input should be a search query. Output is a JSON object of the query results
     }
     
     public func _run(args: String) async throws -> String {
-        let json = await client._google_serper_api_results(search_term: args)
+        let json = await client._google_serper_api_results(search_term: args, gl: self.gl, hl: self.hl)
         return json
     }
     
