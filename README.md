@@ -156,7 +156,7 @@ final answer.
 - [ ] Tools
   - [x] Dummy
   - [x] InvalidTool
-  - [ ] Serper
+  - [x] Serper
   - [ ] Zapier
 - [ ] Agent
   - [x] ZeroShotAgent
