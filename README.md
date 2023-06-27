@@ -146,30 +146,31 @@ final answer.
  The weather for the specified location and days of the week is sunny.
 ```
 ## Roadmap
-- [ ] LLMs
+- LLMs
   - [x] OpenAI
-- [ ] Vectorstore
+- Vectorstore
   - [x] Supabase
-- [ ] Embedding
+- Embedding
   - [x] OpenAI
-- [ ] Chain
+- Chain
   - [x] Base
   - [x] LLM
-- [ ] Tools
+- Tools
   - [x] Dummy
   - [x] InvalidTool
   - [x] Serper
   - [ ] Zapier
-- [ ] Agent
+- Agent
   - [x] ZeroShotAgent
-- [ ] Memory
+- Memory
     - [x] BaseMemory
     - [x] BaseChatMemory
     - [x] ConversationBufferWindowMemory
-- [ ] Text Splitter
+- Text Splitter
     - [x] CharacterTextSplitter
-- [ ] Document Loader
+- Document Loader
     - [x] TextLoader
+    - [ ] Youtube
 
 ## 💁 Contributing
 As an open-source project in a rapidly developing field, we are extremely open to contributions, whether it be in the form of a new feature, improved infrastructure, or better documentation.
