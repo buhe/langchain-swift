@@ -161,9 +161,9 @@ final answer.
 - [ ] Agent
   - [x] ZeroShotAgent
 - [ ] Memory
-    - [ ] BaseMemory
-    - [ ] BaseChatMemory
-    - [ ] ConversationBufferWindowMemory
+    - [x] BaseMemory
+    - [x] BaseChatMemory
+    - [x] ConversationBufferWindowMemory
 - [ ] Text Splitter
     - [x] CharacterTextSplitter
 - [ ] Document Loader
