@@ -6,7 +6,7 @@ A serious and mini swift langchain copy, for ios or mac apps.
 
 
 ## Setup
-1. Create env.txt file in main project.
+1. Create env.txt file in main project at root directory.
 2. Set some var like OPENAI_API_KEY or OPENAI_API_BASE
 
 Like this.
