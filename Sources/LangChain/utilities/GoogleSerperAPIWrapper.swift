@@ -45,24 +45,13 @@ struct GoogleSerperAPIWrapper {
             request.headers.add(name: "Content-Type", value: "application/json")
             let requestBody = try! JSONEncoder().encode(GooglrRequest(k: k, gl: gl, hl: hl, q: search_term))
             request.body = .bytes(requestBody)
-//            let str = String(data: requestBody, encoding: .utf8)!
-//            print(str)
             defer {
                 // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
                 try? httpClient.syncShutdown()
             }
             let response = try await httpClient.execute(request, timeout: .seconds(30))
             if response.status == .ok {
-                // handle response
-//                let body = try await response.body.collect(upTo: 1024 * 1024) // 1 MB
-//                print(body.getString(at: 0, length: body.readableBytes)!)
-                var strResponse = ""
-//                for try await r in response.body {
-//                    strResponse += r.getString(at: 0, length: r.readableBytes)!
-//                }
-                strResponse = String(buffer: try await response.body.collect(upTo: 1024 * 1024) )
-//                print(strResponse)
-                return strResponse
+                return String(buffer: try await response.body.collect(upTo: 1024 * 1024))
             } else {
                 // handle remote error
                 print("http code is not 200.")
