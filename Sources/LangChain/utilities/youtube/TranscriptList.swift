@@ -12,10 +12,37 @@ import SwiftyJSON
 
 struct TranscriptList {
     let video_id: String
-    let manually_created_transcripts: [String: Transcript]
+    var manually_created_transcripts: [String: Transcript]
     let generated_transcripts: [String: Transcript]
     let translation_languages: [[String : String]]
-    
+//    def find_transcript(self, language_codes):
+//            """
+//            Finds a transcript for a given language code. Manually created transcripts are returned first and only if none
+//            are found, generated transcripts are used. If you only want generated transcripts use
+//            `find_manually_created_transcript` instead.
+//
+//            :param language_codes: A list of language codes in a descending priority. For example, if this is set to
+//            ['de', 'en'] it will first try to fetch the german transcript (de) and then fetch the english transcript (en) if
+//            it fails to do so.
+//            :type languages: list[str]
+//            :return: the found Transcript
+//            :rtype Transcript:
+//            :raises: NoTranscriptFound
+//            """
+//            return self._find_transcript(language_codes, [self._manually_created_transcripts, self._generated_transcripts])
+
+    mutating func find_transcript(language_codes: [String] = ["en"]) -> Transcript? {
+        self.manually_created_transcripts.merge(self.generated_transcripts, uniquingKeysWith: { (current, new) in new })
+        
+        for language_code in language_codes{
+            for transcript_dict in self.manually_created_transcripts {
+                if transcript_dict.key.contains(language_code){
+                    return transcript_dict.value
+                }
+            }
+        }
+        return nil
+    }
     static func build(http_client: HTTPClient, video_id: String, captions_json: JSON) -> TranscriptList {
         let translation_languages = captions_json["translationLanguages"].arrayValue.map{
             [

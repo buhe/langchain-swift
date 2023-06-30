@@ -10,14 +10,8 @@ import Foundation
 import NIOPosix
 
 struct YoutubeHackClient {
-    static func list_transcripts(video_id: String) async -> TranscriptList {
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
-
-        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
-        defer {
-            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
-            try? httpClient.syncShutdown()
-        }
+    
+    static func list_transcripts(video_id: String, httpClient: HTTPClient) async -> TranscriptList {
         return await TranscriptListFetcher(http_client: httpClient).fetch(video_id: video_id)
     }
 }
