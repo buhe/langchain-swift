@@ -18,6 +18,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/dylanshine/openai-kit", .upToNextMajor(from: "1.8.0")),
         .package(url: "https://github.com/supabase-community/supabase-swift", .upToNextMajor(from: "0.2.1")),
+        .package(url: "https://github.com/SwiftyJSON/SwiftyJSON", .upToNextMajor(from: "5.0.1")),
+        .package(url: "https://github.com/drmohundro/SWXMLHash", .upToNextMajor(from: "7.0.2")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -27,6 +29,8 @@ let package = Package(
             dependencies: [
                 .product(name: "OpenAIKit", package: "openai-kit"),
                 .product(name: "Supabase", package: "supabase-swift"),
+                .product(name: "SwiftyJSON", package: "SwiftyJSON"),
+                .product(name: "SWXMLHash", package: "SWXMLHash"),
             ]
         
         ),

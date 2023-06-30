@@ -787,4 +787,10 @@ May God bless you all. May God protect our troops.
         
         XCTAssertEqual(4, ctx["history"]!.count)
     }
+    
+    func testYoutubeHackClientList() async throws {
+        let list = await YoutubeHackClient.list_transcripts(video_id: "JdM6AruIKT4")
+//        print(list.manually_created_transcripts.count)
+        XCTAssertEqual(2, list.manually_created_transcripts.count)
+    }
 }
