@@ -11,7 +11,7 @@ public struct Document {
     public let metadata: [String: String]
 }
 public protocol BaseLoader {
-    func load() -> [Document]
+    func load() async -> [Document]
 }
 //class BaseLoader(ABC):
 //    """Interface for loading documents.
