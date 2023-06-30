@@ -18,14 +18,30 @@ struct Transcript {
     let language_code: String
     let is_generated: Bool
     let translation_languages: [[String: String]]
-//    let translation_languages_dict: [String: String]
-    
+    var translation_languages_dict: [String: String]
+    init(http_client: HTTPClient, video_id: String, url: String, language: String, language_code: String, is_generated: Bool, translation_languages: [[String : String]]) {
+        self.http_client = http_client
+        self.video_id = video_id
+        self.url = url
+        self.language = language
+        self.language_code = language_code
+        self.is_generated = is_generated
+        self.translation_languages = translation_languages
+//        self._translation_languages_dict = {
+//                    translation_language['language_code']: translation_language['language']
+//                    for translation_language in translation_languages
+//                }
+        self.translation_languages_dict = [:]
+        for t in self.translation_languages {
+            self.translation_languages_dict[t["language_code"]!] = t["language"]
+        }
+    }
     func translate(language_code: String) -> Transcript {
         return Transcript(
                             http_client: self.http_client,
                             video_id: self.video_id,
                             url: String(format: "%@&tlang=%@", self.url, language_code),
-                            language: "" ,//self._translation_languages_dict[language_code],
+                            language: self.translation_languages_dict[language_code]!,//self._translation_languages_dict[language_code],
                             language_code: language_code,
                             is_generated: true,
                             translation_languages: []
