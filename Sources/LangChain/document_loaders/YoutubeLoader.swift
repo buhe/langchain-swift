@@ -14,7 +14,10 @@ import NIOPosix
 public struct YoutubeLoader: BaseLoader {
     let video_id: String
     let language: String
-    
+    public init(video_id: String, language: String) {
+        self.video_id = video_id
+        self.language = language
+    }
     public func load() async -> [Document] {
         let metadata = ["source": self.video_id]
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
@@ -26,7 +29,7 @@ public struct YoutubeLoader: BaseLoader {
         }
         
         var transcript_list = await YoutubeHackClient.list_transcripts(video_id: self.video_id, httpClient: httpClient)
-        if transcript_list.generated_transcripts.isEmpty && transcript_list.generated_transcripts.isEmpty {
+        if transcript_list.generated_transcripts.isEmpty && transcript_list.manually_created_transcripts.isEmpty {
             return [Document(page_content: "Content is empty.", metadata: metadata)]
         }
         var transcript = transcript_list.find_transcript(language_codes: [self.language])
