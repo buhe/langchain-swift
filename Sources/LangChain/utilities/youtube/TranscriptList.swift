@@ -10,7 +10,7 @@ import Foundation
 import NIOPosix
 import SwiftyJSON
 
-struct TranscriptList {
+public struct TranscriptList {
     let video_id: String
     var manually_created_transcripts: [String: Transcript]
     let generated_transcripts: [String: Transcript]

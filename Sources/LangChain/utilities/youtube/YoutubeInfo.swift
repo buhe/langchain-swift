@@ -50,7 +50,7 @@ struct YoutubeInfoRequest: Encodable {
     let context: YoutubeInfoRequestContext
 }
 
-struct YoutubeInfo {
+public struct YoutubeInfo {
     let title: String
     let description: String
     let thumbnail: String

@@ -9,13 +9,13 @@ import AsyncHTTPClient
 import Foundation
 import NIOPosix
 
-struct YoutubeHackClient {
+public struct YoutubeHackClient {
     
-    static func list_transcripts(video_id: String, httpClient: HTTPClient) async -> TranscriptList {
+    public static func list_transcripts(video_id: String, httpClient: HTTPClient) async -> TranscriptList {
         return await TranscriptListFetcher(http_client: httpClient).fetch(video_id: video_id)
     }
     
-    static func info(video_id: String, httpClient: HTTPClient) async -> YoutubeInfo? {
+    public static func info(video_id: String, httpClient: HTTPClient) async -> YoutubeInfo? {
         return await YoutubeInfoFetcher().fetch(http_client: httpClient, video_id: video_id)
     }
 }
