@@ -51,9 +51,9 @@ struct YoutubeInfoRequest: Encodable {
 }
 
 public struct YoutubeInfo {
-    let title: String
-    let description: String
-    let thumbnail: String
+    public let title: String
+    public let description: String
+    public let thumbnail: String
 }
 
 struct YoutubeInfoParse {
