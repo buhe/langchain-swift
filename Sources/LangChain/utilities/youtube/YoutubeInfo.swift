@@ -63,6 +63,12 @@ struct YoutubeInfoParse {
                                 plain_data.data(using: .utf8)!
                    )
         let detail = json[tag]
-        return YoutubeInfo(title: detail["title"].stringValue, description: detail["shortDescription"].stringValue, thumbnail: detail["thumbnail"]["thumbnails"][0]["url"].stringValue)
+        var url = ""
+        if detail["thumbnail"]["thumbnails"].count >= 4 {
+            url = detail["thumbnail"]["thumbnails"][3]["url"].stringValue
+        } else {
+            url = detail["thumbnail"]["thumbnails"][0]["url"].stringValue
+        }
+        return YoutubeInfo(title: detail["title"].stringValue, description: detail["shortDescription"].stringValue, thumbnail: url)
     }
 }
