@@ -37,11 +37,16 @@ struct Transcript {
         }
     }
     func translate(language_code: String) -> Transcript {
+//        for i in translation_languages_dict {
+//            print(i.key)
+//            print(i.value)
+//        }
         return Transcript(
                             http_client: self.http_client,
                             video_id: self.video_id,
                             url: String(format: "%@&tlang=%@", self.url, language_code),
-                            language: self.translation_languages_dict[language_code]!,//self._translation_languages_dict[language_code],
+                            language: language_code,
+//                            language: self.translation_languages_dict[language_code]!,//self._translation_languages_dict[language_code],
                             language_code: language_code,
                             is_generated: true,
                             translation_languages: []
