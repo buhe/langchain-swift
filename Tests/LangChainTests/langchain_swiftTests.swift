@@ -803,9 +803,9 @@ May God bless you all. May God protect our troops.
         var list = await YoutubeHackClient.list_transcripts(video_id: "JdM6AruIKT4",
                                                             httpClient: httpClient)
 //        print(list.manually_created_transcripts.count)
-        XCTAssertEqual(2, list.manually_created_transcripts.count)
+        XCTAssertEqual(2, list!.manually_created_transcripts.count)
         
-        let t = list.find_transcript(language_codes: ["zh"])
+        let t = list!.find_transcript(language_codes: ["zh"])
         XCTAssertNotNil(t)
 //        print(t!)
         let dict = await t!.fetch()
@@ -824,9 +824,9 @@ May God bless you all. May God protect our troops.
         var list = await YoutubeHackClient.list_transcripts(video_id: "JdM6AruIKT4",
                                                             httpClient: httpClient)
 //        print(list.manually_created_transcripts.count)
-        XCTAssertEqual(2, list.manually_created_transcripts.count)
+        XCTAssertEqual(2, list!.manually_created_transcripts.count)
         
-        let t = list.find_transcript(language_codes: ["zh"])
+        let t = list!.find_transcript(language_codes: ["zh"])
         XCTAssertNotNil(t)
 //        print(t!)
         let en = t!.translate(language_code: "en")
@@ -846,9 +846,9 @@ May God bless you all. May God protect our troops.
         let list = await YoutubeHackClient.list_transcripts(video_id: "JdM6AruIKT4",
                                                             httpClient: httpClient)
 //        print(list.manually_created_transcripts.count)
-        XCTAssertEqual(2, list.manually_created_transcripts.count)
+        XCTAssertEqual(2, list!.manually_created_transcripts.count)
         
-        let t = list.manually_created_transcripts.first!.value
+        let t = list!.manually_created_transcripts.first!.value
 //        print(t!)
         let en = t.translate(language_code: "en")
         let dict = await en.fetch()

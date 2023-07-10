@@ -19,14 +19,17 @@ struct TranscriptListFetcher {
         self.http_client = http_client
     }
     
-    func fetch(video_id: String) async -> TranscriptList {
+    func fetch(video_id: String) async -> TranscriptList? {
         return await TranscriptList.build(http_client:
                     self.http_client, video_id: video_id, captions_json: self._extract_captions_json(html: self._fetch_video_html(video_id: video_id), video_id: video_id)
                 )
     }
     
-    func _extract_captions_json(html: String, video_id: String) async -> JSON {
+    func _extract_captions_json(html: String, video_id: String) async -> JSON? {
         let splitted_html = html.components(separatedBy: "\"captions\":")
+        if splitted_html.count != 2 {
+            return nil
+        }
         let details = splitted_html[1].components(separatedBy: ",\"videoDetails")
         let _2 = details[0].replacingOccurrences(of: "\n", with: "")
 //        print(_2)

@@ -29,12 +29,15 @@ public struct YoutubeLoader: BaseLoader {
         }
         
         var transcript_list = await YoutubeHackClient.list_transcripts(video_id: self.video_id, httpClient: httpClient)
-        if transcript_list.generated_transcripts.isEmpty && transcript_list.manually_created_transcripts.isEmpty {
+        if transcript_list == nil {
+            return []
+        }
+        if transcript_list!.generated_transcripts.isEmpty && transcript_list!.manually_created_transcripts.isEmpty {
             return [Document(page_content: "Content is empty.", metadata: metadata)]
         }
-        var transcript = transcript_list.find_transcript(language_codes: [self.language])
+        var transcript = transcript_list!.find_transcript(language_codes: [self.language])
         if transcript == nil {
-            let en_transcript = transcript_list.manually_created_transcripts.first!.value
+            let en_transcript = transcript_list!.manually_created_transcripts.first!.value
             transcript = en_transcript.translate(language_code: self.language)
         }
         let transcript_pieces = await transcript!.fetch()

@@ -43,8 +43,11 @@ public struct TranscriptList {
         }
         return nil
     }
-    static func build(http_client: HTTPClient, video_id: String, captions_json: JSON) -> TranscriptList {
-        let translation_languages = captions_json["translationLanguages"].arrayValue.map{
+    static func build(http_client: HTTPClient, video_id: String, captions_json: JSON?) -> TranscriptList? {
+        if captions_json == nil {
+            return nil
+        }
+        let translation_languages = captions_json!["translationLanguages"].arrayValue.map{
             [
                 "language": $0["languageName"]["simpleText"].stringValue,
                 "language_code": $0["languageCode"].stringValue,
@@ -52,7 +55,7 @@ public struct TranscriptList {
         }
         var manually_created_transcripts: [String: Transcript] = [:]
         var generated_transcripts: [String: Transcript] = [:]
-        for caption in captions_json["captionTracks"].arrayValue {
+        for caption in captions_json!["captionTracks"].arrayValue {
             if caption["kind"].exists() {
                 generated_transcripts[caption["languageCode"].stringValue] = Transcript(
                     http_client: http_client, video_id: video_id, url: caption["baseUrl"].stringValue, language: caption["name"]["simpleText"].stringValue, language_code: caption["languageCode"].stringValue, is_generated: caption["kind"].exists() && caption["kind"].stringValue == "asr" , translation_languages: caption["isTranslatable"].exists() ? translation_languages:[]

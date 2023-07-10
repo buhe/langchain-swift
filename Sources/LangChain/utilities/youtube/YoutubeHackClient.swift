@@ -11,7 +11,7 @@ import NIOPosix
 
 public struct YoutubeHackClient {
     
-    public static func list_transcripts(video_id: String, httpClient: HTTPClient) async -> TranscriptList {
+    public static func list_transcripts(video_id: String, httpClient: HTTPClient) async -> TranscriptList? {
         return await TranscriptListFetcher(http_client: httpClient).fetch(video_id: video_id)
     }
     
