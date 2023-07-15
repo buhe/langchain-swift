@@ -27,7 +27,7 @@ struct YoutubeInfoFetcher {
                 return YoutubeInfoParse().parse(plain_data: plain)
             } else {
                 // handle remote error
-                print("http code is not 200.")
+                print("get video info http code is not 200.")
                 return nil
             }
         } catch {

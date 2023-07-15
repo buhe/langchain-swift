@@ -65,7 +65,7 @@ struct Transcript {
                 return _TranscriptParser().parse(plain_data: plain)
             } else {
                 // handle remote error
-                print("http code is not 200.")
+                print("get transcript http code is not 200.")
                 return nil
             }
         } catch {

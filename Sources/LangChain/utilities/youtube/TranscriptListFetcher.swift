@@ -91,7 +91,7 @@ struct TranscriptListFetcher {
                 return String(buffer: try await response.body.collect(upTo: 1024 * 1024))
             } else {
                 // handle remote error
-                print("http code is not 200.")
+                print("get list http code is not 200.\(response.body)")
                 return "Bad requset."
             }
         } catch {
