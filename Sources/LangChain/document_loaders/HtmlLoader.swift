@@ -10,6 +10,10 @@ import Foundation
 public struct HtmlLoader: BaseLoader {
     let html: String
     let url: String
+    public init(html: String, url: String) {
+        self.html = html
+        self.url = url
+    }
     
     public func load() async -> [Document] {
         do {
@@ -19,15 +23,15 @@ public struct HtmlLoader: BaseLoader {
             do {
                 title = try doc.title()
             }catch {
-                print(error)
+                print("Get title error \(error)")
             }
             let metadata: [String: String] = ["url": url, "title": title]
             return [Document(page_content: text, metadata: metadata)]
         } catch Exception.Error( _, let message) {
-            print(message)
+            print("Get body error " + message)
             return []
         } catch {
-            print("error")
+            print("Get body error \(error)")
             return []
         }
     }
