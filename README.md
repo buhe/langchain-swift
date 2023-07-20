@@ -145,6 +145,9 @@ Thought:
 final answer.
  The weather for the specified location and days of the week is sunny.
 ```
+## Real world
+- https://github.com/buhe/AISummary
+
 ## Roadmap
 - LLMs
   - [x] OpenAI
