@@ -148,6 +148,8 @@ final answer.
 ## Roadmap
 - LLMs
   - [x] OpenAI
+  - [ ] Baidu
+  - [ ] Llama 2
 - Vectorstore
   - [x] Supabase
 - Embedding
