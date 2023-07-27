@@ -824,7 +824,7 @@ May God bless you all. May God protect our troops.
             XCTAssertNotNil(t)
     //        print(t!)
             let dict = await t!.fetch()
-            print(dict!)
+//            print(dict!)
         }
         
     }
@@ -888,7 +888,7 @@ May God bless you all. May God protect our troops.
             
             let info = await YoutubeHackClient.info(video_id: "JdM6AruIKT4", httpClient: httpClient)
             
-            print(info!)
+//            print(info!)
         }
     }
 }
