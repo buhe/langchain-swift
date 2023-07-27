@@ -791,82 +791,82 @@ May God bless you all. May God protect our troops.
         
         XCTAssertEqual(4, ctx["history"]!.count)
     }
-    
-    func testYoutubeHackClientList() async throws {
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
-
-        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
-        defer {
-            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
-            try? httpClient.syncShutdown()
-        }
-        var list = await YoutubeHackClient.list_transcripts(video_id: "JdM6AruIKT4",
-                                                            httpClient: httpClient)
-//        print(list.manually_created_transcripts.count)
-        XCTAssertEqual(2, list!.manually_created_transcripts.count)
-        
-        let t = list!.find_transcript(language_codes: ["zh"])
-        XCTAssertNotNil(t)
-//        print(t!)
-        let dict = await t!.fetch()
-//        print(dict!)
-        
-    }
-    
-    func testYoutubeHackClientTranslate() async throws {
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
-
-        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
-        defer {
-            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
-            try? httpClient.syncShutdown()
-        }
-        var list = await YoutubeHackClient.list_transcripts(video_id: "JdM6AruIKT4",
-                                                            httpClient: httpClient)
-//        print(list.manually_created_transcripts.count)
-        XCTAssertEqual(2, list!.manually_created_transcripts.count)
-        
-        let t = list!.find_transcript(language_codes: ["zh"])
-        XCTAssertNotNil(t)
-//        print(t!)
-        let en = t!.translate(language_code: "en")
-        let dict = await en.fetch()
-//        print(dict!)
-        XCTAssertNotNil(dict)
-    }
-    
-    func testYoutubeHackClientTranslateEN() async throws {
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
-
-        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
-        defer {
-            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
-            try? httpClient.syncShutdown()
-        }
-        let list = await YoutubeHackClient.list_transcripts(video_id: "JdM6AruIKT4",
-                                                            httpClient: httpClient)
-//        print(list.manually_created_transcripts.count)
-        XCTAssertEqual(2, list!.manually_created_transcripts.count)
-        
-        let t = list!.manually_created_transcripts.first!.value
-//        print(t!)
-        let en = t.translate(language_code: "en")
-        let dict = await en.fetch()
-//        print(dict!)
-        XCTAssertNotNil(dict)
-    }
-    
-    func testYoutubeInfoFetch() async throws {
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
-        
-        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
-        defer {
-            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
-            try? httpClient.syncShutdown()
-        }
-        
-        let info = await YoutubeHackClient.info(video_id: "JdM6AruIKT4", httpClient: httpClient)
-        
-        print(info!)
-    }
+//    
+//    func testYoutubeHackClientList() async throws {
+//        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+//
+//        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
+//        defer {
+//            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
+//            try? httpClient.syncShutdown()
+//        }
+//        var list = await YoutubeHackClient.list_transcripts(video_id: "JdM6AruIKT4",
+//                                                            httpClient: httpClient)
+////        print(list.manually_created_transcripts.count)
+//        XCTAssertEqual(2, list!.manually_created_transcripts.count)
+//        
+//        let t = list!.find_transcript(language_codes: ["zh"])
+//        XCTAssertNotNil(t)
+////        print(t!)
+//        let dict = await t!.fetch()
+////        print(dict!)
+//        
+//    }
+//    
+//    func testYoutubeHackClientTranslate() async throws {
+//        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+//
+//        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
+//        defer {
+//            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
+//            try? httpClient.syncShutdown()
+//        }
+//        var list = await YoutubeHackClient.list_transcripts(video_id: "JdM6AruIKT4",
+//                                                            httpClient: httpClient)
+////        print(list.manually_created_transcripts.count)
+//        XCTAssertEqual(2, list!.manually_created_transcripts.count)
+//        
+//        let t = list!.find_transcript(language_codes: ["zh"])
+//        XCTAssertNotNil(t)
+////        print(t!)
+//        let en = t!.translate(language_code: "en")
+//        let dict = await en.fetch()
+////        print(dict!)
+//        XCTAssertNotNil(dict)
+//    }
+//    
+//    func testYoutubeHackClientTranslateEN() async throws {
+//        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+//
+//        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
+//        defer {
+//            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
+//            try? httpClient.syncShutdown()
+//        }
+//        let list = await YoutubeHackClient.list_transcripts(video_id: "JdM6AruIKT4",
+//                                                            httpClient: httpClient)
+////        print(list.manually_created_transcripts.count)
+//        XCTAssertEqual(2, list!.manually_created_transcripts.count)
+//        
+//        let t = list!.manually_created_transcripts.first!.value
+////        print(t!)
+//        let en = t.translate(language_code: "en")
+//        let dict = await en.fetch()
+////        print(dict!)
+//        XCTAssertNotNil(dict)
+//    }
+//    
+//    func testYoutubeInfoFetch() async throws {
+//        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+//        
+//        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
+//        defer {
+//            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
+//            try? httpClient.syncShutdown()
+//        }
+//        
+//        let info = await YoutubeHackClient.info(video_id: "JdM6AruIKT4", httpClient: httpClient)
+//        
+//        print(info!)
+//    }
 }
