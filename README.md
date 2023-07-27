@@ -17,6 +17,7 @@ OPENAI_API_BASE=xxx
 SUPABASE_URL=xxx
 SUPABASE_KEY=xxx
 SERPER_API_KEY=xxx
+HF_API_KEY=xxx
 ```
 
 ### Support env var
@@ -25,6 +26,7 @@ SERPER_API_KEY=xxx
 - SUPABASE_URL
 - SUPABASE_KEY
 - SERPER_API_KEY
+- HF_API_KEY
 
 ## Get stated
 ### 💬 Chatbots
