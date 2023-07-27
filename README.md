@@ -151,6 +151,7 @@ final answer.
 ## Roadmap
 - LLMs
   - [x] OpenAI
+  - [ ] Hugging Face
   - [ ] Baidu
   - [ ] Llama 2
 - Vectorstore
