@@ -14,7 +14,7 @@ struct InferenceRequest: Encodable {
     let inputs: String
 }
 
-struct InferenceApi {
+struct HFInferenceApi {
     let repo: String
     let task: String
     
