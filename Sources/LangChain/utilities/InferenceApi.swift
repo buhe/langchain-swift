@@ -16,7 +16,7 @@ struct InferenceRequest: Encodable {
 
 struct InferenceApi {
     let repo: String
-    let task = "text-generation"
+    let task: String
     
     func inference(text: String) async -> JSON {
         let env = loadEnv()
