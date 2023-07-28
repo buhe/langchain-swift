@@ -154,6 +154,7 @@ final answer.
 - LLMs
   - [x] OpenAI
   - [x] Hugging Face
+  - [ ] ChatGLM
   - [ ] Baidu
   - [ ] Llama 2
 - Vectorstore
