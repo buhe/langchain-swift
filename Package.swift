@@ -21,6 +21,7 @@ let package = Package(
         .package(url: "https://github.com/SwiftyJSON/SwiftyJSON", .upToNextMajor(from: "5.0.1")),
         .package(url: "https://github.com/drmohundro/SWXMLHash", .upToNextMajor(from: "7.0.2")),
         .package(url: "https://github.com/scinfu/SwiftSoup", .upToNextMajor(from: "2.6.1")),
+//        .package(url: "https://github.com/ApolloZhu/BilibiliKit", .upToNextMajor(from: "3.1.2")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -33,6 +34,7 @@ let package = Package(
                 .product(name: "SwiftyJSON", package: "SwiftyJSON"),
                 .product(name: "SWXMLHash", package: "SWXMLHash"),
                 .product(name: "SwiftSoup", package: "SwiftSoup"),
+//                .product(name: "BilibiliKit", package: "BilibiliKit"),
             ]
         
         ),
