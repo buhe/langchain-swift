@@ -149,6 +149,7 @@ final answer.
 ```
 ## Real world
 - https://github.com/buhe/AISummary
+- https://github.com/buhe/HtmlSummary
 
 ## Roadmap
 - LLMs
