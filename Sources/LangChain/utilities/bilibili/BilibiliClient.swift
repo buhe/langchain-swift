@@ -20,6 +20,10 @@ public struct BilibiliClient {
         do {
             var request = HTTPClientRequest(url: String(format: "https://api.bilibili.com/x/web-interface/view?bvid=%@", bvid))
             request.method = .GET
+            defer {
+                // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
+                try? httpClient.syncShutdown()
+            }
             let response = try await httpClient.execute(request, timeout: .seconds(30))
             if response.status == .ok {
                 let str = String(buffer: try await response.body.collect(upTo: 1024 * 1024))
@@ -51,7 +55,7 @@ public struct BilibiliClient {
     
     func fetchSubtitleUrl(cid: Int, aid: Int, httpClient: HTTPClient) async -> String? {
         do {
-            var request = HTTPClientRequest(url: String(format: "https://api.bilibili.com/x/player/v2?cid=%@&aid=%@", cid, aid))
+            var request = HTTPClientRequest(url: String(format: "https://api.bilibili.com/x/player/v2?cid=%@&aid=%@", "\(cid)", "\(aid)"))
             request.method = .GET
             request.headers.add(name: "Cookie", value: String(format: "SESSDATA=%@; bili_jct=%@; sid=7w4jjb7i", credential.sessin, credential.jct))
             let response = try await httpClient.execute(request, timeout: .seconds(30))
@@ -78,7 +82,9 @@ public struct BilibiliClient {
             return nil
         }
         do {
-            var request = HTTPClientRequest(url: url!)
+            let completeUrl = String(format: "https:%@", url!)
+            print(completeUrl)
+            var request = HTTPClientRequest(url: completeUrl)
             request.method = .GET
             let response = try await httpClient.execute(request, timeout: .seconds(30))
             if response.status == .ok {

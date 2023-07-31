@@ -791,7 +791,16 @@ May God bless you all. May God protect our troops.
         
         XCTAssertEqual(4, ctx["history"]!.count)
     }
-//    
+    
+    func testBilibilClient() async throws {
+        let client = BilibiliClient(credential: BilibiliCredential(sessin: "6376fa3e%2C1705926902%2C0b561%2A71gvy_TPyZMWhUweKjYGT502_5FVZdcv8bfjvwtqdlqm8UjyEiUrkPq1AodolcSjIgBXatNwAAEgA", jct: "330aaac577464e453ea1b070fd1281ea"))
+        let info = await client.fetchVideoInfo(bvid: "BV1fu411G7e3")
+        XCTAssertNotNil(info)
+        XCTAssertNotEqual(info?.subtitle, "")
+        
+//        print(info!.subtitle)
+    }
+//
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
 //
