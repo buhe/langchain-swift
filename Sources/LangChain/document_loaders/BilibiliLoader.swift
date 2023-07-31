@@ -6,18 +6,17 @@
 //
 
 import Foundation
-//import BilibiliKit
 
 public struct BilibiliLoader: BaseLoader {
     let videoId: String
     
     public func load() async -> [Document] {
-//        let video = BKVideo.bv(videoId)
-//        video.getInfo(then: {
-//            result in
-//            let list = try result.get().subtitles.list
-//        })
-        return []
+        let client = BilibiliClient(credential: BilibiliCredential(sessin: "6376fa3e%2C1705926902%2C0b561%2A71gvy_TPyZMWhUweKjYGT502_5FVZdcv8bfjvwtqdlqm8UjyEiUrkPq1AodolcSjIgBXatNwAAEgA", jct: "330aaac577464e453ea1b070fd1281ea"))
+        let info = await client.fetchVideoInfo(bvid: videoId)
+        return [Document(page_content: info!.subtitle, metadata: [
+            "title": info!.title,
+            "desc": info!.desc
+        ])]
     }
     
 }

@@ -800,6 +800,14 @@ May God bless you all. May God protect our troops.
         
 //        print(info!.subtitle)
     }
+    
+    func testBilibiliLoader() async throws {
+        let loader = BilibiliLoader(videoId: "BV1fu411G7e3")
+        let doc = await loader.load()
+        
+        XCTAssertFalse(doc.isEmpty)
+        XCTAssertNotEqual("", doc.first!.page_content)
+    }
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
