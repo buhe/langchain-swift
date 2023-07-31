@@ -176,6 +176,7 @@ final answer.
     - [x] BaseMemory
     - [x] BaseChatMemory
     - [x] ConversationBufferWindowMemory
+    - [x] ReadOnlySharedMemory
 - Text Splitter
     - [x] CharacterTextSplitter
 - Document Loader
