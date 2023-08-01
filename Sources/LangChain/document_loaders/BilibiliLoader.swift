@@ -19,7 +19,8 @@ public struct BilibiliLoader: BaseLoader {
         let info = await client.fetchVideoInfo(bvid: videoId)
         return [Document(page_content: info!.subtitle, metadata: [
             "title": info!.title,
-            "desc": info!.desc
+            "desc": info!.desc,
+            "thumbnail": info!.thumbnail
         ])]
     }
     

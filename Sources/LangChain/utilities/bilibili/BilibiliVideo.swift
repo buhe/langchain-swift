@@ -10,4 +10,5 @@ public struct BilibiliVideo {
     let title: String
     let desc: String
     let subtitle: String
+    let thumbnail: String
 }

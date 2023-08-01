@@ -32,11 +32,12 @@ public struct BilibiliClient {
                 let cid = json["data"]["cid"].intValue
                 let title = json["data"]["title"].stringValue
                 let desc = json["data"]["desc"].stringValue
+                let thumbnail = json["data"]["pic"].stringValue
                 let url = await fetchSubtitleUrl(cid: cid, aid: aid, httpClient: httpClient)
                 let subtitle = await fetchSubtitle(url: url, httpClient: httpClient)
                 print("aid: \(aid) cid: \(cid) title: \(title) desc: \(desc)")
                 if let subtitle = subtitle {
-                    return BilibiliVideo(title: title, desc: desc, subtitle: subtitle)
+                    return BilibiliVideo(title: title, desc: desc, subtitle: subtitle, thumbnail: thumbnail)
                 } else {
                     print("fetch subtitle error")
                     return nil
