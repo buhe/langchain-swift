@@ -110,4 +110,32 @@ public struct BilibiliClient {
         }
     }
     
+    public func getLongUrl(short: String) async -> String? {
+        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+
+        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup), configuration: HTTPClient.Configuration(redirectConfiguration: .disallow))
+        do {
+            var request = HTTPClientRequest(url: short)
+            request.method = .GET
+            defer {
+                // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
+                try? httpClient.syncShutdown()
+            }
+            let response = try await httpClient.execute(request, timeout: .seconds(30))
+            if response.status == .found {
+                let long = response.headers.first(name: "Location")!
+//                print("long: \(long)")
+                return long
+            } else {
+                // handle remote error
+                print("get bilibili video info code is not 200.\(response.body)")
+                return nil
+            }
+        } catch {
+            // handle error
+            print(error)
+            return nil
+        }
+    }
+    
 }

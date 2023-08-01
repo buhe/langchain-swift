@@ -808,6 +808,29 @@ May God bless you all. May God protect our troops.
         XCTAssertFalse(doc.isEmpty)
         XCTAssertNotEqual("", doc.first!.page_content)
     }
+    
+    func testBilibiliShort() async throws {
+        let client = BilibiliClient(credential: BilibiliCredential(sessin: "6376fa3e%2C1705926902%2C0b561%2A71gvy_TPyZMWhUweKjYGT502_5FVZdcv8bfjvwtqdlqm8UjyEiUrkPq1AodolcSjIgBXatNwAAEgA", jct: "330aaac577464e453ea1b070fd1281ea"))
+        let long = await client.getLongUrl(short: "https://b23.tv/zxgbvRd")!
+        if let url = URL(string: "https://path?bbb=xxx") {
+            var components = URLComponents(url: URL(string: long)!, resolvingAgainstBaseURL: false)
+            
+//            if let queryItems = components?.queryItems {
+//                for item in queryItems {
+//                    print(item.name) // 输出参数名
+//                    print(item.value) // 输出参数值
+//                }
+//            }
+            
+            let newURL = String(format: "%@://%@%@", (components?.scheme)!, (components?.host)!, components!.path)
+            XCTAssertEqual("https://www.bilibili.com/video/BV1Ch4y1Z7K6", newURL)
+        } else {
+            XCTAssertTrue(false)
+            // else branch must fail
+        }
+
+       
+    }
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
