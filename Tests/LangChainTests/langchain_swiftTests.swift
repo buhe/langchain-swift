@@ -810,8 +810,8 @@ May God bless you all. May God protect our troops.
     }
     
     func testBilibiliShort() async throws {
-        let client = BilibiliClient(credential: BilibiliCredential(sessin: "6376fa3e%2C1705926902%2C0b561%2A71gvy_TPyZMWhUweKjYGT502_5FVZdcv8bfjvwtqdlqm8UjyEiUrkPq1AodolcSjIgBXatNwAAEgA", jct: "330aaac577464e453ea1b070fd1281ea"))
-        let long = await client.getLongUrl(short: "https://b23.tv/zxgbvRd")!
+//        let client = BilibiliClient(credential: BilibiliCredential(sessin: "6376fa3e%2C1705926902%2C0b561%2A71gvy_TPyZMWhUweKjYGT502_5FVZdcv8bfjvwtqdlqm8UjyEiUrkPq1AodolcSjIgBXatNwAAEgA", jct: "330aaac577464e453ea1b070fd1281ea"))
+        let long = await BilibiliClient.getLongUrl(short: "https://b23.tv/zxgbvRd")!
         if let url = URL(string: "https://path?bbb=xxx") {
             var components = URLComponents(url: URL(string: long)!, resolvingAgainstBaseURL: false)
             

@@ -110,7 +110,7 @@ public struct BilibiliClient {
         }
     }
     
-    public func getLongUrl(short: String) async -> String? {
+    public static func getLongUrl(short: String) async -> String? {
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup), configuration: HTTPClient.Configuration(redirectConfiguration: .disallow))
@@ -128,7 +128,7 @@ public struct BilibiliClient {
                 return long
             } else {
                 // handle remote error
-                print("get bilibili video info code is not 200.\(response.body)")
+                print("get bilibili lang url error.\(response.body)")
                 return nil
             }
         } catch {
