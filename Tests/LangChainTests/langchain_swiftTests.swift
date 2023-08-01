@@ -804,7 +804,7 @@ May God bless you all. May God protect our troops.
     func testBilibiliLoader() async throws {
         let loader = BilibiliLoader(videoId: "BV1fu411G7e3")
         let doc = await loader.load()
-        
+        print(doc.first!.metadata["thumbnail"]!)
         XCTAssertFalse(doc.isEmpty)
         XCTAssertNotEqual("", doc.first!.page_content)
     }

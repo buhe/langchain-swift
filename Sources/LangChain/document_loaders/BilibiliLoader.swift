@@ -20,7 +20,7 @@ public struct BilibiliLoader: BaseLoader {
         return [Document(page_content: info!.subtitle, metadata: [
             "title": info!.title,
             "desc": info!.desc,
-            "thumbnail": info!.thumbnail
+            "thumbnail": info!.thumbnail.replacingOccurrences(of: "http", with: "https")
         ])]
     }
     
