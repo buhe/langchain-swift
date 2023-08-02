@@ -147,11 +147,11 @@ Thought:
 final answer.
  The weather for the specified location and days of the week is sunny.
 ```
-## Real world
+## 🌐 Real world
 - https://github.com/buhe/AISummary
 - https://github.com/buhe/HtmlSummary
 
-## Roadmap
+## 🚗 Roadmap
 - LLMs
   - [x] OpenAI
   - [x] Hugging Face
@@ -186,7 +186,7 @@ final answer.
     - [x] PDFLoader
     - [x] BilibilLoader
 
-## Got Ideas?
+## 👍 Got Ideas?
 Open an issue, and let's discuss!
 
 ## 💁 Contributing
