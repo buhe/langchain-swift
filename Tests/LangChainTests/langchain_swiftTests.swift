@@ -794,7 +794,7 @@ May God bless you all. May God protect our troops.
     
     func testBilibilClient() async throws {
         let client = BilibiliClient(credential: BilibiliCredential(sessin: "6376fa3e%2C1705926902%2C0b561%2A71gvy_TPyZMWhUweKjYGT502_5FVZdcv8bfjvwtqdlqm8UjyEiUrkPq1AodolcSjIgBXatNwAAEgA", jct: "330aaac577464e453ea1b070fd1281ea"))
-        let info = await client.fetchVideoInfo(bvid: "BV1fu411G7e3")
+        let info = await client.fetchVideoInfo(bvid: "BV1Xk4y1P7PR")
         XCTAssertNotNil(info)
         XCTAssertNotEqual(info?.subtitle, "")
         
@@ -802,7 +802,7 @@ May God bless you all. May God protect our troops.
     }
     
     func testBilibiliLoader() async throws {
-        let loader = BilibiliLoader(videoId: "BV1fu411G7e3")
+        let loader = BilibiliLoader(videoId: "BV1Xk4y1P7PR")
         let doc = await loader.load()
         print(doc.first!.metadata["thumbnail"]!)
         XCTAssertFalse(doc.isEmpty)
@@ -812,8 +812,8 @@ May God bless you all. May God protect our troops.
     func testBilibiliShort() async throws {
 //        let client = BilibiliClient(credential: BilibiliCredential(sessin: "6376fa3e%2C1705926902%2C0b561%2A71gvy_TPyZMWhUweKjYGT502_5FVZdcv8bfjvwtqdlqm8UjyEiUrkPq1AodolcSjIgBXatNwAAEgA", jct: "330aaac577464e453ea1b070fd1281ea"))
         let long = await BilibiliClient.getLongUrl(short: "https://b23.tv/zxgbvRd")!
-        if let url = URL(string: "https://path?bbb=xxx") {
-            var components = URLComponents(url: URL(string: long)!, resolvingAgainstBaseURL: false)
+        if let _ = URL(string: "https://path?bbb=xxx") {
+            let components = URLComponents(url: URL(string: long)!, resolvingAgainstBaseURL: false)
             
 //            if let queryItems = components?.queryItems {
 //                for item in queryItems {
