@@ -2,7 +2,7 @@
 [![Swift](https://github.com/buhe/langchain-swift/actions/workflows/swift.yml/badge.svg)](https://github.com/buhe/langchain-swift/actions/workflows/swift.yml) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![Swift Package Manager](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg) [![Twitter](https://img.shields.io/badge/twitter-@buhe1986-blue.svg?style=flat)](http://twitter.com/buhe1986)
 
 
-A serious and mini swift langchain copy, for ios or mac apps.
+A langchain copy, for ios or mac apps.
 
 
 ## Setup
@@ -185,6 +185,9 @@ final answer.
     - [x] HtmlLoader
     - [x] PDFLoader
     - [x] BilibilLoader
+
+## Got Ideas?
+Open an issue, and let's discuss!
 
 ## 💁 Contributing
 As an open-source project in a rapidly developing field, we are extremely open to contributions, whether it be in the form of a new feature, improved infrastructure, or better documentation.
