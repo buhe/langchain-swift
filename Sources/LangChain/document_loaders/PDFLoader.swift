@@ -31,7 +31,7 @@ public struct PDFLoader: BaseLoader {
                 }
             }
             
-            print(extractedText)
+//            print(extractedText)
             return [Document(page_content: extractedText, metadata: metadata)]
         } else{
             return []

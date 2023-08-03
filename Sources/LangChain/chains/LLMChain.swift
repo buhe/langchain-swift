@@ -30,7 +30,7 @@ public class LLMChain: DefaultChain {
         // call rest api
         let input_prompt = self.prompt.format(args: input_list)
         do {
-            print(input_prompt)
+//            print(input_prompt)
             let response = try await call(args: input_prompt)
             return response
         } catch {

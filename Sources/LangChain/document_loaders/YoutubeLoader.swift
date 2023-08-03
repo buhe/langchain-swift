@@ -19,7 +19,7 @@ public struct YoutubeLoader: BaseLoader {
         self.language = language
     }
     public func load() async -> [Document] {
-        let metadata = ["source": self.video_id]
+        
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
@@ -28,6 +28,11 @@ public struct YoutubeLoader: BaseLoader {
             try? httpClient.syncShutdown()
         }
         
+        let info = await YoutubeHackClient.info(video_id: video_id, httpClient: httpClient)
+        let metadata = ["source": self.video_id,
+                        "title": info!.title,
+                        "desc": info!.description,
+                        "thumbnail": info!.thumbnail]
         var transcript_list = await YoutubeHackClient.list_transcripts(video_id: self.video_id, httpClient: httpClient)
         if transcript_list == nil {
             return []

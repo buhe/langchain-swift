@@ -22,10 +22,11 @@ public struct HtmlLoader: BaseLoader {
             var title = ""
             do {
                 title = try doc.title()
-            }catch {
+            } catch {
                 print("Get title error \(error)")
             }
-            let metadata: [String: String] = ["url": url, "title": title]
+            let thumbnail = findImage(text: html)
+            let metadata: [String: String] = ["url": url, "title": title, "thumbnail": thumbnail]
             return [Document(page_content: text, metadata: metadata)]
         } catch Exception.Error( _, let message) {
             print("Get body error " + message)
@@ -36,5 +37,21 @@ public struct HtmlLoader: BaseLoader {
         }
     }
     
-    
+    func findImage(text: String) -> String {
+        let pattern = "(http|https)://[\\S]+?\\.(jpg|jpeg|png|gif)"
+
+        do {
+//            print(text)
+            let regex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            let matches = regex.matches(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count))
+            if matches.isEmpty {
+                return ""
+            } else {
+                return String(text[Range(matches.first!.range, in: text)!])
+            }
+        } catch {
+            print("Error: \(error.localizedDescription)")
+            return ""
+        }
+    }
 }
