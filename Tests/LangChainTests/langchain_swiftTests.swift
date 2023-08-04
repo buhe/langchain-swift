@@ -859,6 +859,34 @@ May God bless you all. May God protect our troops.
             print(error)
         }
     }
+    
+    func testListOutputParser() throws {
+        let parser = ListOutputParser()
+        let parsed = parser.parse(text: "a,b,c,d")
+        switch parsed {
+        case .list(let list):
+            XCTAssertEqual(4, list.count)
+            XCTAssertEqual("a", list.first!)
+        default: XCTAssertTrue(false)
+        }
+        
+    }
+    
+    func testSimpleJsonOutputParser() throws {
+        let parser = SimpleJsonOutputParser()
+        let parsed = parser.parse(text: """
+{"a": {
+        "b": 5
+}}
+""")
+        switch parsed {
+        case .json(let json):
+            XCTAssertEqual(1, json.count)
+            XCTAssertEqual(5, json["a"]["b"].intValue)
+        default: XCTAssertTrue(false)
+        }
+        
+    }
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
