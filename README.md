@@ -189,7 +189,7 @@ final answer.
     - [x] MRKLOutputParser
     - [ ] ListOutputParser
     - [ ] SimpleJsonOutputParser
-    - [ ] StrOutputParser
+    - [x] StrOutputParser
 
 ## 👍 Got Ideas?
 Open an issue, and let's discuss!
