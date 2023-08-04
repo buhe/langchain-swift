@@ -187,8 +187,8 @@ final answer.
     - [x] BilibilLoader
 - OutputParser
     - [x] MRKLOutputParser
-    - [ ] ListOutputParser
-    - [ ] SimpleJsonOutputParser
+    - [x] ListOutputParser
+    - [x] SimpleJsonOutputParser
     - [x] StrOutputParser
 
 ## 👍 Got Ideas?
