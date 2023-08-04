@@ -6,6 +6,23 @@
 //
 
 import Foundation
+
+public struct AgentAction{
+    let action: String
+    let input: String
+    let log: String
+}
+public struct AgentFinish {
+    let final: String
+}
+
+public enum ActionStep {
+    case action(AgentAction)
+    case finish(AgentFinish)
+    case error
+    case notParse(String)
+}
+
 public class DefaultChain: Chain {
     public init(memory: BaseMemory? = nil) {
         self.memory = memory

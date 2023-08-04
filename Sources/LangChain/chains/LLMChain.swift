@@ -10,11 +10,11 @@ import Foundation
 public class LLMChain: DefaultChain {
     let llm: LLM
     let prompt: PromptTemplate
-    let parser: BaseOutputParse
+    let parser: BaseOutputParser
     let stop: [String]
     // todo memory
     
-    public init(llm: LLM, prompt: PromptTemplate, parser: BaseOutputParse, stop: [String] = [], memory: BaseMemory? = nil) {
+    public init(llm: LLM, prompt: PromptTemplate, parser: BaseOutputParser, stop: [String] = [], memory: BaseMemory? = nil) {
         self.llm = llm
         self.prompt = prompt
         self.parser = parser

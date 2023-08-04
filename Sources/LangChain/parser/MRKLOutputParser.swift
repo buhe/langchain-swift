@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MRKLOutputParser: BaseOutputParse {
+public struct MRKLOutputParser: BaseOutputParser {
     public init() {}
     public func parse(text: String) -> ActionStep {
 //        print(text)

@@ -6,14 +6,14 @@
 //
 
 import Foundation
-public protocol BaseOutputParse {
+public protocol BaseOutputParser {
     func parse(text: String) -> ActionStep
 }
 
-public struct Nothing: BaseOutputParse {
+public struct Nothing: BaseOutputParser {
     public init() {}
     public func parse(text: String) -> ActionStep {
-        ActionStep.pass(text)
+        ActionStep.notParse(text)
     }
     
     
