@@ -185,6 +185,11 @@ final answer.
     - [x] HtmlLoader
     - [x] PDFLoader
     - [x] BilibilLoader
+- OutputParser
+    - [x] MRKLOutputParser
+    - [ ] ListOutputParser
+    - [ ] SimpleJsonOutputParser
+    - [ ] StrOutputParser
 
 ## 👍 Got Ideas?
 Open an issue, and let's discuss!
