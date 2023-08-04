@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 public struct AgentAction{
     let action: String
@@ -20,7 +21,9 @@ public enum ActionStep {
     case action(AgentAction)
     case finish(AgentFinish)
     case error
-    case notParse(String)
+    case str(String)
+    case list([String])
+    case json(JSON)
 }
 
 public class DefaultChain: Chain {

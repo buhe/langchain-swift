@@ -52,7 +52,7 @@ let prompt = PromptTemplate(input_variables: ["history", "human_input"], templat
 let chatgpt_chain = LLMChain(
     llm: OpenAI(),
     prompt: prompt,
-    parser: Nothing(),
+    parser: StrOutputParser(),
     memory: ConversationBufferWindowMemory()
 )
 Task {
