@@ -54,7 +54,7 @@ public class LLMChain: DefaultChain {
 //        return prompts
 //    }
     
-    public func apply(input_list: [String]) async -> ActionStep {
+    public func apply(input_list: [String]) async -> Parsed {
 //        let prompts = prep_prompts(input_list: input_list)
         let response: String = await generate(input_list: input_list)
         let results = parser.parse(text: response)
@@ -65,7 +65,7 @@ public class LLMChain: DefaultChain {
         return results
     }
     
-    public func plan(input: String, agent_scratchpad: String) async -> ActionStep{
+    public func plan(input: String, agent_scratchpad: String) async -> Parsed{
         return await apply(input_list: [input, agent_scratchpad])
     }
     

@@ -104,7 +104,7 @@ public class AgentExecutor: DefaultChain {
 //                    )
 //                result.append((agent_action, observation))
 //            return result
-    func take_next_step(input: String, intermediate_steps: [(AgentAction, String)]) async -> (ActionStep, String) {
+    func take_next_step(input: String, intermediate_steps: [(AgentAction, String)]) async -> (Parsed, String) {
         let step = await self.agent.plan(input: input, intermediate_steps: intermediate_steps)
         switch step {
         case .finish(let finish):
@@ -183,7 +183,7 @@ public class Agent {
 //               _output_parser = output_parser or cls._get_default_output_parser()
     }
     
-    public func plan(input: String, intermediate_steps: [(AgentAction, String)]) async -> ActionStep {
+    public func plan(input: String, intermediate_steps: [(AgentAction, String)]) async -> Parsed {
 //        """Given input, decided what to do.
 //
 //                Args:
