@@ -166,6 +166,7 @@ final answer.
 - Chain
   - [x] Base
   - [x] LLM
+  - [ ] SimpleSequentialChain
   - [ ] SequentialChain
 - Tools
   - [x] Dummy
