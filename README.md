@@ -150,6 +150,7 @@ final answer.
 ## 🌐 Real world
 - https://github.com/buhe/AISummary
 - https://github.com/buhe/HtmlSummary
+- https://github.com/buhe/BilibiliSummary_publlic
 
 ## 🚗 Roadmap
 - LLMs
