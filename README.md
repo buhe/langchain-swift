@@ -154,27 +154,27 @@ final answer.
 
 ## 🚗 Roadmap
 - LLMs
-  - [x] OpenAI
-  - [x] Hugging Face
-  - [ ] ChatGLM
-  - [ ] Baidu
-  - [ ] Llama 2
+    - [x] OpenAI
+    - [x] Hugging Face
+    - [ ] ChatGLM
+    - [ ] Baidu
+    - [ ] Llama 2
 - Vectorstore
-  - [x] Supabase
+    - [x] Supabase
 - Embedding
-  - [x] OpenAI
+    - [x] OpenAI
 - Chain
-  - [x] Base
-  - [x] LLM
-  - [ ] SimpleSequentialChain
-  - [ ] SequentialChain
+    - [x] Base
+    - [x] LLM
+    - [ ] SimpleSequentialChain
+    - [ ] SequentialChain
 - Tools
-  - [x] Dummy
-  - [x] InvalidTool
-  - [x] Serper
-  - [ ] Zapier
+    - [x] Dummy
+    - [x] InvalidTool
+    - [x] Serper
+    - [ ] Zapier
 - Agent
-  - [x] ZeroShotAgent
+    - [x] ZeroShotAgent
 - Memory
     - [x] BaseMemory
     - [x] BaseChatMemory
@@ -193,6 +193,9 @@ final answer.
     - [x] ListOutputParser
     - [x] SimpleJsonOutputParser
     - [x] StrOutputParser
+    - [ ] RouterOutputParser
+- Router
+    - [ ] LLMRouterChain
 
 ## 👍 Got Ideas?
 Open an issue, and let's discuss!
