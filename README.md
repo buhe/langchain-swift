@@ -168,6 +168,7 @@ final answer.
     - [x] LLM
     - [ ] SimpleSequentialChain
     - [ ] SequentialChain
+    - [ ] MultiPromptChain
 - Tools
     - [x] Dummy
     - [x] InvalidTool
