@@ -13,6 +13,10 @@ import NIOPosix
 public struct ImageOCRLoader: BaseLoader {
     let image: Data
     
+    public init(image: Data) {
+        self.image = image
+    }
+    
     public func load() async -> [Document] {
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
