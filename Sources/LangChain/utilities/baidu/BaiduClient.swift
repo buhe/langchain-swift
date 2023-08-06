@@ -8,7 +8,7 @@
 import AsyncHTTPClient
 import Foundation
 import SwiftyJSON
-import UIKit
+//import UIKit
 
 public struct BaiduClient {
     static func ocrImage(ak: String,sk: String, httpClient: HTTPClient, image: Data) async -> JSON? {

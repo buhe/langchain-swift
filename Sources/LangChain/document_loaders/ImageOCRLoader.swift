@@ -20,13 +20,17 @@ public struct ImageOCRLoader: BaseLoader {
             // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
             try? httpClient.syncShutdown()
         }
-        
+        var text = ""
         let env = loadEnv()
         if let ak = env["BAIDU_AK"],
            let sk = env["BAIDU_SK"]{
             let ocr = await BaiduClient.ocrImage(ak: ak, sk: sk, httpClient: httpClient, image: image)
+            let words = ocr!["words_result"].arrayValue.map{$0["words"].stringValue}
+            text = words.joined(separator: " ")
+            return [Document(page_content: text, metadata: [:])]
+        } else {
+            return []
         }
-        return []
     }
     
     
