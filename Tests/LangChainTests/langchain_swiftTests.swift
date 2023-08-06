@@ -909,7 +909,7 @@ May God bless you all. May God protect our troops.
             // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
             try? httpClient.syncShutdown()
         }
-        let result = await BaiduClient.ocrImage(ak: "vjLPbepeMfSIjZyzpuMCufhv", sk: "WAANBg7crEIlozpwPfplPagNzspx49Gy", httpClient: httpClient, image: uiimage)
+        let result = await BaiduClient.ocrImage(ak: "vjLPbepeMfSIjZyzpuMCufhv", sk: "WAANBg7crEIlozpwPfplPagNzspx49Gy", httpClient: httpClient, image: imageData)
         print("ocr: \(result!)")
         XCTAssertNotNil(result)
         XCTAssertNotNil(result!["words_result"])

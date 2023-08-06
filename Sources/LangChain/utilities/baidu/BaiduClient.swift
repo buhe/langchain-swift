@@ -11,7 +11,7 @@ import SwiftyJSON
 import UIKit
 
 public struct BaiduClient {
-    static func ocrImage(ak: String,sk: String, httpClient: HTTPClient, image: UIImage) async -> JSON? {
+    static func ocrImage(ak: String,sk: String, httpClient: HTTPClient, image: Data) async -> JSON? {
         if let accessToken = await getAccessToken(ak: ak, sk: sk, httpClient: httpClient) {
             let url = "https://aip.baidubce.com/rest/2.0/ocr/v1/webimage_loc?access_token=" + accessToken
             
@@ -21,7 +21,7 @@ public struct BaiduClient {
                 request.headers.add(name: "Content-Type", value: "application/x-www-form-urlencoded")
                 request.headers.add(name: "Accept", value: "application/json")
                 var requestBodyComponents = URLComponents()
-                var b64 = image.pngData()!.base64EncodedString()
+                var b64 = image.base64EncodedString()
                 b64 = b64.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
 //                requestBodyComponents.queryItems = [URLQueryItem(name: "url", value: image_url)]
                 requestBodyComponents.queryItems = [URLQueryItem(name: "image", value: b64)]
