@@ -6,7 +6,10 @@
 //
 
 import Foundation
-public struct BaiduOCRLoader: BaseLoader {
+import UIKit
+
+public struct ImageOCRLoader: BaseLoader {
+    let image: UIImage
     
     public func load() async -> [Document] {
         []
