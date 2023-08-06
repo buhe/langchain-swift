@@ -18,6 +18,8 @@ SUPABASE_URL=xxx
 SUPABASE_KEY=xxx
 SERPER_API_KEY=xxx
 HF_API_KEY=xxx
+BAIDU_AK=xxx
+BAIDU_SK=xxx
 ```
 
 ### Support env var
@@ -27,6 +29,8 @@ HF_API_KEY=xxx
 - SUPABASE_KEY
 - SERPER_API_KEY
 - HF_API_KEY
+- BAIDU_AK
+- BAIDU_SK
 
 ## Get stated
 ### 💬 Chatbots
@@ -189,6 +193,7 @@ final answer.
     - [x] HtmlLoader
     - [x] PDFLoader
     - [x] BilibilLoader
+    - [x] ImageOCRLoader
 - OutputParser
     - [x] MRKLOutputParser
     - [x] ListOutputParser
