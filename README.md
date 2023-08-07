@@ -172,7 +172,8 @@ final answer.
     - [x] LLM
     - [ ] SimpleSequentialChain
     - [ ] SequentialChain
-    - [ ] MultiPromptChain
+    - [ ] LLMRouterChain
+    - [ ] MultiRouteChain
 - Tools
     - [x] Dummy
     - [x] InvalidTool
