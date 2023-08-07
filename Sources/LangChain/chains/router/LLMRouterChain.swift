@@ -7,6 +7,11 @@
 
 import Foundation
 
+public struct Route {
+    let destination: String
+    let next_inputs: String
+}
+
 public class LLMRouterChain: DefaultChain {
     let llmChain: LLMChain
     
