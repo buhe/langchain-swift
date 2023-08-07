@@ -915,6 +915,15 @@ May God bless you all. May God protect our troops.
         XCTAssertNotNil(result!["words_result"])
     }
     
+    func testMultiPromptRouter() async throws {
+        let raw = MultiPromptRouter.formatDestinations(destinations: "abc")
+//        print(raw)
+        let i = MultiPromptRouter.formatInput(rawString: raw, input: "123")
+//        print(i)
+        
+        XCTAssertNotNil(raw)
+        XCTAssertNotNil(i)
+    }
     
 //
 //    func testYoutubeHackClientList() async throws {
