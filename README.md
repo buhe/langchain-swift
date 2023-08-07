@@ -172,8 +172,9 @@ final answer.
     - [x] LLM
     - [ ] SimpleSequentialChain
     - [ ] SequentialChain
-    - [ ] LLMRouterChain
-    - [ ] MultiRouteChain
+    - Router
+        - [ ] LLMRouterChain
+        - [ ] MultiRouteChain
 - Tools
     - [x] Dummy
     - [x] InvalidTool
@@ -201,8 +202,6 @@ final answer.
     - [x] SimpleJsonOutputParser
     - [x] StrOutputParser
     - [ ] RouterOutputParser
-- Router
-    - [ ] LLMRouterChain
 - Prompt
     - [x] PromptTemplate
     - [x] MultiPromptRouter
