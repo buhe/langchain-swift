@@ -24,6 +24,7 @@ public enum Parsed {
     case str(String)
     case list([String])
     case json(JSON)
+    case dict([String: String])
 }
 public protocol BaseOutputParser {
     func parse(text: String) -> Parsed

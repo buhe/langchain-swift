@@ -918,11 +918,12 @@ May God bless you all. May God protect our troops.
     func testMultiPromptRouter() async throws {
         let raw = MultiPromptRouter.formatDestinations(destinations: "abc")
 //        print(raw)
-        let i = MultiPromptRouter.formatInput(rawString: raw, input: "123")
+//        let i = MultiPromptRouter.formatInput(rawString: raw, input: "123")
 //        print(i)
-        
+        let input = PromptTemplate(input_variables: [], template: raw).format(args: ["123"])
+        print(input)
         XCTAssertNotNil(raw)
-        XCTAssertNotNil(i)
+        XCTAssertNotNil(input)
     }
     
 //

@@ -34,14 +34,14 @@ public struct MultiPromptRouter {
         \(destinations)
 
         << INPUT >>
-        %input
+        %@
 
         << OUTPUT >>
         """
     }
     
-    public static func formatInput(rawString: String, input: String) -> String {
-        let newString = rawString.replacingOccurrences(of: "%input", with: "%@")
-        return String(format: newString, input)
-    }
+//    public static func formatInput(rawString: String, input: String) -> String {
+//        let newString = rawString.replacingOccurrences(of: "%input", with: "%@")
+//        return String(format: newString, input)
+//    }
 }

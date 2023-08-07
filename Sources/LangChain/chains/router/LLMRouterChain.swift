@@ -22,7 +22,13 @@ public class LLMRouterChain: DefaultChain {
     public func route(args: [String: String]) async -> Route {
         let parsed = await llmChain.predict_and_parse(args: args)
         // check and route
-        return Route(destination: "", next_inputs: "")
+        switch parsed {
+        case .dict(let d):
+            return Route(destination: d[""]!, next_inputs: "")
+        default:
+            return Route(destination: "", next_inputs: "")
+        }
+        
     }
     
 }

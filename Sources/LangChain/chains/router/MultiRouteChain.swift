@@ -7,6 +7,18 @@
 
 import Foundation
 public class MultiRouteChain: DefaultChain {
+    let router_chain: LLMRouterChain
+        
+    let destination_chains: [String: DefaultChain]
+
+    let default_chain: DefaultChain
+    
+    public init(router_chain: LLMRouterChain, destination_chains: [String : DefaultChain], default_chain: DefaultChain) {
+        self.router_chain = router_chain
+        self.destination_chains = destination_chains
+        self.default_chain = default_chain
+    }
+    
     // call route
     public override func call(args: String) async throws -> String {
         print("call route.")
@@ -29,6 +41,11 @@ public class MultiRouteChain: DefaultChain {
 //                    raise ValueError(
 //                        f"Received invalid destination chain name '{route.destination}'"
 //                    )
-        return args
+        let route = await self.router_chain.route(args: ["route": args])
+        if destination_chains.keys.contains(route.destination) {
+            return try await destination_chains[route.destination]!.call(args: route.next_inputs)
+        } else {
+            return try await default_chain.call(args: route.next_inputs)
+        }
     }
 }
