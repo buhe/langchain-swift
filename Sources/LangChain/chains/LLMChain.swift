@@ -77,6 +77,15 @@ public class LLMChain: DefaultChain {
         return outputs
     }
     
+    
+    public func predict_and_parse(args: [String: String]) async -> Parsed {
+        let output = await self.predict(args: args)["Answer"]!
+        if let parser = prompt.output_parser {
+            return parser.parse(text: output)
+        } else {
+            return Parsed.str(output)
+        }
+    }
 //    def predict(self, callbacks: Callbacks = None, **kwargs: Any) -> str:
 //            """Format prompt with kwargs and pass to LLM.
 //
