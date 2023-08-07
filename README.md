@@ -202,6 +202,9 @@ final answer.
     - [ ] RouterOutputParser
 - Router
     - [ ] LLMRouterChain
+- Prompt
+    - [x] PromptTemplate
+    - [x] MultiPromptRouter
 
 ## 👍 Got Ideas?
 Open an issue, and let's discuss!
