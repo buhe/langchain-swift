@@ -17,13 +17,11 @@ public struct MultiPromptRouter {
         model.
 
         << FORMATTING >>
-        Return a markdown code snippet with a JSON object formatted to look like:
-        ```json
+        Return a JSON object formatted to look like:
         {
             "destination": string \\ name of the prompt to use or "DEFAULT"
             "next_inputs": string \\ a potentially modified version of the original input
         }
-        ```
 
         REMEMBER: "destination" MUST be one of the candidate prompt names specified below OR \
         it can be "DEFAULT" if the input is not well suited for any of the candidate prompts.

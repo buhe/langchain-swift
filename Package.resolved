@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dylanshine/openai-kit",
       "state" : {
-        "revision" : "71c0e10d07f18ea16e958f5621c9d62eb8ade972",
-        "version" : "1.8.0"
+        "revision" : "bf4e81668fe3c561afa29078121f3ff7d99da210",
+        "version" : "1.8.2"
       }
     },
     {
