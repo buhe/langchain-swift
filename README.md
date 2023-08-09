@@ -151,6 +151,74 @@ Thought:
 final answer.
  The weather for the specified location and days of the week is sunny.
 ```
+### 📡 Router
+```swift
+ let physics_template = """
+        You are a very smart physics professor. \
+        You are great at answering questions about physics in a concise and easy to understand manner. \
+        When you don't know the answer to a question you admit that you don't know.
+
+        Here is a question:
+        {input}
+"""
+
+
+        let math_template = """
+        You are a very good mathematician. You are great at answering math questions. \
+        You are so good because you are able to break down hard problems into their component parts, \
+        answer the component parts, and then put them together to answer the broader question.
+
+        Here is a question:
+        {input}
+"""
+        
+        let prompt_infos = [
+            [
+                "name": "physics",
+                "description": "Good for answering questions about physics",
+                "prompt_template": physics_template,
+            ],
+            [
+                "name": "math",
+                "description": "Good for answering math questions",
+                "prompt_template": math_template,
+            ]
+        ]
+        
+        let llm = OpenAI()
+        
+        var destination_chains: [String: DefaultChain] = [:]
+        for p_info in prompt_infos {
+            let name = p_info["name"]!
+            let prompt_template = p_info["prompt_template"]!
+            let prompt = PromptTemplate(input_variables: [], template: prompt_template)
+            let chain = LLMChain(llm: llm, prompt: prompt, parser: StrOutputParser())
+            destination_chains[name] = chain
+        }
+        let default_prompt = PromptTemplate(input_variables: [], template: "")
+        let default_chain = LLMChain(llm: llm, prompt: default_prompt, parser: StrOutputParser())
+        
+        let destinations_str = ""
+        let router_template = MultiPromptRouter.formatDestinations(destinations: destinations_str)
+        let router_prompt = PromptTemplate(input_variables: [], template: router_template, output_parser: RouterOutputParser())
+        
+        let llmChain = LLMChain(llm: llm, prompt: router_prompt, parser: RouterOutputParser())
+        
+        let router_chain = LLMRouterChain(llmChain: llmChain)
+        
+        let chain = MultiRouteChain(router_chain: router_chain, destination_chains: destination_chains, default_chain: default_chain)
+        Task {
+            print(await chain.run(args: "What is black body radiation?"))
+        }
+```
+Log
+```
+Black body radiation refers to the electromagnetic radiation emitted by an idealized object known as a black body. A black body is an object that absorbs all incident radiation and reflects or transmits none of it. It is also a perfect emitter, meaning it emits radiation at all wavelengths and intensities.
+
+Black body radiation is characterized by its spectral distribution, which follows a specific pattern known as Planck's law. According to this law, the intensity of radiation emitted by a black body is a function of its temperature and wavelength. At higher temperatures, the peak intensity of radiation shifts towards shorter wavelengths, resulting in a bluer color. At lower temperatures, the peak intensity shifts towards longer wavelengths, resulting in a redder color.
+
+Black body radiation has been crucial in understanding various phenomena in physics, such as the ultraviolet catastrophe and the development of quantum mechanics. It also has practical applications in fields like astrophysics, where it helps determine the temperature and composition of celestial objects based on their emitted radiation.
+```
 ## 🌐 Real world
 - https://github.com/buhe/AISummary
 - https://github.com/buhe/HtmlSummary
@@ -173,8 +241,8 @@ final answer.
     - [ ] SimpleSequentialChain
     - [ ] SequentialChain
     - Router
-        - [ ] LLMRouterChain
-        - [ ] MultiRouteChain
+        - [x] LLMRouterChain
+        - [x] MultiRouteChain
 - Tools
     - [x] Dummy
     - [x] InvalidTool
@@ -201,7 +269,7 @@ final answer.
     - [x] ListOutputParser
     - [x] SimpleJsonOutputParser
     - [x] StrOutputParser
-    - [ ] RouterOutputParser
+    - [x] RouterOutputParser
 - Prompt
     - [x] PromptTemplate
     - [x] MultiPromptRouter
