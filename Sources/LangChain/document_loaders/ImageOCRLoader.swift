@@ -9,7 +9,11 @@ import Foundation
 //import UIKit
 import AsyncHTTPClient
 import NIOPosix
-
+/*
+ Enroll baidu cloud, and access https://console.bce.baidu.com/iam/#/iam/accesslist Get
+ BAIDU_AK=xxx
+ BAIDU_SK=xxx
+ */
 public struct ImageOCRLoader: BaseLoader {
     let image: Data
     
