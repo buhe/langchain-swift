@@ -6,12 +6,25 @@
 //
 
 import Foundation
+import SwiftyJSON
+
 public struct RouterOutputParser: BaseOutputParser {
     let default_destination = "DEFAULT"
 //    next_inputs_type: Type = str
 //    let next_inputs_inner_key = "input"
+    public init() {
+        
+    }
     public func parse(text: String) -> Parsed {
+        // "```(json)?(.*)```"
         print("router text: \(text)")
+        if let jsonText = findJSON(text: text) {
+//            let expected_keys = ["destination", "next_inputs"]
+            let json = JSON(jsonText.data(using: .utf8)!)
+            return Parsed.dict(["destination": json["destination"].stringValue, "next_inputs": json["next_inputs"].stringValue])
+        } else {
+            return .error
+        }
 //        try:
 //                   expected_keys = ["destination", "next_inputs"]
 //                   parsed = parse_and_check_json_markdown(text, expected_keys)
@@ -34,9 +47,26 @@ public struct RouterOutputParser: BaseOutputParser {
 //                   raise OutputParserException(
 //                       f"Parsing text\n{text}\n raised following error:\n{e}"
 //                   )
-        let expected_keys = ["destination", "next_inputs"]
-        return Parsed.dict([:])
+        
+        
     }
     
-    
+    func findJSON(text: String) -> String? {
+//        let pattern = "```(json)?(.*)```"
+//
+//        do {
+////            print(text)
+//            let regex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+//            let matches = regex.matches(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count))
+//            if matches.isEmpty {
+//                return nil
+//            } else {
+//                return String(text[Range(matches.first!.range, in: text)!])
+//            }
+//        } catch {
+//            print("Error: \(error.localizedDescription)")
+//            return nil
+//        }
+        text
+    }
 }

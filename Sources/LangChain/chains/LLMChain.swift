@@ -10,6 +10,7 @@ import Foundation
 public class LLMChain: DefaultChain {
     let llm: LLM
     let prompt: PromptTemplate
+    // TODO: remove
     let parser: BaseOutputParser
     let stop: [String]
     // todo memory

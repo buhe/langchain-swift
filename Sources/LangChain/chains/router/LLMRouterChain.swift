@@ -23,10 +23,10 @@ public class LLMRouterChain: DefaultChain {
         let parsed = await llmChain.predict_and_parse(args: args)
         // check and route
         switch parsed {
-        case .dict(let d):
-            return Route(destination: d[""]!, next_inputs: "")
-        default:
-            return Route(destination: "", next_inputs: "")
+            case .dict(let d):
+                return Route(destination: d["destination"]!, next_inputs: d["next_inputs"]!)
+            default:
+                return Route(destination: "", next_inputs: "")
         }
         
     }
