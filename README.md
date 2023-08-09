@@ -198,7 +198,11 @@ final answer.
         let default_prompt = PromptTemplate(input_variables: [], template: "")
         let default_chain = LLMChain(llm: llm, prompt: default_prompt, parser: StrOutputParser())
         
-        let destinations_str = ""
+        let destinations = prompt_infos.map{
+            "\($0["name"]!): \($0["description"]!)"
+        }
+        let destinations_str = destinations.joined(separator: "\n")
+        
         let router_template = MultiPromptRouter.formatDestinations(destinations: destinations_str)
         let router_prompt = PromptTemplate(input_variables: [], template: router_template, output_parser: RouterOutputParser())
         
