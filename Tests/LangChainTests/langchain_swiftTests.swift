@@ -794,7 +794,7 @@ May God bless you all. May God protect our troops.
     
     func testBilibilClient() async throws {
         let client = BilibiliClient(credential: BilibiliCredential(sessin: "6376fa3e%2C1705926902%2C0b561%2A71gvy_TPyZMWhUweKjYGT502_5FVZdcv8bfjvwtqdlqm8UjyEiUrkPq1AodolcSjIgBXatNwAAEgA", jct: "330aaac577464e453ea1b070fd1281ea"))
-        let info = await client.fetchVideoInfo(bvid: "BV1Xk4y1P7PR")
+        let info = await client.fetchVideoInfo(bvid: "BV1iP411y7Vs")
         XCTAssertNotNil(info)
         XCTAssertNotEqual(info?.subtitle, "")
         
