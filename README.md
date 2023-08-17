@@ -227,6 +227,7 @@ Black body radiation has been crucial in understanding various phenomena in phys
 - https://github.com/buhe/AISummary
 - https://github.com/buhe/HtmlSummary
 - https://github.com/buhe/BilibiliSummary_publlic
+- https://github.com/buhe/Writer_public
 
 ## 🚗 Roadmap
 - LLMs
