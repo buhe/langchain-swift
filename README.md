@@ -83,6 +83,10 @@ Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos
 
 ```
 ### ❓ QA bot
+An main/Sources/LangChain/vectorstores/supabase/supabase.sql is required.
+
+ref: supabase.com/docs/guides/database/extensions/pgvector
+
 Code
 ```swift
 let loader = TextLoader(file_path: "state_of_the_union.txt")
