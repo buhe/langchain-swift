@@ -237,6 +237,7 @@ Black body radiation has been crucial in understanding various phenomena in phys
 - LLMs
     - [x] OpenAI
     - [x] Hugging Face
+    - [x] Dalle
     - [ ] ChatGLM
     - [ ] Baidu
     - [ ] Llama 2
