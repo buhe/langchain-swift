@@ -11,9 +11,9 @@ import AsyncHTTPClient
 import OpenAIKit
 
 public struct Dalle: LLM {
-    
-    public init() {
-        
+    let size: DalleImage.Size
+    public init(size: DalleImage.Size) {
+        self.size = size
     }
     
     public func send(text: String, stops: [String] = []) async -> String {
@@ -33,7 +33,7 @@ public struct Dalle: LLM {
                 // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
                 try? httpClient.syncShutdown()
             }
-            let reps = try! await openAIClient.images.create(prompt: text)
+            let reps = try! await openAIClient.images.create(prompt: text, size: dalleTo(size: size))
             return reps.data.first!.url
         } else {
             print("Please set openai api key.")
