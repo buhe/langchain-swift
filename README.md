@@ -83,9 +83,9 @@ Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos
 
 ```
 ### ❓ QA bot
-An main/Sources/LangChain/vectorstores/supabase/supabase.sql is required.
+An [main/Sources/LangChain/vectorstores/supabase/supabase.sql](https://github.com/buhe/langchain-swift/blob/main/Sources/LangChain/vectorstores/supabase/supabase.sql) is required.
 
-ref: supabase.com/docs/guides/database/extensions/pgvector
+ref: https://supabase.com/docs/guides/database/extensions/pgvector
 
 Code
 ```swift
