@@ -260,6 +260,7 @@ Black body radiation has been crucial in understanding various phenomena in phys
     - [x] Serper
     - [ ] Zapier
     - [ ] SteamshipImageGenerationTool
+    - [x] JavascriptREPLTool
 - Agent
     - [x] ZeroShotAgent
 - Memory
