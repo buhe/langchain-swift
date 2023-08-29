@@ -28,13 +28,17 @@ public struct ObjectOutputParser<T: Codable>: BaseOutputParser {
         let r = try! JSONDecoder().decode(T.self, from: text.data(using: .utf8)!)
         return Parsed.object(r)
     }
+    fileprivate func isPrimitive(_ t: String) -> Bool {
+        return t == "Int" || t == "String" || t == "Double" || t == "Float" || t == "Bool"
+    }
+    
     mutating func printStruct(structObject: Any) {
         let mirror = Mirror(reflecting: structObject)
         for (name, value) in mirror.children {
 //            guard let name = name else { continue }
             let t = "\(type(of: value))"
 //            print("type: \(t)")
-            if t == "Int" || t == "String" {
+            if isPrimitive(t) {
                 let s = "\(name!): \(t)"
                 schema += "\(s),"
 //                print(s)

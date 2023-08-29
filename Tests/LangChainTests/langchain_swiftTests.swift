@@ -931,11 +931,12 @@ May God bless you all. May God protect our troops.
             let num: Int
         }
         struct Book: Codable {
-            let title: String
-            let content: String
+            let title: Double
+            let content: Float
+            let isBuy: Bool
             let unit: [Unit]
         }
-        let demo = Book(title: "a", content: "b", unit: [Unit(num: 1)])
+        let demo = Book(title: 1.1, content: 2.2, isBuy: true,unit: [Unit(num: 1)])
         let s = String(data: try! JSONEncoder().encode(demo), encoding: .utf8)!
         print("json: \(s)")
 //        let book = Book(title: "a", content: "b")
