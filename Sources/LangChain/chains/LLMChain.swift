@@ -11,11 +11,11 @@ public class LLMChain: DefaultChain {
     let llm: LLM
     let prompt: PromptTemplate
     // TODO: remove
-    let parser: BaseOutputParser
+    let parser: BaseOutputParser?
     let stop: [String]
     // todo memory
     
-    public init(llm: LLM, prompt: PromptTemplate, parser: BaseOutputParser, stop: [String] = [], memory: BaseMemory? = nil) {
+    public init(llm: LLM, prompt: PromptTemplate, parser: BaseOutputParser? = nil, stop: [String] = [], memory: BaseMemory? = nil) {
         self.llm = llm
         self.prompt = prompt
         self.parser = parser
@@ -58,12 +58,12 @@ public class LLMChain: DefaultChain {
     public func apply(input_list: [String]) async -> Parsed {
 //        let prompts = prep_prompts(input_list: input_list)
         let response: String = await generate(input_list: input_list)
-        let results = parser.parse(text: response)
-//        for r in response {
-//            let step = parser.parse(text: r)
-//            results.append(step)
-//        }
-        return results
+        if let parser = self.parser {
+            let results = parser.parse(text: response)
+            return results
+        } else {
+            return Parsed.str(response)
+        }
     }
     
     public func plan(input: String, agent_scratchpad: String) async -> Parsed{
@@ -81,7 +81,7 @@ public class LLMChain: DefaultChain {
     
     public func predict_and_parse(args: [String: String]) async -> Parsed {
         let output = await self.predict(args: args)["Answer"]!
-        if let parser = prompt.output_parser {
+        if let parser = self.parser {
             return parser.parse(text: output)
         } else {
             return Parsed.str(output)
