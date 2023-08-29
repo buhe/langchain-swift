@@ -227,6 +227,35 @@ Black body radiation is characterized by its spectral distribution, which follow
 
 Black body radiation has been crucial in understanding various phenomena in physics, such as the ultraviolet catastrophe and the development of quantum mechanics. It also has practical applications in fields like astrophysics, where it helps determine the temperature and composition of celestial objects based on their emitted radiation.
 ```
+
+### ObjectOutputParser
+```swift
+    struct Unit: Codable {
+        let num: Int
+    }
+    struct Book: Codable {
+        let title: String
+        let content: String
+        let unit: Unit
+    }
+
+    let demo = Book(title: "a", content: "b", unit: Unit(num: 1))
+        
+        var p = ObjectOutputParser(demo: demo)
+        
+        let llm = OpenAI()
+        
+        let t = PromptTemplate(input_variables: [], template: "Answer the user query.\n" + p.get_format_instructions() + "\n%@")
+        
+        let chain = LLMChain(llm: llm, prompt: t, parser: p)
+        Task {
+            let pasred = await chain.predict_and_parse(args: ["text": "The book title is 123 , content is 456 , num of unit is 7"])
+            switch pasred {
+            case Parsed.object(let o): print("object: \(o)")
+            default: break
+            }
+        }
+```
 ## 🌐 Real world
 - https://github.com/buhe/AISummary
 - https://github.com/buhe/HtmlSummary
