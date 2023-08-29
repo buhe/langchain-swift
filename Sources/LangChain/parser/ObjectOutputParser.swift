@@ -31,16 +31,26 @@ public struct ObjectOutputParser<T: Codable>: BaseOutputParser {
     mutating func printStruct(structObject: Any) {
         let mirror = Mirror(reflecting: structObject)
         for (name, value) in mirror.children {
-            guard let name = name else { continue }
+//            guard let name = name else { continue }
             let t = "\(type(of: value))"
-            
+//            print("type: \(t)")
             if t == "Int" || t == "String" {
-                let s = "\(name): \(t)"
+                let s = "\(name!): \(t)"
                 schema += "\(s),"
 //                print(s)
+            } else if t.starts(with: "Array<") {
+//                let s = "\(name): ["
+                schema += "["
+                printStruct(structObject: value)
+                schema += "],"
             } else {
-                let s = "\(name): {"
-                schema += "\(s)"
+                if let name = name {
+                    let s = "\(name): {"
+                    schema += "\(s)"
+                } else {
+                    schema += "{"
+                }
+                
 //                print(s)
                 
                 printStruct(structObject: value)

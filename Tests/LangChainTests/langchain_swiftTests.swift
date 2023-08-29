@@ -933,6 +933,34 @@ May God bless you all. May God protect our troops.
         struct Book: Codable {
             let title: String
             let content: String
+            let unit: [Unit]
+        }
+        let demo = Book(title: "a", content: "b", unit: [Unit(num: 1)])
+        let s = String(data: try! JSONEncoder().encode(demo), encoding: .utf8)!
+        print("json: \(s)")
+//        let book = Book(title: "a", content: "b")
+//        let mirror = Mirror(reflecting: book)
+//        guard let types = getTypesOfProperties(inClass: Book.self) else { return }
+        var parser = ObjectOutputParser<Book>(demo: demo)
+        let i = parser.get_format_instructions()
+        let b = parser.parse(text: s)
+        print("\(b)")
+        print("i: \(i)")
+        switch b {
+        case Parsed.object(let o):
+            XCTAssertNotNil(o)
+        default:
+            XCTFail()
+        }
+    }
+   
+    func testObjectOutputParser2() async throws {
+        struct Unit: Codable {
+            let num: Int
+        }
+        struct Book: Codable {
+            let title: String
+            let content: String
             let unit: Unit
         }
         let demo = Book(title: "a", content: "b", unit: Unit(num: 1))
