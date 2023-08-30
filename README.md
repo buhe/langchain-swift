@@ -20,6 +20,7 @@ SERPER_API_KEY=xxx
 HF_API_KEY=xxx
 BAIDU_AK=xxx
 BAIDU_SK=xxx
+CHATGLM_API_KEY=xxx
 ```
 
 ### Support env var
@@ -31,6 +32,7 @@ BAIDU_SK=xxx
 - HF_API_KEY
 - BAIDU_AK
 - BAIDU_SK
+- CHATGLM_API_KEY
 
 ## Get stated
 ### 💬 Chatbots
