@@ -46,6 +46,15 @@
       }
     },
     {
+      "identity" : "jwt",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nextster/JWT",
+      "state" : {
+        "revision" : "a795848495c1e2a4aa6fe9ec8680b2a8ef7fb8ef",
+        "version" : "1.0.1"
+      }
+    },
+    {
       "identity" : "keychainaccess",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kishikawakatsumi/KeychainAccess",
