@@ -16,7 +16,7 @@ struct ChatGLMMessage: Codable {
 }
 struct ChatGLMPayload: Codable {
     let prompt: [ChatGLMMessage]
-    let temperature: Float
+    let temperature: Double
 }
 struct ChatGLMResponseDataUsage: Codable {
     let prompt_tokens: Int?
@@ -38,9 +38,9 @@ struct ChatGLMResponse: Codable {
 }
 struct ChatGLMAPIWrapper {
     let model: ChatGLMModel
-    let temperature: Float
+    let temperature: Double
     
-    init(model: ChatGLMModel, temperature: Float) {
+    init(model: ChatGLMModel, temperature: Double) {
         self.model = model
         self.temperature = temperature
     }
@@ -62,7 +62,7 @@ struct ChatGLMAPIWrapper {
                 request.method = .POST
                 request.headers.add(name: "Content-Type", value: "application/json")
                 request.headers.add(name: "Authorization", value: "Bearer " + jwt(secret: splited[1], id: splited[0]))
-                let requestBody = try! JSONEncoder().encode(ChatGLMPayload(prompt: [ChatGLMMessage(role: "user", content: text)], temperature: temperature))
+                let requestBody = try! JSONEncoder().encode(ChatGLMPayload(prompt: [ChatGLMMessage(role: "user", content: text)], temperature: 0.8))
                 request.body = .bytes(requestBody)
                 defer {
                     // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
