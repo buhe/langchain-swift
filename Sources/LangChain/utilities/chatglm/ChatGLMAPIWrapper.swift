@@ -33,7 +33,7 @@ struct ChatGLMResponse: Codable {
     let code: Int
     let msg: String
     let success: Bool
-    let data: ChatGLMResponseData
+    let data: ChatGLMResponseData?
 }
 public struct ChatGLMAPIWrapper {
     let model: ChatGLMModel
@@ -69,7 +69,11 @@ public struct ChatGLMAPIWrapper {
                 if response.status == .ok {
                     let string = String(buffer: try await response.body.collect(upTo: 1024 * 1024))
                     let reps = try! JSONDecoder().decode(ChatGLMResponse.self, from: string.data(using: .utf8)!)
-                    return reps.data.choices.first!.content
+                    if let data = reps.data{
+                        return data.choices.first!.content
+                    } else {
+                        return reps.msg
+                    }
                 } else {
                     // handle remote error
                     print("http code is not 200.")
