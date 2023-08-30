@@ -17,6 +17,24 @@ struct ChatGLMMessage: Codable {
 struct ChatGLMPayload: Codable {
     let prompt: [ChatGLMMessage]
 }
+struct ChatGLMResponseDataUsage: Codable {
+    let prompt_tokens: Int?
+    let completion_tokens: Int?
+    let total_tokens: Int
+}
+struct ChatGLMResponseData: Codable {
+    let request_id: String
+    let task_id: String
+    let task_status: String
+    let choices: [ChatGLMMessage]
+    let usage: ChatGLMResponseDataUsage
+}
+struct ChatGLMResponse: Codable {
+    let code: Int
+    let msg: String
+    let success: Bool
+    let data: ChatGLMResponseData
+}
 public struct ChatGLMAPIWrapper {
     let model: ChatGLMModel
     
@@ -49,7 +67,9 @@ public struct ChatGLMAPIWrapper {
                 }
                 let response = try await httpClient.execute(request, timeout: .seconds(30))
                 if response.status == .ok {
-                    return String(buffer: try await response.body.collect(upTo: 1024 * 1024))
+                    let string = String(buffer: try await response.body.collect(upTo: 1024 * 1024))
+                    let reps = try! JSONDecoder().decode(ChatGLMResponse.self, from: string.data(using: .utf8)!)
+                    return reps.data.choices.first!.content
                 } else {
                     // handle remote error
                     print("http code is not 200.")
