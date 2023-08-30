@@ -35,19 +35,19 @@ struct ChatGLMResponse: Codable {
     let success: Bool
     let data: ChatGLMResponseData?
 }
-public struct ChatGLMAPIWrapper {
+struct ChatGLMAPIWrapper {
     let model: ChatGLMModel
     
-    public init(model: ChatGLMModel = ChatGLMModel.chatglm_std) {
+    init(model: ChatGLMModel) {
         self.model = model
     }
-    func jwt(secret: String, id: String) -> String {
+    private func jwt(secret: String, id: String) -> String {
         let jwt = JWT(secret: secret)
         jwt.header = ["sign_type": "SIGN", "alg": "HS256"]
         jwt.payload = ["api_key": id, "timestamp": Int(Date.now.timeIntervalSince1970), "exp": Int(Date.now.timeIntervalSince1970) + 3600]
         return jwt.token!
     }
-    public func call(text: String) async -> String {
+    func call(text: String) async -> String {
         let env = loadEnv()
         if let apiKey = env["CHATGLM_API_KEY"] {
             let splited = apiKey.components(separatedBy: ".")
