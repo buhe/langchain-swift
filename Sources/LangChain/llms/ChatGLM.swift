@@ -14,8 +14,8 @@ public struct ChatGLM: LLM{
     
     let api: ChatGLMAPIWrapper
     
-    public init(model: ChatGLMModel = ChatGLMModel.chatglm_std) {
-        api = ChatGLMAPIWrapper(model: model)
+    public init(model: ChatGLMModel = ChatGLMModel.chatglm_std, temperature: Float = 0.0) {
+        api = ChatGLMAPIWrapper(model: model, temperature: temperature)
     }
     
 }
