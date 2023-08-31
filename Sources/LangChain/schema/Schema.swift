@@ -13,10 +13,13 @@ public struct LLMResult {
     init(generation: AsyncThrowingStream<ChatStream, Error>? = nil, llm_output: String? = nil) {
         self.generation = generation
         self.llm_output = llm_output
+        self.stream = generation != nil
     }
     let generation: AsyncThrowingStream<ChatStream, Error>?
     
     var llm_output: String?
+    
+    var stream: Bool
     
     mutating func setOutput() {
         if llm_output == nil {
