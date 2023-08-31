@@ -20,7 +20,7 @@ public class LLMChain: DefaultChain {
         self.stop = stop
         super.init(memory: memory)
     }
-    public override func call(args: String) async throws -> String {
+    public override func call(args: String) async throws -> LLMResult {
         // ["\\nObservation: ", "\\n\\tObservation: "]
         return await self.llm.send(text: args, stops:  stop)
     }
@@ -30,8 +30,9 @@ public class LLMChain: DefaultChain {
         let input_prompt = self.prompt.format(args: input_list)
         do {
 //            print(input_prompt)
-            let response = try await call(args: input_prompt)
-            return response
+            var llmResult = try await call(args: input_prompt)
+            llmResult.setOutput()
+            return llmResult.llm_output!
         } catch {
             print(error)
             return ""
@@ -72,6 +73,7 @@ public class LLMChain: DefaultChain {
         // predict -> __call__ -> _call
         let inputAndContext = prep_inputs(inputs: args)
         let output = await self.generate(input_list: inputAndContext.values.map{$0})
+        // call setOutput to finish output
         let outputs = prep_outputs(inputs: inputAndContext, outputs: ["Answer": output])
         return outputs
     }

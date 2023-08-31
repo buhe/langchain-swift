@@ -20,7 +20,7 @@ public struct OpenAI: LLM {
         self.model = model
     }
     
-    public func send(text: String, stops: [String] = []) async -> String {
+    public func send(text: String, stops: [String] = []) async -> LLMResult {
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
@@ -38,10 +38,10 @@ public struct OpenAI: LLM {
                 try? httpClient.syncShutdown()
             }
             let completion = try! await openAIClient.chats.create(model: model, messages: [.user(content: text)], temperature: temperature, stops: stops)
-            return completion.choices.first!.message.content
+            return LLMResult(llm_output: completion.choices.first!.message.content)
         } else {
             print("Please set openai api key.")
-            return "Please set openai api key."
+            return LLMResult(llm_output: "Please set openai api key.")
         }
         
     }

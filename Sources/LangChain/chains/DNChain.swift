@@ -10,9 +10,9 @@ public class DNChain: DefaultChain {
     public init() {
         
     }
-    public override func call(args: String) async throws -> String {
+    public override func call(args: String) async throws -> LLMResult {
         print("Do nothing.")
-        return ""
+        return LLMResult()
     }
     
 }

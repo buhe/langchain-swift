@@ -15,7 +15,7 @@ public struct HuggingFace: LLM {
         self.task = task
     }
     
-    public func send(text: String, stops: [String] = []) async -> String {
+    public func send(text: String, stops: [String] = []) async -> LLMResult {
         let wrapper = HFInferenceApi(repo: repo, task: task)
         let response = await wrapper.inference(text: text)
         let result = response[0]["generated_text"].stringValue
@@ -25,7 +25,7 @@ public struct HuggingFace: LLM {
         if !stops.isEmpty {
             result2 = result2.components(separatedBy: stops[0])[0]
         }
-        return result2
+        return LLMResult(llm_output: result2)
     }
     
 }

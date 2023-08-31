@@ -10,7 +10,7 @@ import NIOPosix
 import AsyncHTTPClient
 import OpenAIKit
 
-public struct ChatOpenAI {
+public struct ChatOpenAI: LLM {
     let temperature: Double
     let model: ModelID
     
@@ -18,8 +18,10 @@ public struct ChatOpenAI {
         self.temperature = temperature
         self.model = model
     }
-    public func straem(text: String, httpClient: HTTPClient) async -> AsyncThrowingStream<ChatStream, Error>? {
-       
+    public func send(text: String, stops: [String] = []) async -> LLMResult {
+        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        // TODO
+        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         let env = loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
@@ -28,12 +30,15 @@ public struct ChatOpenAI {
             let configuration = Configuration(apiKey: apiKey, api: API(scheme: .https, host: baseUrl))
 
             let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
-          
+            defer {
+                // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
+                try? httpClient.syncShutdown()
+            }
             let buffer = try! await openAIClient.chats.stream(model: model, messages: [.user(content: text)], temperature: temperature)
-            return buffer
+            return LLMResult(generation: buffer)
         } else {
             print("Please set openai api key.")
-            return nil
+            return LLMResult()
         }
     }
 }

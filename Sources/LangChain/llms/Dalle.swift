@@ -16,7 +16,7 @@ public struct Dalle: LLM {
         self.size = size
     }
     
-    public func send(text: String, stops: [String] = []) async -> String {
+    public func send(text: String, stops: [String] = []) async -> LLMResult {
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
@@ -34,10 +34,10 @@ public struct Dalle: LLM {
                 try? httpClient.syncShutdown()
             }
             let reps = try! await openAIClient.images.create(prompt: text, size: dalleTo(size: size))
-            return reps.data.first!.url
+            return LLMResult(llm_output: reps.data.first!.url)
         } else {
             print("Please set openai api key.")
-            return "Please set openai api key."
+            return LLMResult(llm_output: "Please set openai api key.")
         }
         
     }
