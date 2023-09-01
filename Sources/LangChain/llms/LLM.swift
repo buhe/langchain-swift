@@ -6,7 +6,7 @@
 //
 
 import Foundation
-// TODO - http outter
+
 public protocol LLM {
     func send(text: String, stops: [String]) async -> LLMResult
 }
