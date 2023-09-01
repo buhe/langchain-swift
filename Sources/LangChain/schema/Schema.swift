@@ -15,16 +15,20 @@ public struct LLMResult {
         self.llm_output = llm_output
         self.stream = generation != nil
     }
-    let generation: AsyncThrowingStream<ChatStream, Error>?
+    public let generation: AsyncThrowingStream<ChatStream, Error>?
     
-    var llm_output: String?
+    public var llm_output: String?
     
     var stream: Bool
     
-    mutating func setOutput() {
+    mutating func setOutput() async throws {
         if llm_output == nil {
-            // for-each generation
-            llm_output = "" // TODO
+            llm_output = ""
+            for try await c in generation! {
+                if let message = c.choices.first?.delta.content {
+                    llm_output! += message
+                }
+            }
         }
     }
 }

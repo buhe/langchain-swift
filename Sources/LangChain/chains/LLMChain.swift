@@ -31,7 +31,7 @@ public class LLMChain: DefaultChain {
         do {
 //            print(input_prompt)
             var llmResult = try await call(args: input_prompt)
-            llmResult.setOutput()
+            try await llmResult.setOutput()
             return llmResult.llm_output!
         } catch {
             print(error)
