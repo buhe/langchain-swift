@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol LLM {
-    func send(text: String, stops: [String]) async -> String
+    func send(text: String, stops: [String]) async -> LLMResult
 }

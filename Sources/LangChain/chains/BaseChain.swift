@@ -12,17 +12,17 @@ public class DefaultChain: Chain {
         self.memory = memory
     }
     let memory: BaseMemory?
-    public func call(args: String) async throws -> String {
+    public func call(args: String) async throws -> LLMResult {
         print("call base.")
-        return args
+        return LLMResult()
     }
-    
-    public func run(args: String) async -> String {
+    // This interface alreadly return 'LLMReult', ensure 'run' method has stream style.
+    public func run(args: String) async -> LLMResult {
         do {
             return try await self.call(args: args)
         } catch {
             print(error)
-            return ""
+            return LLMResult()
         }
     }
     
@@ -89,5 +89,5 @@ public class DefaultChain: Chain {
 }
 
 public protocol Chain {
-    func call(args: String) async throws -> String
+    func call(args: String) async throws -> LLMResult
 }

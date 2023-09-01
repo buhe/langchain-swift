@@ -127,7 +127,7 @@ public class AgentExecutor: DefaultChain {
             return (step, "default")
         }
     }
-    public override func call(args: String) async throws -> String {
+    public override func call(args: String) async throws -> LLMResult {
         // chain run -> call -> agent plan -> llm send
         
         // while should_continue and call
@@ -147,12 +147,12 @@ public class AgentExecutor: DefaultChain {
             switch next_step_output.0 {
             case .finish:
                 print("final answer.")
-                return next_step_output.1
+                return LLMResult(llm_output: next_step_output.1)
             case .action(let action):
                 intermediate_steps.append((action, next_step_output.1))
             default:
                 print("error step.")
-                return ""
+                return LLMResult()
             }
         }
     }

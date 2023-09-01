@@ -8,8 +8,8 @@
 import Foundation
 
 public struct ChatGLM: LLM{
-    public func send(text: String, stops: [String]) async -> String {
-        return await api.call(text: text)
+    public func send(text: String, stops: [String]) async -> LLMResult {
+        return LLMResult(llm_output: await api.call(text: text))
     }
     
     let api: ChatGLMAPIWrapper

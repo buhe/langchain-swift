@@ -10,16 +10,17 @@ import NIOPosix
 import AsyncHTTPClient
 import OpenAIKit
 
-public struct ChatOpenAI {
+public struct ChatOpenAI: LLM {
     let temperature: Double
     let model: ModelID
+    let httpClient: HTTPClient
     
-    public init(temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo) {
+    public init(httpClient: HTTPClient, temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo) {
+        self.httpClient = httpClient
         self.temperature = temperature
         self.model = model
     }
-    public func straem(text: String, httpClient: HTTPClient) async -> AsyncThrowingStream<ChatStream, Error>? {
-       
+    public func send(text: String, stops: [String] = []) async -> LLMResult {
         let env = loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
@@ -28,12 +29,11 @@ public struct ChatOpenAI {
             let configuration = Configuration(apiKey: apiKey, api: API(scheme: .https, host: baseUrl))
 
             let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
-          
             let buffer = try! await openAIClient.chats.stream(model: model, messages: [.user(content: text)], temperature: temperature)
-            return buffer
+            return LLMResult(generation: buffer)
         } else {
             print("Please set openai api key.")
-            return nil
+            return LLMResult()
         }
     }
 }
