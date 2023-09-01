@@ -35,8 +35,11 @@ CHATGLM_API_KEY=xxx
 - CHATGLM_API_KEY
 
 ## Get stated
-### 💬 Chatbots
+<details>
+<summary>💬 Chatbots</summary>
+    
 Code
+
 ```swift
 let template = """
 Assistant is a large language model trained by OpenAI.
@@ -84,7 +87,10 @@ ls ~
 Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos
 
 ```
-### ❓ QA bot
+</details>
+<details>
+<summary>❓ QA bot</summary>summary>
+    
 An [main/Sources/LangChain/vectorstores/supabase/supabase.sql](https://github.com/buhe/langchain-swift/blob/main/Sources/LangChain/vectorstores/supabase/supabase.sql) is required.
 
 ref: https://supabase.com/docs/guides/database/extensions/pgvector
@@ -115,8 +121,12 @@ Log
 Q:What did the president say about Ketanji Brown Jackson
 A:[LangChain.MatchedModel(content: Optional("In state after state, new laws have been passed, not only to suppress the vote, but to subvert entire elections. We cannot let this happen. Tonight. I call on the Senate to: Pass the Freedom to Vote Act. Pass the John Lewis Voting Rights Act. And while you’re at it, pass the Disclose Act so Americans can know who is funding our elections. Tonight, I’d like to honor someone who has dedicated his life to serve this country: Justice Stephen Breyer—an Army veteran, Constitutional scholar, and retiring Justice of the United States Supreme Court. Justice Breyer, thank you for your service. One of the most serious constitutional responsibilities a President has is nominating someone to serve on the United States Supreme Court. And I did that 4 days ago, when I nominated Circuit Court of Appeals Judge Ketanji Brown Jackson. One of our nation’s top legal minds, who will continue Justice Breyer’s legacy of excellence. "), similarity: 0.80242604)]
 ```
-### 🤖 Agent
+</details>
+<details>
+<summary>🤖 Agent</summary>
+    
 Code
+
 ```swift
 let agent = initialize_agent(llm: llm, tools: [WeatherTool()])
 let answer = await agent.run(args: "Query the weather of this week")
@@ -157,7 +167,11 @@ Thought:
 final answer.
  The weather for the specified location and days of the week is sunny.
 ```
-### 📡 Router
+</details>
+<details>
+    
+<summary>📡 Router</summary>
+    
 ```swift
  let physics_template = """
         You are a very smart physics professor. \
@@ -229,8 +243,10 @@ Black body radiation is characterized by its spectral distribution, which follow
 
 Black body radiation has been crucial in understanding various phenomena in physics, such as the ultraviolet catastrophe and the development of quantum mechanics. It also has practical applications in fields like astrophysics, where it helps determine the temperature and composition of celestial objects based on their emitted radiation.
 ```
-
-### ObjectOutputParser
+</details>
+<details>
+<summary>ObjectOutputParser</summary>
+    
 ```swift
     struct Unit: Codable {
         let num: Int
@@ -258,6 +274,8 @@ Black body radiation has been crucial in understanding various phenomena in phys
             }
         }
 ```
+</details>
+
 ## 🌐 Real world
 - https://github.com/buhe/AISummary
 - https://github.com/buhe/HtmlSummary
