@@ -78,7 +78,7 @@ Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos
 ```
 </details>
 <details>
-<summary>❓ QA bot</summary>summary>
+<summary>❓ QA bot</summary>
     
 An [main/Sources/LangChain/vectorstores/supabase/supabase.sql](https://github.com/buhe/langchain-swift/blob/main/Sources/LangChain/vectorstores/supabase/supabase.sql) is required.
 
