@@ -316,6 +316,7 @@ Black body radiation has been crucial in understanding various phenomena in phys
     - [x] PDFLoader
     - [x] BilibilLoader
     - [x] ImageOCRLoader
+    - [x] AudioLoader
 - OutputParser
     - [x] MRKLOutputParser
     - [x] ListOutputParser
