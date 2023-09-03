@@ -48,27 +48,27 @@ public struct AudioLoader: BaseLoader {
                 // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
                 try? httpClient.syncShutdown()
             }
-            do {
-                let data = try Data(contentsOf: audio)
-                let completion = try! await openAIClient.audio.transcribe(file: data, fileName: "\(fileName)", mimeType: .m4a)
-                let doc = Document(page_content: completion.text, metadata: ["fileName": "\(fileName)", "mimeType": "m4a"])
-                docs.append(doc)
-            } catch {
-                print("Unable to load data: \(error)")
-            }
-//            for index in 0...numOfSegments {
-//                if let url = try! await splitAudio(asset: asset, segment: index) {
-//                    do {
-//                        let data = try Data(contentsOf: url)
-//                        let completion = try! await openAIClient.audio.transcribe(file: data, fileName: "\(fileName)_\(index)", mimeType: .m4a)
-//                        let doc = Document(page_content: completion.text, metadata: ["fileName": "\(fileName)_\(index)", "mimeType": "m4a"])
-//                        docs.append(doc)
-//                    } catch {
-//                        print("Unable to load data: \(error)")
-//                    }
-//                   
-//                }
+//            do {
+//                let data = try Data(contentsOf: audio)
+//                let completion = try! await openAIClient.audio.transcribe(file: data, fileName: "\(fileName)", mimeType: .m4a)
+//                let doc = Document(page_content: completion.text, metadata: ["fileName": "\(fileName)", "mimeType": "m4a"])
+//                docs.append(doc)
+//            } catch {
+//                print("Unable to load data: \(error)")
 //            }
+            for index in 0...numOfSegments {
+                if let url = try! await splitAudio(asset: asset, segment: index) {
+                    do {
+                        let data = try Data(contentsOf: url)
+                        let completion = try! await openAIClient.audio.transcribe(file: data, fileName: "\(fileName)_\(index)", mimeType: .m4a)
+                        let doc = Document(page_content: completion.text, metadata: ["fileName": "\(fileName)_\(index)", "mimeType": "m4a"])
+                        docs.append(doc)
+                    } catch {
+                        print("Unable to load data: \(error)")
+                    }
+                   
+                }
+            }
             return docs
         } else {
             print("Please set openai api key.")
@@ -88,13 +88,13 @@ public struct AudioLoader: BaseLoader {
         // Set the time range for our export session
         exporter.timeRange = CMTimeRangeFromTimeToTime(start: startTime, end: endTime)
         // Set the output file path
-        exporter.outputURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(segment).m4a", isDirectory: false)
+        exporter.outputURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(segment)-\(UUID().uuidString).m4a", isDirectory: false)
         // Do the actual exporting
         return try await withCheckedThrowingContinuation { continuation in
             exporter.exportAsynchronously(completionHandler: {
                 switch exporter.status {
                     case AVAssetExportSession.Status.failed:
-                        print("Export failed.")
+                        print("Export failed. \(exporter.error!.localizedDescription)")
                         continuation.resume(returning: nil)
                     default:
                         print("Export complete.")
