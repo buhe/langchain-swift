@@ -16,7 +16,11 @@ public struct AudioLoader: BaseLoader {
     
     let audio: URL
     let fileName: String
-    let mimeType: MIMEType.Audio
+    
+    public init(audio: URL, fileName: String) {
+        self.audio = audio
+        self.fileName = fileName
+    }
     
     public func load() async -> [Document] {
         var docs: [Document] = []
@@ -44,14 +48,27 @@ public struct AudioLoader: BaseLoader {
                 // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
                 try? httpClient.syncShutdown()
             }
-            for index in 0...numOfSegments {
-                if let url = try! await splitAudio(asset: asset, segment: index) {
-                    // TODO - url to data
-                    let completion = try! await openAIClient.audio.transcribe(file: Data(), fileName: "\(fileName)_\(index)", mimeType: .m4a)
-                    let doc = Document(page_content: completion.text, metadata: ["fileName": "\(fileName)_\(index)", "mimeType": "m4a"])
-                    docs.append(doc)
-                }
+            do {
+                let data = try Data(contentsOf: audio)
+                let completion = try! await openAIClient.audio.transcribe(file: data, fileName: "\(fileName)", mimeType: .m4a)
+                let doc = Document(page_content: completion.text, metadata: ["fileName": "\(fileName)", "mimeType": "m4a"])
+                docs.append(doc)
+            } catch {
+                print("Unable to load data: \(error)")
             }
+//            for index in 0...numOfSegments {
+//                if let url = try! await splitAudio(asset: asset, segment: index) {
+//                    do {
+//                        let data = try Data(contentsOf: url)
+//                        let completion = try! await openAIClient.audio.transcribe(file: data, fileName: "\(fileName)_\(index)", mimeType: .m4a)
+//                        let doc = Document(page_content: completion.text, metadata: ["fileName": "\(fileName)_\(index)", "mimeType": "m4a"])
+//                        docs.append(doc)
+//                    } catch {
+//                        print("Unable to load data: \(error)")
+//                    }
+//                   
+//                }
+//            }
             return docs
         } else {
             print("Please set openai api key.")
@@ -66,13 +83,12 @@ public struct AudioLoader: BaseLoader {
         // Set the output file type to m4a
         exporter.outputFileType = AVFileType.m4a
         // Create our time range for exporting
-        let startTime = CMTimeMake(value: Int64(60 * segment), timescale: 1)
-        let endTime = CMTimeMake(value: Int64(60 * (segment+1)), timescale: 1)
+        let startTime = CMTimeMake(value: Int64(5 * segment), timescale: 1)
+        let endTime = CMTimeMake(value: Int64(5 * (segment+1)), timescale: 1)
         // Set the time range for our export session
         exporter.timeRange = CMTimeRangeFromTimeToTime(start: startTime, end: endTime)
         // Set the output file path
-        // TODO - test path
-        exporter.outputURL = URL(string: ".\(segment).m4a")
+        exporter.outputURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(segment).m4a", isDirectory: false)
         // Do the actual exporting
         return try await withCheckedThrowingContinuation { continuation in
             exporter.exportAsynchronously(completionHandler: {
