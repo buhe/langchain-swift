@@ -13,7 +13,7 @@ import OpenAIKit
 import AVFoundation
 
 public struct AudioLoader: BaseLoader {
-    
+    static let SEG_SIZE = 60
     let audio: URL
     let fileName: String
     
@@ -60,7 +60,7 @@ public struct AudioLoader: BaseLoader {
                 if let url = try! await splitAudio(asset: asset, segment: index) {
                     do {
                         let data = try Data(contentsOf: url)
-                        let completion = try! await openAIClient.audio.transcribe(file: data, fileName: "\(fileName)_\(index)", mimeType: .m4a)
+                        let completion = try! await openAIClient.audio.transcribe(file: data, fileName: "\(fileName)_\(index).m4a", mimeType: .m4a)
                         let doc = Document(page_content: completion.text, metadata: ["fileName": "\(fileName)_\(index)", "mimeType": "m4a"])
                         docs.append(doc)
                     } catch {
@@ -83,8 +83,8 @@ public struct AudioLoader: BaseLoader {
         // Set the output file type to m4a
         exporter.outputFileType = AVFileType.m4a
         // Create our time range for exporting
-        let startTime = CMTimeMake(value: Int64(5 * segment), timescale: 1)
-        let endTime = CMTimeMake(value: Int64(5 * (segment+1)), timescale: 1)
+        let startTime = CMTimeMake(value: Int64(AudioLoader.SEG_SIZE * segment), timescale: 1)
+        let endTime = CMTimeMake(value: Int64(AudioLoader.SEG_SIZE * (segment + 1)), timescale: 1)
         // Set the time range for our export session
         exporter.timeRange = CMTimeRangeFromTimeToTime(start: startTime, end: endTime)
         // Set the output file path
