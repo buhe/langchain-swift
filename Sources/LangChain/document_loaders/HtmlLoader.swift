@@ -25,7 +25,10 @@ public struct HtmlLoader: BaseLoader {
             } catch {
                 print("Get title error \(error)")
             }
-            let thumbnail = findImage(text: html)
+            if title.isEmpty {
+                //try get html -> header -> <meta property="twitter:title"
+            }
+            let thumbnail = findImage(text: html, doc: doc)
             let metadata: [String: String] = ["url": url, "title": title, "thumbnail": thumbnail]
             return [Document(page_content: text, metadata: metadata)]
         } catch Exception.Error( _, let message) {
@@ -37,7 +40,7 @@ public struct HtmlLoader: BaseLoader {
         }
     }
     
-    func findImage(text: String) -> String {
+    func findImage(text: String, doc: SwiftSoup.Document) -> String {
         let pattern = "(http|https)://[\\S]+?\\.(jpg|jpeg|png|gif)"
 
         do {
@@ -45,6 +48,8 @@ public struct HtmlLoader: BaseLoader {
             let regex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
             let matches = regex.matches(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count))
             if matches.isEmpty {
+                // try get html -> header -> <meta property="twitter:image"
+                
                 return ""
             } else {
                 return String(text[Range(matches.first!.range, in: text)!])
