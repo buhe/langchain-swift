@@ -983,6 +983,37 @@ May God bless you all. May God protect our troops.
         }
     }
     
+    func testHtmlLoaderForWX() async throws {
+        let url = "https://mp.weixin.qq.com/s/WPyNxKlaBuzFlJyYb2-Lpw"
+        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
+        defer {
+            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
+            try? httpClient.syncShutdown()
+        }
+        do {
+            var request = HTTPClientRequest(url: url)
+            request.headers.add(name: "User-Agent", value: "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/115.0.5790.130 Mobile/15E148 Safari/604.1")
+            request.method = .GET
+            
+            let response = try await httpClient.execute(request, timeout: .seconds(120))
+            print(response.headers)
+            if response.status == .ok {
+                let plain = String(buffer: try await response.body.collect(upTo: 10240 * 1024))
+                let loader = HtmlLoader(html: plain, url: url)
+                let doc = await loader.load()
+                print("thumbnail: \(doc.first!.metadata["thumbnail"]!)")
+                
+                XCTAssertFalse(doc.isEmpty)
+                XCTAssertNotEqual("", doc.first!.page_content)
+                XCTAssertNotEqual("", doc.first!.metadata["thumbnail"]!)
+                XCTAssertNotEqual("", doc.first!.metadata["title"]!)
+            }
+        } catch {
+            // handle error
+            print(error)
+        }
+    }
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)

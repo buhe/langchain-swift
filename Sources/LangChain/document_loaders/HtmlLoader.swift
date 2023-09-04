@@ -41,6 +41,8 @@ public struct HtmlLoader: BaseLoader {
     }
     
     func findImage(text: String, doc: SwiftSoup.Document) -> String {
+        // First, try get html -> header -> <meta property="twitter:image"
+        // Second, try string match.
         let pattern = "(http|https)://[\\S]+?\\.(jpg|jpeg|png|gif)"
 
         do {
@@ -48,7 +50,7 @@ public struct HtmlLoader: BaseLoader {
             let regex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
             let matches = regex.matches(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count))
             if matches.isEmpty {
-                // try get html -> header -> <meta property="twitter:image"
+                
                 
                 return ""
             } else {
