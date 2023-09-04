@@ -850,9 +850,12 @@ May God bless you all. May God protect our troops.
                 let loader = HtmlLoader(html: plain, url: url)
                 let doc = await loader.load()
                 print("thumbnail: \(doc.first!.metadata["thumbnail"]!)")
+                print("title: \(doc.first!.metadata["title"]!)")
                 
                 XCTAssertFalse(doc.isEmpty)
                 XCTAssertNotEqual("", doc.first!.page_content)
+                XCTAssertNotEqual("", doc.first!.metadata["thumbnail"]!)
+                XCTAssertNotEqual("", doc.first!.metadata["title"]!)
             }
         } catch {
             // handle error
@@ -1003,6 +1006,7 @@ May God bless you all. May God protect our troops.
                 let loader = HtmlLoader(html: plain, url: url)
                 let doc = await loader.load()
                 print("thumbnail: \(doc.first!.metadata["thumbnail"]!)")
+                print("title: \(doc.first!.metadata["title"]!)")
                 
                 XCTAssertFalse(doc.isEmpty)
                 XCTAssertNotEqual("", doc.first!.page_content)
