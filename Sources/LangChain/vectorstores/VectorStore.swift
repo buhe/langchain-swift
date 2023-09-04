@@ -16,3 +16,9 @@ public protocol VectorStore {
     
     func similaritySearch(query: String, k: Int) async -> [MatchedModel]
 }
+
+public protocol VectorStoreByUser {
+    func addText(text: String, user_id: String) async
+    
+    func similaritySearch(query: String, k: Int, user_id: String) async -> [MatchedModel]
+}
