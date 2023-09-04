@@ -9,7 +9,7 @@ create table documents_by_user (
 );
 
 -- Create a function to search for documents
-create function match_documents_by_user(query_embedding vector(1536), match_count int, user_id: text)
+create function match_documents_by_user(query_embedding vector(1536), match_count int, user_id text)
 returns table(id bigint, content text, similarity float)
 language plpgsql
 as $$
@@ -21,7 +21,7 @@ begin
     content,
     1 - (documents.embedding <=> query_embedding) as similarity
   from documents
-  where user_id == user_id
+  where user_id = user_id
   order by documents.embedding <=> query_embedding
   limit match_count;
 end;
