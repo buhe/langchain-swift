@@ -10,8 +10,20 @@ import Foundation
 import SwiftyJSON
 //import UIKit
 
+struct BaiduLLMRequest: Codable {
+    let temperature: Double
+    let messages: [ChatGLMMessage]
+}
+
+struct BaiduLLMResponse: Codable {
+    let usage: ChatGLMResponseDataUsage
+}
+
 public struct BaiduClient {
-    static func ocrImage(ak: String,sk: String, httpClient: HTTPClient, image: Data) async -> JSON? {
+    static func llmSync(ak: String, sk: String, httpClient: HTTPClient, text: String) async -> String {
+        ""
+    }
+    static func ocrImage(ak: String, sk: String, httpClient: HTTPClient, image: Data) async -> JSON? {
         if let accessToken = await getAccessToken(ak: ak, sk: sk, httpClient: httpClient) {
             let url = "https://aip.baidubce.com/rest/2.0/ocr/v1/webimage_loc?access_token=" + accessToken
             
