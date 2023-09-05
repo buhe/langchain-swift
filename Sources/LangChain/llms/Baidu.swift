@@ -6,3 +6,31 @@
 //
 
 import Foundation
+import NIOPosix
+import AsyncHTTPClient
+
+public struct Baidu: LLM {
+    let temperature: Double
+    
+    public init(temperature: Double = 0.8) {
+        self.temperature = temperature
+    }
+    
+    public func send(text: String, stops: [String]) async -> LLMResult {
+        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
+        defer {
+            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
+            try? httpClient.syncShutdown()
+        }
+        let env = loadEnv()
+        if let ak = env["BAIDU_LLM_AK"],
+           let sk = env["BAIDU_LLM_SK"]{
+            return LLMResult(llm_output: await BaiduClient.llmSync(ak: ak, sk: sk, httpClient: httpClient, text: text, temperature: temperature))
+        } else {
+            print("Please set baidu llm ak sk.")
+            return LLMResult(llm_output: "Please set baidu llm ak sk.")
+        }
+    }
+    
+}

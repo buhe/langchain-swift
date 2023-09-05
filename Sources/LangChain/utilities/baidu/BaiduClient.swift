@@ -25,7 +25,7 @@ struct BaiduLLMResponse: Codable {
 
 public struct BaiduClient {
     
-    static func llmSync(ak: String, sk: String, httpClient: HTTPClient, text: String, temperature: Double = 0.8) async -> String? {
+    static func llmSync(ak: String, sk: String, httpClient: HTTPClient, text: String, temperature: Double) async -> String? {
         if let accessToken = await getAccessToken(ak: ak, sk: sk, httpClient: httpClient) {
             let url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=" + accessToken
             
