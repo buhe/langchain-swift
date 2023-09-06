@@ -280,7 +280,7 @@ Black body radiation has been crucial in understanding various phenomena in phys
     - [x] Dalle
     - [x] ChatGLM
     - [x] ChatOpenAI
-    - [ ] Baidu
+    - [x] Baidu
     - [ ] Llama 2
 - Vectorstore
     - [x] Supabase
