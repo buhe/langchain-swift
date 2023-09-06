@@ -291,7 +291,7 @@ Black body radiation has been crucial in understanding various phenomena in phys
     - [x] Base
     - [x] LLM
     - [x] SimpleSequentialChain
-    - [ ] SequentialChain
+    - [x] SequentialChain
     - [ ] TransformChain
     - Router
         - [x] LLMRouterChain
