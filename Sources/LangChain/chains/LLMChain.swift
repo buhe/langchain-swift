@@ -13,12 +13,12 @@ public class LLMChain: DefaultChain {
     let parser: BaseOutputParser?
     let stop: [String]
     
-    public init(llm: LLM, prompt: PromptTemplate, parser: BaseOutputParser? = nil, stop: [String] = [], memory: BaseMemory? = nil) {
+    public init(llm: LLM, prompt: PromptTemplate, parser: BaseOutputParser? = nil, stop: [String] = [], memory: BaseMemory? = nil, outputKey: String? = nil) {
         self.llm = llm
         self.prompt = prompt
         self.parser = parser
         self.stop = stop
-        super.init(memory: memory)
+        super.init(memory: memory, outputKey: outputKey)
     }
     public override func call(args: String) async throws -> LLMResult {
         // ["\\nObservation: ", "\\n\\tObservation: "]
@@ -65,7 +65,7 @@ public class LLMChain: DefaultChain {
         }
     }
     
-    public func plan(input: String, agent_scratchpad: String) async -> Parsed{
+    public func plan(input: String, agent_scratchpad: String) async -> Parsed {
         return await apply(input_list: [input, agent_scratchpad])
     }
     
