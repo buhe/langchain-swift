@@ -8,10 +8,12 @@
 import Foundation
 
 public class DefaultChain: Chain {
-    public init(memory: BaseMemory? = nil) {
+    public init(memory: BaseMemory? = nil, outputKey: String? = nil) {
         self.memory = memory
+        self.outputKey = outputKey
     }
     let memory: BaseMemory?
+    let outputKey: String?
     public func call(args: String) async throws -> LLMResult {
         print("call base.")
         return LLMResult()

@@ -1018,6 +1018,53 @@ May God bless you all. May God protect our troops.
             print(error)
         }
     }
+    
+    func testSimpleSequentialChain() async throws {
+        class A: DefaultChain {
+            public override func call(args: String) async throws -> LLMResult {
+                return LLMResult(llm_output: args + "_A")
+            }
+        }
+        class B: DefaultChain {
+            public override func call(args: String) async throws -> LLMResult {
+                return LLMResult(llm_output: args + "_B")
+            }
+        }
+        let simpleSequentialChain = SimpleSequentialChain(chains: [A(), B()])
+        
+        let llmResult = try await simpleSequentialChain.call(args: "0")
+        
+        print("llm: \(llmResult.llm_output!)")
+        
+        XCTAssertEqual("0_A_B", llmResult.llm_output!)
+    }
+    
+    func testSequentialChain() async throws {
+        class A: DefaultChain {
+            public override init(memory: BaseMemory? = nil, outputKey: String? = nil) {
+                super.init(memory: memory, outputKey: outputKey)
+            }
+            public override func call(args: String) async throws -> LLMResult {
+                return LLMResult(llm_output: args + "_A")
+            }
+        }
+        class B: DefaultChain {
+            public override init(memory: BaseMemory? = nil, outputKey: String? = nil) {
+                super.init(memory: memory, outputKey: outputKey)
+            }
+            
+            public override func call(args: String) async throws -> LLMResult {
+                return LLMResult(llm_output: args + "_B")
+            }
+        }
+        let sequentialChain = SequentialChain(chains: [A(outputKey: "_A_"), B(outputKey: "_B_")])
+        
+        let result = try await sequentialChain.predict(args: "0")
+        
+        print("llm: \(result)")
+        XCTAssertEqual("0_A", result["_A_"]!)
+        XCTAssertEqual("0_A_B", result["_B_"]!)
+    }
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
