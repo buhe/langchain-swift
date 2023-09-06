@@ -1065,6 +1065,17 @@ May God bless you all. May God protect our troops.
         XCTAssertEqual("0_A", result["_A_"]!)
         XCTAssertEqual("0_A_B", result["_B_"]!)
     }
+    
+    func testTransformChain() async throws {
+        let tc = TransformChain{
+            args in
+            return LLMResult(llm_output: args + "_T")
+        }
+        
+        let result = try await tc.call(args: "HO")
+        print("llm: \(result.llm_output!)")
+        XCTAssertEqual("HO_T", result.llm_output!)
+    }
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
