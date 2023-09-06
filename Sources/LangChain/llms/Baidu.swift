@@ -8,7 +8,8 @@
 import Foundation
 import NIOPosix
 import AsyncHTTPClient
-
+// Create ai app on https://console.bce.baidu.com/qianfan/ais/console/applicationConsole/application
+// And get app ak sk
 public struct Baidu: LLM {
     let temperature: Double
     
@@ -16,7 +17,7 @@ public struct Baidu: LLM {
         self.temperature = temperature
     }
     
-    public func send(text: String, stops: [String]) async -> LLMResult {
+    public func send(text: String, stops: [String] = []) async -> LLMResult {
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         defer {
