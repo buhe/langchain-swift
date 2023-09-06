@@ -19,9 +19,9 @@ public struct LLMResult {
     
     public var llm_output: String?
     
-    var stream: Bool
+    public var stream: Bool
     
-    mutating func setOutput() async throws {
+    public mutating func setOutput() async throws {
         if llm_output == nil {
             llm_output = ""
             for try await c in generation! {

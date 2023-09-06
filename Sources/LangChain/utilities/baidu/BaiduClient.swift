@@ -10,8 +10,52 @@ import Foundation
 import SwiftyJSON
 //import UIKit
 
+struct BaiduLLMRequest: Codable {
+    let temperature: Double
+    let messages: [ChatGLMMessage]
+}
+
+struct BaiduLLMResponse: Codable {
+    let usage: ChatGLMResponseDataUsage
+    let result: String
+    let object: String
+    let created: Int
+    let need_clear_history: Bool
+}
+
 public struct BaiduClient {
-    static func ocrImage(ak: String,sk: String, httpClient: HTTPClient, image: Data) async -> JSON? {
+    
+    static func llmSync(ak: String, sk: String, httpClient: HTTPClient, text: String, temperature: Double) async -> String? {
+        if let accessToken = await getAccessToken(ak: ak, sk: sk, httpClient: httpClient) {
+            let url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=" + accessToken
+            
+            do {
+                var request = HTTPClientRequest(url: url)
+                request.method = .POST
+                request.headers.add(name: "Content-Type", value: "application/json")
+                request.headers.add(name: "Accept", value: "application/json")
+                let requestBody = try! JSONEncoder().encode(BaiduLLMRequest(temperature: temperature, messages: [ChatGLMMessage(role: "user", content: text)]))
+                request.body = .bytes(requestBody)
+                let response = try await httpClient.execute(request, timeout: .seconds(30))
+                if response.status == .ok {
+                    let str = String(buffer: try await response.body.collect(upTo: 1024 * 1024))
+                    let data = str.data(using: .utf8)!
+                    let llmResponse = try! JSONDecoder().decode(BaiduLLMResponse.self, from: data)
+                    return llmResponse.result
+                } else {
+                    // handle remote error
+                    print("http code is not 200.")
+                    return nil
+                }
+            } catch {
+                // handle error
+                print(error)
+                return nil
+            }
+        }
+        return nil
+    }
+    static func ocrImage(ak: String, sk: String, httpClient: HTTPClient, image: Data) async -> JSON? {
         if let accessToken = await getAccessToken(ak: ak, sk: sk, httpClient: httpClient) {
             let url = "https://aip.baidubce.com/rest/2.0/ocr/v1/webimage_loc?access_token=" + accessToken
             

@@ -11,8 +11,8 @@ import AsyncHTTPClient
 import NIOPosix
 /*
  Enroll baidu cloud, and access https://console.bce.baidu.com/iam/#/iam/accesslist Get
- BAIDU_AK=xxx
- BAIDU_SK=xxx
+ BAIDU_OCR_AK=xxx
+ BAIDU_OCR_SK=xxx
  */
 public struct ImageOCRLoader: BaseLoader {
     let image: Data
@@ -30,12 +30,16 @@ public struct ImageOCRLoader: BaseLoader {
         }
         var text = ""
         let env = loadEnv()
-        if let ak = env["BAIDU_AK"],
-           let sk = env["BAIDU_SK"]{
+        if let ak = env["BAIDU_OCR_AK"],
+           let sk = env["BAIDU_OCR_SK"]{
             let ocr = await BaiduClient.ocrImage(ak: ak, sk: sk, httpClient: httpClient, image: image)
-            let words = ocr!["words_result"].arrayValue.map{$0["words"].stringValue}
-            text = words.joined(separator: " ")
-            return [Document(page_content: text, metadata: [:])]
+            if ocr!["error_msg"].string != nil {
+                return [Document(page_content: ocr!["error_msg"].stringValue, metadata: [:])]
+            } else {
+                let words = ocr!["words_result"].arrayValue.map{$0["words"].stringValue}
+                text = words.joined(separator: " ")
+                return [Document(page_content: text, metadata: [:])]
+            }
         } else {
             return []
         }

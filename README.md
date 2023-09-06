@@ -18,8 +18,10 @@ SUPABASE_URL=xxx
 SUPABASE_KEY=xxx
 SERPER_API_KEY=xxx
 HF_API_KEY=xxx
-BAIDU_AK=xxx
-BAIDU_SK=xxx
+BAIDU_OCR_AK=xxx
+BAIDU_OCR_SK=xxx
+BAIDU_LLM_AK=xxx
+BAIDU_LLM_SK=xxx
 CHATGLM_API_KEY=xxx
 ```
 
@@ -298,7 +300,6 @@ Black body radiation has been crucial in understanding various phenomena in phys
     - [x] InvalidTool
     - [x] Serper
     - [ ] Zapier
-    - [ ] SteamshipImageGenerationTool
     - [x] JavascriptREPLTool
 - Agent
     - [x] ZeroShotAgent
