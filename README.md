@@ -284,6 +284,7 @@ Black body radiation has been crucial in understanding various phenomena in phys
     - [ ] Llama 2
 - Vectorstore
     - [x] Supabase
+    - [x] Supabase by user
 - Embedding
     - [x] OpenAI
 - Chain
