@@ -11,7 +11,13 @@ public struct Env {
     public static func initSet(_ env: [String: String]) {
         Env.env = env
     }
-    
+    private static func mergeFromVar(file: [String: String]) -> [String: String] {
+        var result = file
+        for (k, v) in Env.env {
+            result.updateValue(v, forKey: k)
+        }
+        return result
+    }
     static func loadEnv() -> [String: String] {
         if let envPath = Bundle.main.path(forResource: "env", ofType: "txt") {
             var env: [String: String] = [:]
@@ -34,7 +40,7 @@ public struct Env {
             } catch {
                 print("Unable to load .env file: \(error)")
             }
-            
+            env = mergeFromVar(file: env)
             return env
         } else {
             return Env.env
