@@ -15,8 +15,9 @@ public struct Route {
 public class LLMRouterChain: DefaultChain {
     let llmChain: LLMChain
     
-    public init(llmChain: LLMChain) {
+    public init(llmChain: LLMChain, memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
         self.llmChain = llmChain
+        super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
     }
     
     public func route(args: [String: String]) async -> Route {

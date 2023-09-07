@@ -9,9 +9,10 @@ import Foundation
 public class AgentExecutor: DefaultChain {
     let agent: Agent
     let tools: [BaseTool]
-    public init(agent: Agent, tools: [BaseTool]) {
+    public init(agent: Agent, tools: [BaseTool], memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
         self.agent = agent
         self.tools = tools
+        super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
     }
     
 //    def _take_next_step(
