@@ -30,6 +30,16 @@ public class DefaultChain: Chain {
             }
         }
     }
+    
+    func callStart(prompt: String) {
+        for callback in self.callbacks {
+            do {
+                try callback.on_chain_start(prompts: prompt)
+            } catch {
+                print("call chain end callback errer: \(error)")
+            }
+        }
+    }
     // This interface alreadly return 'LLMReult', ensure 'run' method has stream style.
     public func run(args: String) async -> LLMResult {
         do {

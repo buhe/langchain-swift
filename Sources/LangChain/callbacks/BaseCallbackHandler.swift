@@ -6,15 +6,15 @@
 //
 
 import Foundation
-public class BaseCallbackHandler: LLMManagerMixin, ChainManagerMixin {
+public class BaseCallbackHandler: LLMManagerMixin, ChainManagerMixin, CallbackManagerMixin {
   
     
     // Chain callback
-    public func on_chain_end() throws{
+    public func on_chain_end() throws {
         
     }
     
-    public func on_chain_start() {
+    public func on_chain_start(prompts: String) throws {
         
     }
     
@@ -39,5 +39,9 @@ public protocol LLMManagerMixin {
 public protocol ChainManagerMixin {
     func on_chain_end() throws
     
-    func on_chain_start()
+    
+}
+
+public protocol CallbackManagerMixin {
+    func on_chain_start(prompts: String) throws
 }
