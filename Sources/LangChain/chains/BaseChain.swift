@@ -21,10 +21,10 @@ public class DefaultChain: Chain {
         return LLMResult()
     }
     
-    func callEnd() {
+    func callEnd(output: String) {
         for callback in self.callbacks {
             do {
-                try callback.on_chain_end()
+                try callback.on_chain_end(output: output)
             } catch {
                 print("call chain end callback errer: \(error)")
             }
