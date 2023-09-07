@@ -21,7 +21,7 @@ public struct ChatOpenAI: LLM {
         self.model = model
     }
     public func send(text: String, stops: [String] = []) async -> LLMResult {
-        let env = loadEnv()
+        let env = Env.loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
             let baseUrl = env["OPENAI_API_BASE"] ?? "api.openai.com"
