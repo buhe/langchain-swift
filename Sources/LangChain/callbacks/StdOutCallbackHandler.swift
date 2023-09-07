@@ -22,4 +22,12 @@ public class StdOutCallbackHandler: BaseCallbackHandler {
 //        
 //    }
     
+    public override func on_tool_start(tool: BaseTool, input: String) throws {
+        print("💁🏻‍♂️", "[DEBUG] Entering Tool of \(tool.name()) \(tool.description()) with '\(input)'..")
+    }
+    
+    public override func on_tool_end(tool: BaseTool, output: String) throws {
+        print("💁🏻‍♂️", "[DEBUG] Finished Tool of \(tool.name()) \(tool.description()), output is \(output).")
+    }
+    
 }

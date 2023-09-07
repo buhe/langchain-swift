@@ -18,7 +18,12 @@ import Foundation
 //        raise NotImplementedError("BingSearchRun does not support async")
 
 public struct WeatherTool: BaseTool {
-    public init() {}
+    let helper: ToolHelper
+    let callbacks: [BaseCallbackHandler]
+    public init(callbacks: [BaseCallbackHandler] = []) {
+        self.callbacks = callbacks
+        self.helper = ToolHelper(callbacks: callbacks)
+    }
     public func name() -> String {
         "Weather"
     }
@@ -28,7 +33,10 @@ public struct WeatherTool: BaseTool {
     }
     
     public func _run(args: String) throws -> String {
-        "Sunny^_^"
+        helper.callStart(tool: self, input: args)
+        let result = "Sunny^_^"
+        helper.callEnd(tool: self, output: result)
+        return result
     }
     
     

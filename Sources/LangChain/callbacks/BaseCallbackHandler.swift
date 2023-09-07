@@ -7,13 +7,17 @@
 
 import Foundation
 public class BaseCallbackHandler: LLMManagerMixin, ChainManagerMixin, CallbackManagerMixin, ToolManagerMixin {
-    
-    // Chain callback
-    public func on_chain_end(output: String) throws {
+    // Manage callback
+    public func on_chain_start(prompts: String) throws {
         
     }
     
-    public func on_chain_start(prompts: String) throws {
+    public func on_tool_start(tool: BaseTool, input: String) throws {
+        
+    }
+    
+    // Chain callback
+    public func on_chain_end(output: String) throws {
         
     }
     
@@ -40,7 +44,7 @@ public class BaseCallbackHandler: LLMManagerMixin, ChainManagerMixin, CallbackMa
     }
     
     // Tool callback
-    public func on_tool_end(output: String) throws {
+    public func on_tool_end(tool: BaseTool, output: String) throws {
         
     }
     
@@ -67,10 +71,12 @@ public protocol ChainManagerMixin {
 
 public protocol CallbackManagerMixin {
     func on_chain_start(prompts: String) throws
+    
+    func on_tool_start(tool: BaseTool, input: String) throws
 }
 
 public protocol ToolManagerMixin {
-    func on_tool_end(output: String) throws
+    func on_tool_end(tool: BaseTool, output: String) throws
     
     func on_tool_error(error: Error) throws
 }
