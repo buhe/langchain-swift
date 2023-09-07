@@ -30,4 +30,12 @@ public class StdOutCallbackHandler: BaseCallbackHandler {
         print("💁🏻‍♂️", "[DEBUG] Finished Tool of \(tool.name()) ,desc: \(tool.description()), output is '\(output)'.")
     }
     
+    public override func on_agent_action(action: AgentAction) throws {
+        print("💁🏻‍♂️", "[DEBUG] Agent step is \(action.action), log: '\(action.log)'.")
+    }
+    
+    public override func on_agent_finish(action: AgentFinish) throws {
+        print("💁🏻‍♂️", "[DEBUG] Agent finish: \(action.final)")
+    }
+    
 }

@@ -113,14 +113,14 @@ public class AgentExecutor: DefaultChain {
         case .action(let action):
             let tool = tools.filter{$0.name() == action.action}.first!
             do {
-                print("try call \(tool.name()) tool.")
+//                print("try call \(tool.name()) tool.")
                 var observation = try await tool.run(args: action.input)
                 if observation.count > 1000 {
                     observation = String(observation.prefix(1000))
                 }
                 return (step, observation)
             } catch {
-                print("\(error) at run \(tool.name()) tool.")
+//                print("\(error) at run \(tool.name()) tool.")
                 let observation = try! await InvalidTool(tool_name: tool.name()).run(args: action.input)
                 return (step, observation)
             }
@@ -146,21 +146,27 @@ public class AgentExecutor: DefaultChain {
             let next_step_output = await self.take_next_step(input: args, intermediate_steps: intermediate_steps)
             
             switch next_step_output.0 {
-            case .finish:
-                print("final answer.")
+            case .finish(let finish):
+//                print("final answer.")
+                for callback in self.callbacks {
+                    try callback.on_agent_finish(action: finish)
+                }
                 return LLMResult(llm_output: next_step_output.1)
             case .action(let action):
+                for callback in self.callbacks {
+                    try callback.on_agent_action(action: action)
+                }
                 intermediate_steps.append((action, next_step_output.1))
             default:
-                print("error step.")
+//                print("error step.")
                 return LLMResult()
             }
         }
     }
 }
 
-public func initialize_agent(llm: LLM, tools: [BaseTool]) -> AgentExecutor {
-    return AgentExecutor(agent: ZeroShotAgent(llm_chain: LLMChain(llm: llm, prompt: ZeroShotAgent.create_prompt(tools: tools), parser: ZeroShotAgent.output_parser, stop: ["\nObservation: ", "\n\tObservation: "])), tools: tools)
+public func initialize_agent(llm: LLM, tools: [BaseTool], callbacks: [BaseCallbackHandler] = []) -> AgentExecutor {
+    return AgentExecutor(agent: ZeroShotAgent(llm_chain: LLMChain(llm: llm, prompt: ZeroShotAgent.create_prompt(tools: tools), parser: ZeroShotAgent.output_parser, stop: ["\nObservation: ", "\n\tObservation: "])), tools: tools, callbacks: callbacks)
 }
 
 public class Agent {
