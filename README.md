@@ -330,7 +330,7 @@ Black body radiation has been crucial in understanding various phenomena in phys
     - [x] PromptTemplate
     - [x] MultiPromptRouter
 - Callback
-    - [ ] StdOutCallbackHandler 
+    - [x] StdOutCallbackHandler 
 
 ## 👍 Got Ideas?
 Open an issue, and let's discuss!
