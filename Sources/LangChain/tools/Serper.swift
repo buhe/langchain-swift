@@ -10,9 +10,10 @@ public class Serper: BaseTool{
     let client = GoogleSerperAPIWrapper()
     let gl: String
     let hl: String
-    public init(gl: String = "us", hl: String = "en") {
+    public init(gl: String = "us", hl: String = "en", callbacks: [BaseCallbackHandler] = []) {
         self.gl = gl
         self.hl = hl
+        super.init(callbacks: callbacks)
     }
     public override func name() -> String {
         "Google Serper Results JSON"
