@@ -11,7 +11,9 @@ import JavaScriptCore
 
 public class JavascriptREPLTool: BaseTool {
     var context: JSContext = JSContext()
-
+    public override init(callbacks: [BaseCallbackHandler] = []) {
+        super.init(callbacks: callbacks)
+    }
     public override func name() -> String {
         "javascript_REPL"
     }

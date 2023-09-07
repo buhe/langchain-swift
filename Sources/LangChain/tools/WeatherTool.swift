@@ -19,6 +19,9 @@ import Foundation
 
 public class WeatherTool: BaseTool {
 
+    public override init(callbacks: [BaseCallbackHandler] = []) {
+        super.init(callbacks: callbacks)
+    }
     public override func name() -> String {
         "Weather"
     }

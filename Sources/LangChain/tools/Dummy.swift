@@ -8,6 +8,9 @@
 import Foundation
 
 public class Dummy: BaseTool {
+    public override init(callbacks: [BaseCallbackHandler] = []) {
+        super.init(callbacks: callbacks)
+    }
     public override func name() -> String {
         "dummy"
     }
