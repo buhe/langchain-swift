@@ -22,7 +22,9 @@ public class LLMChain: DefaultChain {
     }
     public override func call(args: String) async throws -> LLMResult {
         // ["\\nObservation: ", "\\n\\tObservation: "]
-        return await self.llm.send(text: args, stops:  stop)
+        let llmResult = await self.llm.send(text: args, stops:  stop)
+        callEnd()
+        return llmResult
     }
     
     func generate(input_list: [String]) async -> String {

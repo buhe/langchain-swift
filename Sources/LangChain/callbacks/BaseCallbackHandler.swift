@@ -10,7 +10,7 @@ public class BaseCallbackHandler: LLMManagerMixin, ChainManagerMixin {
   
     
     // Chain callback
-    public func on_chain_end() {
+    public func on_chain_end() throws{
         
     }
     
@@ -37,7 +37,7 @@ public protocol LLMManagerMixin {
 }
 
 public protocol ChainManagerMixin {
-    func on_chain_end()
+    func on_chain_end() throws
     
     func on_chain_start()
 }
