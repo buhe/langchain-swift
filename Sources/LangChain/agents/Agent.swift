@@ -114,14 +114,14 @@ public class AgentExecutor: DefaultChain {
             let tool = tools.filter{$0.name() == action.action}.first!
             do {
                 print("try call \(tool.name()) tool.")
-                var observation = try await tool._run(args: action.input)
+                var observation = try await tool.run(args: action.input)
                 if observation.count > 1000 {
                     observation = String(observation.prefix(1000))
                 }
                 return (step, observation)
             } catch {
                 print("\(error) at run \(tool.name()) tool.")
-                let observation = InvalidTool(tool_name: tool.name())._run(args: action.input)
+                let observation = try! await InvalidTool(tool_name: tool.name()).run(args: action.input)
                 return (step, observation)
             }
         default:

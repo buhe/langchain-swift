@@ -17,25 +17,18 @@ import Foundation
 //        """Use the tool asynchronously."""
 //        raise NotImplementedError("BingSearchRun does not support async")
 
-public struct WeatherTool: BaseTool {
-    let helper: ToolHelper
-    let callbacks: [BaseCallbackHandler]
-    public init(callbacks: [BaseCallbackHandler] = []) {
-        self.callbacks = callbacks
-        self.helper = ToolHelper(callbacks: callbacks)
-    }
-    public func name() -> String {
+public class WeatherTool: BaseTool {
+
+    public override func name() -> String {
         "Weather"
     }
     
-    public func description() -> String {
+    public override func description() -> String {
         "useful for When you want to know about the weather"
     }
     
-    public func _run(args: String) throws -> String {
-        helper.callStart(tool: self, input: args)
+    public override func _run(args: String) async throws -> String {
         let result = "Sunny^_^"
-        helper.callEnd(tool: self, output: result)
         return result
     }
     

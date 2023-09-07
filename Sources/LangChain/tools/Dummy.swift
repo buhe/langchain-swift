@@ -7,16 +7,16 @@
 
 import Foundation
 
-public struct Dummy: BaseTool {
-    public func name() -> String {
+public class Dummy: BaseTool {
+    public override func name() -> String {
         "dummy"
     }
     
-    public func description() -> String {
+    public override func description() -> String {
         "Useful for test."
     }
     
-    public func _run(args: String) throws -> String {
+    public override func _run(args: String) async throws -> String {
         "Dummy test"
     }
     
