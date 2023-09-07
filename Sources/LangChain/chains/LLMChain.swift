@@ -13,16 +13,23 @@ public class LLMChain: DefaultChain {
     let parser: BaseOutputParser?
     let stop: [String]
     
-    public init(llm: LLM, prompt: PromptTemplate, parser: BaseOutputParser? = nil, stop: [String] = [], memory: BaseMemory? = nil, outputKey: String? = nil) {
+    public init(llm: LLM, prompt: PromptTemplate, parser: BaseOutputParser? = nil, stop: [String] = [], memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
         self.llm = llm
         self.prompt = prompt
         self.parser = parser
         self.stop = stop
-        super.init(memory: memory, outputKey: outputKey)
+        super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
     }
     public override func call(args: String) async throws -> LLMResult {
         // ["\\nObservation: ", "\\n\\tObservation: "]
-        return await self.llm.send(text: args, stops:  stop)
+        callStart(prompt: args)
+        let llmResult = await self.llm.send(text: args, stops:  stop)
+        if llmResult.llm_output != nil {
+            callEnd(output: llmResult.llm_output!)
+        } else {
+            callEnd(output: "LLM is streamable.")
+        }
+        return llmResult
     }
     
     func generate(input_list: [String]) async -> String {

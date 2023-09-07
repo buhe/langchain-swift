@@ -1041,18 +1041,11 @@ May God bless you all. May God protect our troops.
     
     func testSequentialChain() async throws {
         class A: DefaultChain {
-            public override init(memory: BaseMemory? = nil, outputKey: String? = nil) {
-                super.init(memory: memory, outputKey: outputKey)
-            }
             public override func call(args: String) async throws -> LLMResult {
                 return LLMResult(llm_output: args + "_A")
             }
         }
         class B: DefaultChain {
-            public override init(memory: BaseMemory? = nil, outputKey: String? = nil) {
-                super.init(memory: memory, outputKey: outputKey)
-            }
-            
             public override func call(args: String) async throws -> LLMResult {
                 return LLMResult(llm_output: args + "_B")
             }

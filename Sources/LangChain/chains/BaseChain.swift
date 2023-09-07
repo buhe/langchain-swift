@@ -8,15 +8,37 @@
 import Foundation
 
 public class DefaultChain: Chain {
-    public init(memory: BaseMemory? = nil, outputKey: String? = nil) {
+    public init(memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
         self.memory = memory
         self.outputKey = outputKey
+        self.callbacks = callbacks
     }
     let memory: BaseMemory?
     let outputKey: String?
+    let callbacks: [BaseCallbackHandler]
     public func call(args: String) async throws -> LLMResult {
         print("call base.")
         return LLMResult()
+    }
+    
+    func callEnd(output: String) {
+        for callback in self.callbacks {
+            do {
+                try callback.on_chain_end(output: output)
+            } catch {
+                print("call chain end callback errer: \(error)")
+            }
+        }
+    }
+    
+    func callStart(prompt: String) {
+        for callback in self.callbacks {
+            do {
+                try callback.on_chain_start(prompts: prompt)
+            } catch {
+                print("call chain end callback errer: \(error)")
+            }
+        }
     }
     // This interface alreadly return 'LLMReult', ensure 'run' method has stream style.
     public func run(args: String) async -> LLMResult {

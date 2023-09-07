@@ -13,15 +13,16 @@ public class MultiRouteChain: DefaultChain {
 
     let default_chain: DefaultChain
     
-    public init(router_chain: LLMRouterChain, destination_chains: [String : DefaultChain], default_chain: DefaultChain) {
+    public init(router_chain: LLMRouterChain, destination_chains: [String : DefaultChain], default_chain: DefaultChain, memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
         self.router_chain = router_chain
         self.destination_chains = destination_chains
         self.default_chain = default_chain
+        super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
     }
     
     // call route
     public override func call(args: String) async throws -> LLMResult {
-        print("call route.")
+//        print("call route.")
 //        _run_manager = run_manager or CallbackManagerForChainRun.get_noop_manager()
 //                callbacks = _run_manager.get_child()
 //                route = self.router_chain.route(inputs, callbacks=callbacks)

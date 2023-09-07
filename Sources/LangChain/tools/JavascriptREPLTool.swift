@@ -9,16 +9,16 @@ import Foundation
 import JavaScriptCore
 
 
-public struct JavascriptREPLTool: BaseTool {
+public class JavascriptREPLTool: BaseTool {
     var context: JSContext = JSContext()
-    public init() {
-        
+    public override init(callbacks: [BaseCallbackHandler] = []) {
+        super.init(callbacks: callbacks)
     }
-    public func name() -> String {
+    public override func name() -> String {
         "javascript_REPL"
     }
     
-    public func description() -> String {
+    public override func description() -> String {
         """
         A javascript shell. Use this to execute javascript commands.
         Input should be a valid javascript command.
@@ -27,7 +27,7 @@ public struct JavascriptREPLTool: BaseTool {
 """
     }
     
-    public func _run(args: String) async throws -> String {
+    public override func _run(args: String) async throws -> String {
         let jsResult = context.evaluateScript(args)
         if jsResult != nil {
             return (jsResult?.toString())!

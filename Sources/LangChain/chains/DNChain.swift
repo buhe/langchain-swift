@@ -7,8 +7,8 @@
 
 import Foundation
 public class DNChain: DefaultChain {
-    public init() {
-        
+    public override init(memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
+        super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
     }
     public override func call(args: String) async throws -> LLMResult {
         print("Do nothing.")

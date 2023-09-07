@@ -69,7 +69,7 @@ public struct ObjectOutputParser<T: Codable>: BaseOutputParser {
         printStruct(structObject: demo)
 //        print("}")
         schema += "}"
-        print("schema: \(schema)")
+//        print("schema: \(schema)")
         let i = String(format: PYDANTIC_FORMAT_INSTRUCTIONS, schema)
         //reset
         schema = ""
