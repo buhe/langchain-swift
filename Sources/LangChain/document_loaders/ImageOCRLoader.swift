@@ -29,7 +29,7 @@ public struct ImageOCRLoader: BaseLoader {
             try? httpClient.syncShutdown()
         }
         var text = ""
-        let env = loadEnv()
+        let env = Env.loadEnv()
         if let ak = env["BAIDU_OCR_AK"],
            let sk = env["BAIDU_OCR_SK"]{
             let ocr = await BaiduClient.ocrImage(ak: ak, sk: sk, httpClient: httpClient, image: image)

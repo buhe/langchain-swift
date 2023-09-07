@@ -21,7 +21,7 @@ public struct Dalle: LLM {
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
        
-        let env = loadEnv()
+        let env = Env.loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
             let baseUrl = env["OPENAI_API_BASE"] ?? "api.openai.com"

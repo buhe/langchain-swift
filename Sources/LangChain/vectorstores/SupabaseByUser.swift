@@ -24,7 +24,7 @@ public struct SupabaseByUser: VectorStoreByUser {
     let embeddings: Embeddings
     public init(embeddings: Embeddings) {
         self.embeddings = embeddings
-        let env = loadEnv()
+        let env = Env.loadEnv()
         client = SupabaseClient(supabaseURL: URL(string: env["SUPABASE_URL"]!)!, supabaseKey: env["SUPABASE_KEY"]!)
     }
     
