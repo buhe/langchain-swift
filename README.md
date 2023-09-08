@@ -348,6 +348,7 @@ Black body radiation has been crucial in understanding various phenomena in phys
     - [x] StrOutputParser
     - [x] RouterOutputParser
     - [x] ObjectOutputParser
+    - [x] EnumOutputParser
 - Prompt
     - [x] PromptTemplate
     - [x] MultiPromptRouter
