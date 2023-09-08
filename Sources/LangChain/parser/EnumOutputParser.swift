@@ -26,7 +26,7 @@ public struct EnumOutputParser<T> : BaseOutputParser where T: RawRepresentable ,
         for value in T.allCases {
             all.append(value.rawValue)
         }
-        return String(format: "Select one of the following options: {%@}", all.joined(separator: ", "))
+        return String(format: "Select one of the following options: {%@}, The output is simply the value %@", all.joined(separator: ", "), all.joined(separator: " or "))
     }
     
 }
