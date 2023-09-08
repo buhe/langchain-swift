@@ -18,7 +18,7 @@ public struct Llama2: LLM {
     let temperature: Double
     let model: ModelID
     
-    public init(temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo) {
+    public init(temperature: Double = 0.0, model: ModelID = Model.LLAMA2.llama13bchat) {
         self.temperature = temperature
         self.model = model
     }
@@ -32,7 +32,7 @@ public struct Llama2: LLM {
         
         if let apiKey = env["LLAMA2_API_KEY"] {
 
-            let configuration = Configuration(apiKey: apiKey, api: API(scheme: .https, host: "https://api.llama-api.com"))
+            let configuration = Configuration(apiKey: apiKey, api: API(scheme: .https, host: "api.llama-api.com"))
 
             let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
             defer {
@@ -50,3 +50,10 @@ public struct Llama2: LLM {
     
     
 }
+
+extension Model {
+    public enum LLAMA2: String, ModelID {
+        case llama13bchat = "llama-13b-chat"
+    }
+}
+
