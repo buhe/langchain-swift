@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct EnumOutputParser<T> : BaseOutputParser where T: RawRepresentable, T.RawValue == String  {
+public struct EnumOutputParser<T> : BaseOutputParser where T: RawRepresentable ,T: CaseIterable, T.RawValue == String  {
     public init(enumType: T.Type) {
         self.enumType = enumType
     }
@@ -21,5 +21,12 @@ public struct EnumOutputParser<T> : BaseOutputParser where T: RawRepresentable, 
         }
     }
     
+    public func get_format_instructions() -> String {
+        var all: [String] = []
+        for value in T.allCases {
+            all.append(value.rawValue)
+        }
+        return String(format: "Select one of the following options: {%@}", all.joined(separator: ", "))
+    }
     
 }
