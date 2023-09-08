@@ -21,8 +21,11 @@ struct HFInferenceApi {
     func inference(text: String) async -> JSON {
         let env = Env.loadEnv()
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
-
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
+        defer {
+            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
+            try? httpClient.syncShutdown()
+        }
         do {
             var request = HTTPClientRequest(url: "https://api-inference.huggingface.co/pipeline/\(task)/\(repo)")
             request.method = .POST
@@ -30,10 +33,6 @@ struct HFInferenceApi {
             request.headers.add(name: "Content-Type", value: "application/json")
             let requestBody = try! JSONEncoder().encode(InferenceRequest(inputs: text))
             request.body = .bytes(requestBody)
-            defer {
-                // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
-                try? httpClient.syncShutdown()
-            }
             let response = try await httpClient.execute(request, timeout: .seconds(30))
             if response.status == .ok {
                 let str = String(buffer: try await response.body.collect(upTo: 1024 * 1024))

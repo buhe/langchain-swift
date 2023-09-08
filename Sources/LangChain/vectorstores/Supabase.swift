@@ -28,11 +28,11 @@ public struct Supabase: VectorStore {
     
     public func similaritySearch(query: String, k: Int) async -> [MatchedModel] {
         let params = SearchVectorParams(query_embedding: await embeddings.embedQuery(text: query), match_count: k)
-        let query = client.database.rpc(fn: "match_documents", params: params)
+        let rpcQuery = client.database.rpc(fn: "match_documents", params: params)
 
         do {
-            let response: [MatchedModel] = try await query.execute().value // Where DataModel is the model of the data returned by the function
-            print("### RPC Returned: \(response.first!.content!)")
+            let response: [MatchedModel] = try await rpcQuery.execute().value // Where DataModel is the model of the data returned by the function
+//            print("### RPC Returned: \(response.first!.content!)")
             return response
            } catch {
                print("### RPC Error: \(error)")
