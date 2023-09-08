@@ -267,6 +267,28 @@ Black body radiation has been crucial in understanding various phenomena in phys
 ```
 </details>
 
+<details>
+<summary>EnumOutputParser</summary>
+
+```swift
+ enum MyEnum: String {
+            case value1
+            case value2
+            case value3
+        }
+        
+        let parser = EnumOutputParser<MyEnum>(enumType: MyEnum.self)
+        
+        let result = parser.parse(text: "value1")
+        switch result {
+        case .enumType(let e):
+            print("enum: \(e)")
+        default:
+            print("parse fail.")
+        }
+```
+</details>
+
 ## 🌐 Real world
 - https://github.com/buhe/AISummary
 - https://github.com/buhe/HtmlSummary
