@@ -235,6 +235,9 @@ Black body radiation is characterized by its spectral distribution, which follow
 Black body radiation has been crucial in understanding various phenomena in physics, such as the ultraviolet catastrophe and the development of quantum mechanics. It also has practical applications in fields like astrophysics, where it helps determine the temperature and composition of celestial objects based on their emitted radiation.
 ```
 </details>
+
+### Parser
+
 <details>
 <summary>ObjectOutputParser</summary>
     
