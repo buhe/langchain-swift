@@ -20,7 +20,7 @@ public class OpenAI: LLM {
         self.model = model
     }
     
-    public override func _send(text: String, stops: [String] = []) async -> LLMResult {
+    public override func _send(text: String, stops: [String] = []) async throws -> LLMResult {
         let env = Env.loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
@@ -36,7 +36,7 @@ public class OpenAI: LLM {
 
             let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
             
-            let completion = try! await openAIClient.chats.create(model: model, messages: [.user(content: text)], temperature: temperature, stops: stops)
+            let completion = try await openAIClient.chats.create(model: model, messages: [.user(content: text)], temperature: temperature, stops: stops)
             return LLMResult(llm_output: completion.choices.first!.message.content)
         } else {
             print("Please set openai api key.")

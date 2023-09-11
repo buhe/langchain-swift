@@ -42,4 +42,8 @@ public class StdOutCallbackHandler: BaseCallbackHandler {
         print("💁🏻‍♂️", "[DEBUG] Entering new LLM. with '\(prompt)'..")
     }
     
+    public override func on_llm_error(error: Error) throws {
+        print("💁🏻‍♂️", "[DEBUG] Catch LLM error: '\(error.localizedDescription)'")
+    }
+    
 }

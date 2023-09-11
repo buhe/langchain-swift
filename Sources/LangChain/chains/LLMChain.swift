@@ -24,10 +24,10 @@ public class LLMChain: DefaultChain {
         // ["\\nObservation: ", "\\n\\tObservation: "]
         callStart(prompt: args)
         let llmResult = await self.llm.send(text: args, stops:  stop)
-        if llmResult.llm_output != nil {
+        if !llmResult.stream {
             callEnd(output: llmResult.llm_output!)
         } else {
-            callEnd(output: "LLM is streamable.")
+            callEnd(output: "[LLM is streamable]")
         }
         return llmResult
     }

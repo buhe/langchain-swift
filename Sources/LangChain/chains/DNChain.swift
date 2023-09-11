@@ -11,8 +11,8 @@ public class DNChain: DefaultChain {
         super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
     }
     public override func call(args: String) async throws -> LLMResult {
-        print("Do nothing.")
-        return LLMResult()
+//        print("Do nothing.")
+        return LLMResult(llm_output: "")
     }
     
 }

@@ -17,7 +17,7 @@ public class Baidu: LLM {
         self.temperature = temperature
     }
     
-    public override func _send(text: String, stops: [String] = []) async -> LLMResult {
+    public override func _send(text: String, stops: [String] = []) async throws -> LLMResult {
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         defer {
@@ -27,7 +27,7 @@ public class Baidu: LLM {
         let env = Env.loadEnv()
         if let ak = env["BAIDU_LLM_AK"],
            let sk = env["BAIDU_LLM_SK"]{
-            return LLMResult(llm_output: await BaiduClient.llmSync(ak: ak, sk: sk, httpClient: httpClient, text: text, temperature: temperature))
+            return LLMResult(llm_output: try await BaiduClient.llmSync(ak: ak, sk: sk, httpClient: httpClient, text: text, temperature: temperature))
         } else {
             print("Please set baidu llm ak sk.")
             return LLMResult(llm_output: "Please set baidu llm ak sk.")
