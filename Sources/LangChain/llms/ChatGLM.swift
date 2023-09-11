@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct ChatGLM: LLM{
-    public func send(text: String, stops: [String]) async -> LLMResult {
+public class ChatGLM: LLM {
+    public override func _send(text: String, stops: [String]) async -> LLMResult {
         return LLMResult(llm_output: await api.call(text: text))
     }
     

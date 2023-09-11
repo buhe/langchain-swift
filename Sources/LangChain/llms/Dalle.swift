@@ -10,13 +10,13 @@ import NIOPosix
 import AsyncHTTPClient
 import OpenAIKit
 
-public struct Dalle: LLM {
+public class Dalle: LLM {
     let size: DalleImage.Size
     public init(size: DalleImage.Size) {
         self.size = size
     }
     
-    public func send(text: String, stops: [String] = []) async -> LLMResult {
+    public override func _send(text: String, stops: [String] = []) async -> LLMResult {
         let env = Env.loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {

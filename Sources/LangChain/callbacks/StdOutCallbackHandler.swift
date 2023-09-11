@@ -38,4 +38,8 @@ public class StdOutCallbackHandler: BaseCallbackHandler {
         print("💁🏻‍♂️", "[DEBUG] Agent finish: \(action.final)")
     }
     
+    public override func on_llm_start(prompt: String) throws {
+        print("💁🏻‍♂️", "[DEBUG] Entering new LLM. with '\(prompt)'..")
+    }
+    
 }

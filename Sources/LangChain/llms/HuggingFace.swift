@@ -6,7 +6,7 @@
 //
 
 import Foundation
-public struct HuggingFace: LLM {
+public class HuggingFace: LLM {
     let repo: String
     let task: String
     
@@ -15,7 +15,7 @@ public struct HuggingFace: LLM {
         self.task = task
     }
     
-    public func send(text: String, stops: [String] = []) async -> LLMResult {
+    public override func _send(text: String, stops: [String] = []) async -> LLMResult {
         let wrapper = HFInferenceApi(repo: repo, task: task)
         let response = await wrapper.inference(text: text)
         let result = response[0]["generated_text"].stringValue

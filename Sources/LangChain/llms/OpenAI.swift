@@ -10,7 +10,7 @@ import NIOPosix
 import AsyncHTTPClient
 import OpenAIKit
 
-public struct OpenAI: LLM {
+public class OpenAI: LLM {
     
     let temperature: Double
     let model: ModelID
@@ -20,7 +20,7 @@ public struct OpenAI: LLM {
         self.model = model
     }
     
-    public func send(text: String, stops: [String] = []) async -> LLMResult {
+    public override func _send(text: String, stops: [String] = []) async -> LLMResult {
         let env = Env.loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {

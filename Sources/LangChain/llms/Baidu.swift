@@ -10,14 +10,14 @@ import NIOPosix
 import AsyncHTTPClient
 // Create ai app on https://console.bce.baidu.com/qianfan/ais/console/applicationConsole/application
 // And get app ak sk
-public struct Baidu: LLM {
+public class Baidu: LLM {
     let temperature: Double
     
     public init(temperature: Double = 0.8) {
         self.temperature = temperature
     }
     
-    public func send(text: String, stops: [String] = []) async -> LLMResult {
+    public override func _send(text: String, stops: [String] = []) async -> LLMResult {
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         defer {

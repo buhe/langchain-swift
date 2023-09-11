@@ -7,6 +7,10 @@
 
 import Foundation
 public class BaseCallbackHandler: LLMManagerMixin, ChainManagerMixin, CallbackManagerMixin, ToolManagerMixin {
+    public func on_llm_start(prompt: String) throws {
+        
+    }
+    
     // Manage callback
     public func on_chain_start(prompts: String) throws {
         
@@ -73,6 +77,8 @@ public protocol CallbackManagerMixin {
     func on_chain_start(prompts: String) throws
     
     func on_tool_start(tool: BaseTool, input: String) throws
+    
+    func on_llm_start(prompt: String) throws
 }
 
 public protocol ToolManagerMixin {

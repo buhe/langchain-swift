@@ -7,6 +7,20 @@
 
 import Foundation
 
-public protocol LLM {
-    func send(text: String, stops: [String]) async -> LLMResult
+public class LLM {
+    public init(callbacks: [BaseCallbackHandler] = []) {
+        self.callbacks = callbacks
+    }
+    let callbacks: [BaseCallbackHandler]
+    
+    func send(text: String, stops: [String]) async -> LLMResult {
+        
+        let llmResult = await _send(text: text, stops: stops)
+        
+        return llmResult
+    }
+    
+    func _send(text: String, stops: [String]) async -> LLMResult {
+        LLMResult()
+    }
 }
