@@ -13,7 +13,7 @@ public class LLM {
     }
     let callbacks: [BaseCallbackHandler]
     
-    func send(text: String, stops: [String]) async -> LLMResult {
+    public func send(text: String, stops: [String] = []) async -> LLMResult {
         callStart(prompt: text)
         do {
             let llmResult = try await _send(text: text, stops: stops)
