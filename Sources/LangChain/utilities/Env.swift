@@ -53,11 +53,11 @@ public struct Env {
                     
             } else {
                 if env[Env.ID_KEY] != nil {
-                    print("✅", "Found trace id: \(env[Env.ID_KEY]!) .")
+                    print("✅ [INFO]", "Found trace id: \(env[Env.ID_KEY]!) .")
                 }
                 
                 if env[Env.SKIP_TRACE_KEY] == "true" {
-                    print("✅", "Skip trace.")
+                    print("✅ [INFO]", "Skip trace.")
                 }
             }
             printTrace = false
