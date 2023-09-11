@@ -18,9 +18,9 @@ public class StdOutCallbackHandler: BaseCallbackHandler {
         print("💁🏻‍♂️", "[DEBUG] Entering new {class_name} chain. with '\(prompts)'..")
     }
     
-//    public override func on_llm_end(output: String) {
-//        
-//    }
+    public override func on_llm_end(output: String) throws {
+        print("💁🏻‍♂️", "[DEBUG] Finished LLM, output is '\(output)'.")
+    }
     
     public override func on_tool_start(tool: BaseTool, input: String) throws {
         print("💁🏻‍♂️", "[DEBUG] Entering Tool of \(tool.name()) ,desc: \(tool.description()) with '\(input)'..")

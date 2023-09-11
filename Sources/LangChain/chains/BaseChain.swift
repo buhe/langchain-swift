@@ -40,13 +40,33 @@ public class DefaultChain: Chain {
             }
         }
     }
+    
+    func callCatch(error: Error) {
+        for callback in self.callbacks {
+            do {
+                try callback.on_chain_error(error: error)
+            } catch {
+                print("call LLM start callback errer: \(error)")
+            }
+        }
+    }
+    
     // This interface alreadly return 'LLMReult', ensure 'run' method has stream style.
     public func run(args: String) async -> LLMResult {
         do {
-            return try await self.call(args: args)
+            // TODO: callback
+            callStart(prompt: args)
+            let llmResult = try await self.call(args: args)
+            if !llmResult.stream {
+                callEnd(output: llmResult.llm_output!)
+            } else {
+                callEnd(output: "[LLM is streamable]")
+            }
+            return llmResult
         } catch {
-            print(error)
-            return LLMResult()
+//            print(error)
+            callCatch(error: error)
+            return LLMResult(llm_output: "")
         }
     }
     
