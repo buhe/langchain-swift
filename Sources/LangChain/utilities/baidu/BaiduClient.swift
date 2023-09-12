@@ -62,12 +62,9 @@ public struct BaiduClient {
                 var requestBodyComponents = URLComponents()
                 var b64 = image.base64EncodedString()
                 b64 = b64.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
-//                requestBodyComponents.queryItems = [URLQueryItem(name: "url", value: image_url)]
                 requestBodyComponents.queryItems = [URLQueryItem(name: "image", value: b64)]
                 request.body = .bytes((requestBodyComponents.query?.data(using: .utf8)!)!)
                 
-//                request.body = .bytes(("image=" + image.pngData()!.base64EncodedString()).data(using: .utf8)!)
-                // TODO: add image to body
                 let response = try await httpClient.execute(request, timeout: .seconds(30))
                 if response.status == .ok {
 //                    let expectedBytes = response.headers.first(name: "content-length").flatMap(Int.init)

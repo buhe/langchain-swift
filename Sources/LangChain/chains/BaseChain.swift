@@ -54,7 +54,6 @@ public class DefaultChain: Chain {
     // This interface alreadly return 'LLMReult', ensure 'run' method has stream style.
     public func run(args: String) async -> LLMResult {
         do {
-            // TODO: callback
             callStart(prompt: args)
             let llmResult = try await self.call(args: args)
             if !llmResult.stream {
