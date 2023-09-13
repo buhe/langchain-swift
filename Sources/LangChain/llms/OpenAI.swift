@@ -15,9 +15,10 @@ public class OpenAI: LLM {
     let temperature: Double
     let model: ModelID
     
-    public init(temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo) {
+    public init(temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo, callbacks: [BaseCallbackHandler] = []) {
         self.temperature = temperature
         self.model = model
+        super.init(callbacks: callbacks)
     }
     
     public override func _send(text: String, stops: [String] = []) async throws -> LLMResult {
