@@ -9,6 +9,7 @@ import Foundation
 
 public class LLM {
     static let LLM_REQ_ID_KEY = "llm_req_id"
+    static let LLM_COST_KEY = "llm_cost"
     public init(callbacks: [BaseCallbackHandler] = []) {
         self.callbacks = callbacks
     }
@@ -16,13 +17,16 @@ public class LLM {
     
     public func send(text: String, stops: [String] = []) async -> LLMResult {
         let reqId = UUID().uuidString
+        var cost = 0.0
+        let now = Date.now.timeIntervalSince1970
         callStart(prompt: text, reqId: reqId)
         do {
             let llmResult = try await _send(text: text, stops: stops)
+            cost = Date.now.timeIntervalSince1970 - now
             if !llmResult.stream {
-                callEnd(output: llmResult.llm_output!, reqId: reqId)
+                callEnd(output: llmResult.llm_output!, reqId: reqId, cost: cost)
             } else {
-                callEnd(output: "[LLM is streamable]", reqId: reqId)
+                callEnd(output: "[LLM is streamable]", reqId: reqId, cost: cost)
             }
             return llmResult
         } catch {
@@ -33,10 +37,10 @@ public class LLM {
     }
     
     
-    func callEnd(output: String, reqId: String) {
+    func callEnd(output: String, reqId: String, cost: Double) {
         for callback in self.callbacks {
             do {
-                try callback.on_llm_end(output: output, metadata: [LLM.LLM_REQ_ID_KEY: reqId])
+                try callback.on_llm_end(output: output, metadata: [LLM.LLM_REQ_ID_KEY: reqId, LLM.LLM_COST_KEY: "\(cost)"])
             } catch {
                 print("call LLM end callback errer: \(error)")
             }
