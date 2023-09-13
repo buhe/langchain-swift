@@ -14,7 +14,6 @@ struct Report: Codable {
     let reportId: String
     let type: String
     let message: String
-    let success: Bool
     let metadata: [String: String]
     let createAt: Date
 }
@@ -26,7 +25,7 @@ struct ReportManager {
     
     mutating func insertReport(report: Report) async {
 //        reports.append(report)
-        
+        // TODO: end or error - start time, remove start entry at memery
         await sendServer(report: report)
     }
     

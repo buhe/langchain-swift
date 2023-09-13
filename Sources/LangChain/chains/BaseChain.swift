@@ -8,6 +8,7 @@
 import Foundation
 
 public class DefaultChain: Chain {
+    static let CHAIN_REQ_ID_KEY = "chain_req_id"
     public init(memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
         self.memory = memory
         self.outputKey = outputKey
@@ -21,30 +22,30 @@ public class DefaultChain: Chain {
         return LLMResult()
     }
     
-    func callEnd(output: String) {
+    func callEnd(output: String, reqId: String) {
         for callback in self.callbacks {
             do {
-                try callback.on_chain_end(output: output)
+                try callback.on_chain_end(output: output, metadata: [DefaultChain.CHAIN_REQ_ID_KEY: reqId])
             } catch {
                 print("call chain end callback errer: \(error)")
             }
         }
     }
     
-    func callStart(prompt: String) {
+    func callStart(prompt: String, reqId: String) {
         for callback in self.callbacks {
             do {
-                try callback.on_chain_start(prompts: prompt)
+                try callback.on_chain_start(prompts: prompt, metadata: [DefaultChain.CHAIN_REQ_ID_KEY: reqId])
             } catch {
                 print("call chain end callback errer: \(error)")
             }
         }
     }
     
-    func callCatch(error: Error) {
+    func callCatch(error: Error, reqId: String) {
         for callback in self.callbacks {
             do {
-                try callback.on_chain_error(error: error)
+                try callback.on_chain_error(error: error, metadata: [DefaultChain.CHAIN_REQ_ID_KEY: reqId])
             } catch {
                 print("call LLM start callback errer: \(error)")
             }
@@ -53,18 +54,19 @@ public class DefaultChain: Chain {
     
     // This interface alreadly return 'LLMReult', ensure 'run' method has stream style.
     public func run(args: String) async -> LLMResult {
+        let reqId = UUID().uuidString
         do {
-            callStart(prompt: args)
+            callStart(prompt: args, reqId: reqId)
             let llmResult = try await self.call(args: args)
             if !llmResult.stream {
-                callEnd(output: llmResult.llm_output!)
+                callEnd(output: llmResult.llm_output!, reqId: reqId)
             } else {
-                callEnd(output: "[LLM is streamable]")
+                callEnd(output: "[LLM is streamable]", reqId: reqId)
             }
             return llmResult
         } catch {
 //            print(error)
-            callCatch(error: error)
+            callCatch(error: error, reqId: reqId)
             return LLMResult(llm_output: "")
         }
     }

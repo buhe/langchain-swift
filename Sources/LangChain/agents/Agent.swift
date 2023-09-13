@@ -7,6 +7,7 @@
 
 import Foundation
 public class AgentExecutor: DefaultChain {
+    static let AGENT_REQ_ID = "agent_req_id"
     let agent: Agent
     let tools: [BaseTool]
     public init(agent: Agent, tools: [BaseTool], memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
@@ -133,7 +134,7 @@ public class AgentExecutor: DefaultChain {
         
         // while should_continue and call
 //        let name_to_tool_map = tools.map { [$0.name(): $0] }
-//        
+        let reqId = UUID().uuidString
         var intermediate_steps: [(AgentAction, String)] = []
         while true {
 //            next_step_output = self._take_next_step(
@@ -149,12 +150,12 @@ public class AgentExecutor: DefaultChain {
             case .finish(let finish):
 //                print("final answer.")
                 for callback in self.callbacks {
-                    try callback.on_agent_finish(action: finish)
+                    try callback.on_agent_finish(action: finish, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
                 }
                 return LLMResult(llm_output: next_step_output.1)
             case .action(let action):
                 for callback in self.callbacks {
-                    try callback.on_agent_action(action: action)
+                    try callback.on_agent_action(action: action, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
                 }
                 intermediate_steps.append((action, next_step_output.1))
             default:
