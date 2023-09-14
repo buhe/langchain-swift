@@ -18,6 +18,10 @@ public class StdOutCallbackHandler: BaseCallbackHandler {
         print("💁🏻‍♂️", "[DEBUG] Entering new {class_name} chain. with '\(prompts)'..")
     }
     
+    public override func on_chain_error(error: Error, metadata: [String: String]) throws {
+        print("💁🏻‍♂️", "[DEBUG] Catch chain error: '\(error.localizedDescription)'")
+    }
+    
     public override func on_llm_end(output: String, metadata: [String: String]) throws {
         print("💁🏻‍♂️", "[DEBUG] Finished LLM, output is '\(output)'.")
     }
@@ -28,6 +32,10 @@ public class StdOutCallbackHandler: BaseCallbackHandler {
     
     public override func on_tool_end(tool: BaseTool, output: String, metadata: [String: String]) throws {
         print("💁🏻‍♂️", "[DEBUG] Finished Tool of \(tool.name()) ,desc: \(tool.description()), output is '\(output)'.")
+    }
+    
+    public override func on_agent_start(prompt: String, metadata: [String : String]) throws {
+        print("💁🏻‍♂️", "[DEBUG] Entering new Agent. with '\(prompt)'..")
     }
     
     public override func on_agent_action(action: AgentAction, metadata: [String: String]) throws {

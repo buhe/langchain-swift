@@ -31,6 +31,15 @@ public class ReportCallbackHandler: BaseCallbackHandler {
         }
     }
     
+    public override func on_chain_error(error: Error, metadata: [String: String]) throws {
+        Task {
+            var m = metadata
+            m[ReportKey.STEP_END_KEY] = ReportKey.TRUE
+            let env = Env.loadEnv()
+            await ReportManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "Chain", message: truncate(error.localizedDescription), metadata: m, createAt: Date.now))
+        }
+    }
+    
     public override func on_chain_end(output: String, metadata: [String: String]) {
         Task {
             var m = metadata
@@ -68,15 +77,39 @@ public class ReportCallbackHandler: BaseCallbackHandler {
         }
     }
     
+    public override func on_agent_start(prompt: String, metadata: [String : String]) throws {
+        Task {
+            var m = metadata
+            m[ReportKey.STEP_START_KEY] = ReportKey.TRUE
+            let env = Env.loadEnv()
+            await ReportManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "Agent", message: truncate(prompt), metadata: m, createAt: Date.now))
+        }
+    }
+    
     public override func on_agent_action(action: AgentAction, metadata: [String: String]) throws {
-        print("💁🏻‍♂️", "[DEBUG] Agent step is \(action.action), log: '\(action.log)'.")
+        Task {
+            var m = metadata
+            m[ReportKey.STEP_END_KEY] = ReportKey.TRUE
+            let env = Env.loadEnv()
+            await ReportManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "Agent", message: truncate(action.log), metadata: m, createAt: Date.now))
+        }
     }
     
     public override func on_agent_finish(action: AgentFinish, metadata: [String: String]) throws {
-        print("💁🏻‍♂️", "[DEBUG] Agent finish: \(action.final)")
+        Task {
+            var m = metadata
+            m[ReportKey.STEP_END_KEY] = ReportKey.TRUE
+            let env = Env.loadEnv()
+            await ReportManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "Agent", message: truncate(action.final), metadata: m, createAt: Date.now))
+        }
     }
     
     public override func on_llm_error(error: Error, metadata: [String: String]) throws {
-        print("💁🏻‍♂️", "[DEBUG] Catch LLM error: '\(error.localizedDescription)'")
+        Task {
+            var m = metadata
+            m[ReportKey.STEP_END_KEY] = ReportKey.TRUE
+            let env = Env.loadEnv()
+            await ReportManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "LLM", message: truncate(error.localizedDescription), metadata: m, createAt: Date.now))
+        }
     }
 }

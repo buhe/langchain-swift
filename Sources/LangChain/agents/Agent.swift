@@ -135,6 +135,9 @@ public class AgentExecutor: DefaultChain {
         // while should_continue and call
 //        let name_to_tool_map = tools.map { [$0.name(): $0] }
         let reqId = UUID().uuidString
+        for callback in self.callbacks {
+            try callback.on_agent_start(prompt: args, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
+        }
         var intermediate_steps: [(AgentAction, String)] = []
         while true {
 //            next_step_output = self._take_next_step(
