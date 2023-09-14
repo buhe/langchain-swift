@@ -18,6 +18,8 @@ public protocol Tool {
 }
 public class BaseTool: Tool {
     static let TOOL_REQ_ID = "tool_req_id"
+    static let TOOL_COST_KEY = "cost"
+    static let TOOL_NAME_KEY = "tool_name"
     let callbacks: [BaseCallbackHandler]
     init(callbacks: [BaseCallbackHandler] = []) {
         self.callbacks = callbacks
@@ -25,17 +27,17 @@ public class BaseTool: Tool {
     func callStart(tool: BaseTool, input: String, reqId: String) {
         do {
             for callback in callbacks {
-                try callback.on_tool_start(tool: tool, input: input, metadata: [BaseTool.TOOL_REQ_ID: reqId])
+                try callback.on_tool_start(tool: tool, input: input, metadata: [BaseTool.TOOL_REQ_ID: reqId, BaseTool.TOOL_NAME_KEY: tool.name()])
             }
         } catch {
             
         }
     }
     
-    func callEnd(tool: BaseTool, output: String, reqId: String) {
+    func callEnd(tool: BaseTool, output: String, reqId: String, cost: Double) {
         do {
             for callback in callbacks {
-                try callback.on_tool_end(tool: tool, output: output, metadata: [BaseTool.TOOL_REQ_ID: reqId])
+                try callback.on_tool_end(tool: tool, output: output, metadata: [BaseTool.TOOL_REQ_ID: reqId, BaseTool.TOOL_COST_KEY: "\(cost)", BaseTool.TOOL_NAME_KEY: tool.name()])
             }
         } catch {
             
@@ -56,9 +58,12 @@ public class BaseTool: Tool {
     
     public func run(args: String) async throws -> String {
         let reqId = UUID().uuidString
+        var cost = 0.0
+        let now = Date.now.timeIntervalSince1970
         callStart(tool: self, input: args, reqId: reqId)
         let result = try await _run(args: args)
-        callEnd(tool: self, output: result, reqId: reqId)
+        cost = Date.now.timeIntervalSince1970 - now
+        callEnd(tool: self, output: result, reqId: reqId, cost: cost)
         return result
     }
     

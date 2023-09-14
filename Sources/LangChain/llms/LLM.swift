@@ -9,7 +9,7 @@ import Foundation
 
 public class LLM {
     static let LLM_REQ_ID_KEY = "llm_req_id"
-    static let LLM_COST_KEY = "llm_cost"
+    static let LLM_COST_KEY = "cost"
     public init(callbacks: [BaseCallbackHandler] = []) {
         self.callbacks = callbacks
     }
@@ -30,7 +30,7 @@ public class LLM {
             }
             return llmResult
         } catch {
-            callCatch(error: error, reqId: reqId)
+            callCatch(error: error, reqId: reqId, cost: cost)
             return LLMResult()
         }
         
@@ -57,10 +57,10 @@ public class LLM {
         }
     }
     
-    func callCatch(error: Error, reqId: String) {
+    func callCatch(error: Error, reqId: String, cost: Double) {
         for callback in self.callbacks {
             do {
-                try callback.on_llm_error(error: error, metadata: [LLM.LLM_REQ_ID_KEY: reqId])
+                try callback.on_llm_error(error: error, metadata: [LLM.LLM_REQ_ID_KEY: reqId, LLM.LLM_COST_KEY: "\(cost)"])
             } catch {
                 print("call LLM start callback errer: \(error)")
             }

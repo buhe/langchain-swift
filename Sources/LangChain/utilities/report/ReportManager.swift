@@ -60,6 +60,6 @@ struct ReportManager {
 
 extension Bundle {
     var appDisplayName: String? {
-        return infoDictionary?["CFBundleDisplayName"] as? String
+        return infoDictionary?["CFBundleExecutable"] as? String
     }
 }
