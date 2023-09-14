@@ -12,6 +12,7 @@ public struct Env {
     static let SKIP_TRACE_KEY = "SKIP_TRACE"
     static let TRACE_ID = UUID().uuidString + "-" + UUID().uuidString
     static var env: [String: String] = [:]
+    static var trace = false
     public static func initSet(_ env: [String: String]) {
         Env.env = env
     }
@@ -21,6 +22,10 @@ public struct Env {
             result.updateValue(v, forKey: k)
         }
         return result
+    }
+    static func addTraceCallbak() -> Bool {
+        let _ = loadEnv()
+        return trace
     }
     static func loadEnv() -> [String: String] {
         var env: [String: String] = Env.env
@@ -54,10 +59,12 @@ public struct Env {
             } else {
                 if env[Env.ID_KEY] != nil {
                     print("✅ [INFO]", "Found trace id: \(env[Env.ID_KEY]!) .")
+                    trace = true
                 }
                 
                 if env[Env.SKIP_TRACE_KEY] == "true" {
                     print("✅ [INFO]", "Skip trace.")
+                    trace = false
                 }
             }
             printTrace = false

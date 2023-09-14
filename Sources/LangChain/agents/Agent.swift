@@ -13,7 +13,12 @@ public class AgentExecutor: DefaultChain {
     public init(agent: Agent, tools: [BaseTool], memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
         self.agent = agent
         self.tools = tools
-        super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
+        var cbs: [BaseCallbackHandler] = callbacks
+        if Env.addTraceCallbak() && !cbs.contains(where: { item in item is ReportCallbackHandler}) {
+            cbs.append(ReportCallbackHandler())
+        }
+//        assert(cbs.count == 1)
+        super.init(memory: memory, outputKey: outputKey, callbacks: cbs)
     }
     
 //    def _take_next_step(

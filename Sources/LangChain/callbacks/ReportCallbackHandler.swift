@@ -11,8 +11,7 @@ public class ReportCallbackHandler: BaseCallbackHandler {
     func truncate(_ text: String) -> String {
         String(text.prefix(50))
     }
-    public override init() {
-    }
+    
     public override func on_llm_start(prompt: String, metadata: [String: String]) throws {
         Task {
             var m = metadata

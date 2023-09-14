@@ -13,7 +13,12 @@ public class DefaultChain: Chain {
     public init(memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
         self.memory = memory
         self.outputKey = outputKey
-        self.callbacks = callbacks
+        var cbs: [BaseCallbackHandler] = callbacks
+        if Env.addTraceCallbak() && !cbs.contains(where: { item in item is ReportCallbackHandler}) {
+            cbs.append(ReportCallbackHandler())
+        }
+//        assert(cbs.count == 1)
+        self.callbacks = cbs
     }
     let memory: BaseMemory?
     let outputKey: String?

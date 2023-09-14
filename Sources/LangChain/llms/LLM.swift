@@ -11,7 +11,12 @@ public class LLM {
     static let LLM_REQ_ID_KEY = "llm_req_id"
     static let LLM_COST_KEY = "cost"
     public init(callbacks: [BaseCallbackHandler] = []) {
-        self.callbacks = callbacks
+        var cbs: [BaseCallbackHandler] = callbacks
+        if Env.addTraceCallbak() && !cbs.contains(where: { item in item is ReportCallbackHandler}) {
+            cbs.append(ReportCallbackHandler())
+        }
+//        assert(cbs.count == 1)
+        self.callbacks = cbs
     }
     let callbacks: [BaseCallbackHandler]
     
