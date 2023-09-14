@@ -23,8 +23,8 @@ public class BaseTool: Tool {
     let callbacks: [BaseCallbackHandler]
     init(callbacks: [BaseCallbackHandler] = []) {
         var cbs: [BaseCallbackHandler] = callbacks
-        if Env.addTraceCallbak() && !cbs.contains(where: { item in item is ReportCallbackHandler}) {
-            cbs.append(ReportCallbackHandler())
+        if Env.addTraceCallbak() && !cbs.contains(where: { item in item is TraceCallbackHandler}) {
+            cbs.append(TraceCallbackHandler())
         }
 //        assert(cbs.count == 1)
         self.callbacks = cbs

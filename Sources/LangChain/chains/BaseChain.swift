@@ -14,8 +14,8 @@ public class DefaultChain: Chain {
         self.memory = memory
         self.outputKey = outputKey
         var cbs: [BaseCallbackHandler] = callbacks
-        if Env.addTraceCallbak() && !cbs.contains(where: { item in item is ReportCallbackHandler}) {
-            cbs.append(ReportCallbackHandler())
+        if Env.addTraceCallbak() && !cbs.contains(where: { item in item is TraceCallbackHandler}) {
+            cbs.append(TraceCallbackHandler())
         }
 //        assert(cbs.count == 1)
         self.callbacks = cbs

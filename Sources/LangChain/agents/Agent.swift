@@ -14,8 +14,8 @@ public class AgentExecutor: DefaultChain {
         self.agent = agent
         self.tools = tools
         var cbs: [BaseCallbackHandler] = callbacks
-        if Env.addTraceCallbak() && !cbs.contains(where: { item in item is ReportCallbackHandler}) {
-            cbs.append(ReportCallbackHandler())
+        if Env.addTraceCallbak() && !cbs.contains(where: { item in item is TraceCallbackHandler}) {
+            cbs.append(TraceCallbackHandler())
         }
 //        assert(cbs.count == 1)
         super.init(memory: memory, outputKey: outputKey, callbacks: cbs)

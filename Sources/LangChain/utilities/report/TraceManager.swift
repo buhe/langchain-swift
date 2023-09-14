@@ -18,10 +18,10 @@ struct Report: Codable {
     let createAt: Date
 }
 
-struct ReportManager {
+struct TraceManager {
 //    var reports: [Report] = []
     static let REPORT_URL = "http://192.168.31.60:8083/rest/agent"
-    static var shared: ReportManager = ReportManager()
+    static var shared: TraceManager = TraceManager()
     
     mutating func insertReport(report: Report) async {
 //        reports.append(report)
@@ -38,7 +38,7 @@ struct ReportManager {
             try? httpClient.syncShutdown()
         }
         do {
-            var request = HTTPClientRequest(url: ReportManager.REPORT_URL)
+            var request = HTTPClientRequest(url: TraceManager.REPORT_URL)
             request.method = .POST
             request.headers.add(name: "Content-Type", value: "application/json")
             let requestBody = try! JSONEncoder().encode(report)
