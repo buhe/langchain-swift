@@ -295,6 +295,9 @@ Black body radiation has been crucial in understanding various phenomena in phys
     }
 ```
 </details>
+
+### Other
+
 <details>
 <summary>Stream Chat</summary>
 
