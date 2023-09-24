@@ -299,7 +299,7 @@ Black body radiation has been crucial in understanding various phenomena in phys
 ### Other
 
 <details>
-<summary>Stream Chat</summary>
+<summary>Stream Chat - Must be use ChatOpenAI model </summary>
 
 ```swift
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
