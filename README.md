@@ -295,6 +295,28 @@ Black body radiation has been crucial in understanding various phenomena in phys
     }
 ```
 </details>
+<details>
+<summary>Stream Chat</summary>
+
+```swift
+        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+
+        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
+        
+        defer {
+            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
+            try? httpClient.syncShutdown()
+        }
+		let llm = ChatOpenAI(httpClient: httpClient, temperature: 0.8)
+		let answer = await llm.send(text: "Hey")
+		let writerText = ""
+            for try await c in answer.generation! {
+                if let message = c.choices.first?.delta.content {
+                    writerText += message
+                }
+            }
+```
+</details>
 
 ## 🌐 Real world
 - https://github.com/buhe/AISummary
