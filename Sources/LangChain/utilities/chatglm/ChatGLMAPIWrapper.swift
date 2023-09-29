@@ -8,7 +8,6 @@
 import AsyncHTTPClient
 import Foundation
 import NIOPosix
-import JWT
 
 struct ChatGLMMessage: Codable {
     let role: String
