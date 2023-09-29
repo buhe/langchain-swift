@@ -22,7 +22,6 @@ let package = Package(
         .package(url: "https://github.com/drmohundro/SWXMLHash", .upToNextMajor(from: "7.0.2")),
         .package(url: "https://github.com/scinfu/SwiftSoup", .upToNextMajor(from: "2.6.1")),
         .package(url: "https://github.com/swift-server/async-http-client", .upToNextMajor(from: "1.18.0")),
-        .package(url: "https://github.com/nextster/JWT", .upToNextMajor(from: "1.0.1")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -35,7 +34,6 @@ let package = Package(
                 .product(name: "SwiftyJSON", package: "SwiftyJSON"),
                 .product(name: "SWXMLHash", package: "SWXMLHash"),
                 .product(name: "SwiftSoup", package: "SwiftSoup"),
-                .product(name: "JWT", package: "JWT"),
             ]
         
         ),
