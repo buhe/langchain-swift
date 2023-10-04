@@ -10,13 +10,13 @@ import NIOPosix
 import AsyncHTTPClient
 import OpenAIKit
 
-public struct Dalle: LLM {
+public class Dalle: LLM {
     let size: DalleImage.Size
     public init(size: DalleImage.Size) {
         self.size = size
     }
     
-    public func send(text: String, stops: [String] = []) async -> LLMResult {
+    public override func _send(text: String, stops: [String] = []) async throws -> LLMResult {
         let env = Env.loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
@@ -31,7 +31,7 @@ public struct Dalle: LLM {
             let configuration = Configuration(apiKey: apiKey, api: API(scheme: .https, host: baseUrl))
 
             let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
-            let reps = try! await openAIClient.images.create(prompt: text, size: dalleTo(size: size))
+            let reps = try await openAIClient.images.create(prompt: text, size: dalleTo(size: size))
             return LLMResult(llm_output: reps.data.first!.url)
         } else {
             print("Please set openai api key.")

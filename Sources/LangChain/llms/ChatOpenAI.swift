@@ -10,7 +10,7 @@ import NIOPosix
 import AsyncHTTPClient
 import OpenAIKit
 
-public struct ChatOpenAI: LLM {
+public class ChatOpenAI: LLM {
     let temperature: Double
     let model: ModelID
     let httpClient: HTTPClient
@@ -20,7 +20,7 @@ public struct ChatOpenAI: LLM {
         self.temperature = temperature
         self.model = model
     }
-    public func send(text: String, stops: [String] = []) async -> LLMResult {
+    public override func _send(text: String, stops: [String] = []) async throws -> LLMResult {
         let env = Env.loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
@@ -29,7 +29,7 @@ public struct ChatOpenAI: LLM {
             let configuration = Configuration(apiKey: apiKey, api: API(scheme: .https, host: baseUrl))
 
             let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
-            let buffer = try! await openAIClient.chats.stream(model: model, messages: [.user(content: text)], temperature: temperature)
+            let buffer = try await openAIClient.chats.stream(model: model, messages: [.user(content: text)], temperature: temperature)
             return LLMResult(generation: buffer)
         } else {
             print("Please set openai api key.")

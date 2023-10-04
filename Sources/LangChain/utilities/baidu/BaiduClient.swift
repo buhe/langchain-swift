@@ -25,33 +25,28 @@ struct BaiduLLMResponse: Codable {
 
 public struct BaiduClient {
     
-    static func llmSync(ak: String, sk: String, httpClient: HTTPClient, text: String, temperature: Double) async -> String? {
+    static func llmSync(ak: String, sk: String, httpClient: HTTPClient, text: String, temperature: Double) async throws -> String? {
         if let accessToken = await getAccessToken(ak: ak, sk: sk, httpClient: httpClient) {
             let url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=" + accessToken
             
-            do {
-                var request = HTTPClientRequest(url: url)
-                request.method = .POST
-                request.headers.add(name: "Content-Type", value: "application/json")
-                request.headers.add(name: "Accept", value: "application/json")
-                let requestBody = try! JSONEncoder().encode(BaiduLLMRequest(temperature: temperature, messages: [ChatGLMMessage(role: "user", content: text)]))
-                request.body = .bytes(requestBody)
-                let response = try await httpClient.execute(request, timeout: .seconds(30))
-                if response.status == .ok {
-                    let str = String(buffer: try await response.body.collect(upTo: 1024 * 1024))
-                    let data = str.data(using: .utf8)!
-                    let llmResponse = try! JSONDecoder().decode(BaiduLLMResponse.self, from: data)
-                    return llmResponse.result
-                } else {
-                    // handle remote error
-                    print("http code is not 200.")
-                    return nil
-                }
-            } catch {
-                // handle error
-                print(error)
+            var request = HTTPClientRequest(url: url)
+            request.method = .POST
+            request.headers.add(name: "Content-Type", value: "application/json")
+            request.headers.add(name: "Accept", value: "application/json")
+            let requestBody = try! JSONEncoder().encode(BaiduLLMRequest(temperature: temperature, messages: [ChatGLMMessage(role: "user", content: text)]))
+            request.body = .bytes(requestBody)
+            let response = try await httpClient.execute(request, timeout: .seconds(30))
+            if response.status == .ok {
+                let str = String(buffer: try await response.body.collect(upTo: 1024 * 1024))
+                let data = str.data(using: .utf8)!
+                let llmResponse = try! JSONDecoder().decode(BaiduLLMResponse.self, from: data)
+                return llmResponse.result
+            } else {
+                // handle remote error
+                print("http code is not 200.")
                 return nil
             }
+        
         }
         return nil
     }
@@ -67,12 +62,9 @@ public struct BaiduClient {
                 var requestBodyComponents = URLComponents()
                 var b64 = image.base64EncodedString()
                 b64 = b64.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
-//                requestBodyComponents.queryItems = [URLQueryItem(name: "url", value: image_url)]
                 requestBodyComponents.queryItems = [URLQueryItem(name: "image", value: b64)]
                 request.body = .bytes((requestBodyComponents.query?.data(using: .utf8)!)!)
                 
-//                request.body = .bytes(("image=" + image.pngData()!.base64EncodedString()).data(using: .utf8)!)
-                // TODO: add image to body
                 let response = try await httpClient.execute(request, timeout: .seconds(30))
                 if response.status == .ok {
 //                    let expectedBytes = response.headers.first(name: "content-length").flatMap(Int.init)

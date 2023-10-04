@@ -22,13 +22,9 @@ public class LLMChain: DefaultChain {
     }
     public override func call(args: String) async throws -> LLMResult {
         // ["\\nObservation: ", "\\n\\tObservation: "]
-        callStart(prompt: args)
+        
         let llmResult = await self.llm.send(text: args, stops:  stop)
-        if llmResult.llm_output != nil {
-            callEnd(output: llmResult.llm_output!)
-        } else {
-            callEnd(output: "LLM is streamable.")
-        }
+
         return llmResult
     }
     
@@ -37,7 +33,7 @@ public class LLMChain: DefaultChain {
         let input_prompt = self.prompt.format(args: input_list)
         do {
 //            print(input_prompt)
-            var llmResult = try await call(args: input_prompt)
+            var llmResult = await run(args: input_prompt)
             try await llmResult.setOutput()
             return llmResult.llm_output!
         } catch {

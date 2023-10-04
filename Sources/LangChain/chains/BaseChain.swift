@@ -8,10 +8,17 @@
 import Foundation
 
 public class DefaultChain: Chain {
+    static let CHAIN_REQ_ID_KEY = "chain_req_id"
+    static let CHAIN_COST_KEY = "cost"
     public init(memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
         self.memory = memory
         self.outputKey = outputKey
-        self.callbacks = callbacks
+        var cbs: [BaseCallbackHandler] = callbacks
+        if Env.addTraceCallbak() && !cbs.contains(where: { item in item is TraceCallbackHandler}) {
+            cbs.append(TraceCallbackHandler())
+        }
+//        assert(cbs.count == 1)
+        self.callbacks = cbs
     }
     let memory: BaseMemory?
     let outputKey: String?
@@ -21,32 +28,55 @@ public class DefaultChain: Chain {
         return LLMResult()
     }
     
-    func callEnd(output: String) {
+    func callEnd(output: String, reqId: String, cost: Double) {
         for callback in self.callbacks {
             do {
-                try callback.on_chain_end(output: output)
+                try callback.on_chain_end(output: output, metadata: [DefaultChain.CHAIN_REQ_ID_KEY: reqId, DefaultChain.CHAIN_COST_KEY: "\(cost)"])
             } catch {
                 print("call chain end callback errer: \(error)")
             }
         }
     }
     
-    func callStart(prompt: String) {
+    func callStart(prompt: String, reqId: String) {
         for callback in self.callbacks {
             do {
-                try callback.on_chain_start(prompts: prompt)
+                try callback.on_chain_start(prompts: prompt, metadata: [DefaultChain.CHAIN_REQ_ID_KEY: reqId])
             } catch {
                 print("call chain end callback errer: \(error)")
             }
         }
     }
+    
+    func callCatch(error: Error, reqId: String, cost: Double) {
+        for callback in self.callbacks {
+            do {
+                try callback.on_chain_error(error: error, metadata: [DefaultChain.CHAIN_REQ_ID_KEY: reqId, DefaultChain.CHAIN_COST_KEY: "\(cost)"])
+            } catch {
+                print("call LLM start callback errer: \(error)")
+            }
+        }
+    }
+    
     // This interface alreadly return 'LLMReult', ensure 'run' method has stream style.
     public func run(args: String) async -> LLMResult {
+        let reqId = UUID().uuidString
+        var cost = 0.0
+        let now = Date.now.timeIntervalSince1970
         do {
-            return try await self.call(args: args)
+            callStart(prompt: args, reqId: reqId)
+            let llmResult = try await self.call(args: args)
+            cost = Date.now.timeIntervalSince1970 - now
+            if !llmResult.stream {
+                callEnd(output: llmResult.llm_output!, reqId: reqId, cost: cost)
+            } else {
+                callEnd(output: "[LLM is streamable]", reqId: reqId, cost: cost)
+            }
+            return llmResult
         } catch {
-            print(error)
-            return LLMResult()
+//            print(error)
+            callCatch(error: error, reqId: reqId, cost: cost)
+            return LLMResult(llm_output: "")
         }
     }
     
