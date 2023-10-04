@@ -7,7 +7,8 @@
 
 import Foundation
 public struct Env {
-    static var printTrace = true
+//    static var printTrace = true
+    static var printTrace = false
     static let ID_KEY = "TRACE_ID"
     static let SKIP_TRACE_KEY = "SKIP_TRACE"
     static let TRACE_ID = UUID().uuidString + "-" + UUID().uuidString
