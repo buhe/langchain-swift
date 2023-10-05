@@ -321,11 +321,25 @@ Black body radiation has been crucial in understanding various phenomena in phys
 ```
 </details>
 
-## 🌐 Real world
-- https://github.com/buhe/AISummary
-- https://github.com/buhe/HtmlSummary
-- https://github.com/buhe/BilibiliSummary_publlic
-- https://github.com/buhe/Writer_public
+## 🌐 Trusted by
+<a href="https://apps.apple.com/us/app/convict-conditioning-pro/id1661449971">
+<img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FCC.png&w=256&q=75" alt="Convict Conditioning" style="width:15%">
+</a>
+<a href="https://apps.apple.com/us/app/investment-for-long-term/id1665352936">
+<img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FInvestDash.png&w=256&q=75" alt="Investment For Long Term" style="width:15%">
+</a>
+<a href="https://apps.apple.com/us/app/ai-summarize-pro/id6450951898">
+<img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FAISummary.png&w=256&q=75" alt="AI Summary" style="width:15%">
+</a>
+<a href="https://apps.apple.com/us/app/ai-pagily/id6452588389">
+<img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FPagily.png&w=256&q=75" alt="AI Pagily" style="width:15%">
+</a>
+<a href="https://apps.apple.com/us/app/b-%E7%AB%99-ai-%E6%80%BB%E7%BB%93/id6455595076">
+<img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FBilibiliSummary.png&w=256&q=75" alt="B 站 AI 总结" style="width:15%">
+</a>
+<a href="https://apps.apple.com/us/app/%E5%B8%AE%E4%BD%A0%E5%86%99%E4%BD%9C%E6%96%87/id6458487704">
+<img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FWriter.png&w=256&q=75" alt="帮你写作文" style="width:15%">
+</a>
 
 ## 🚗 Roadmap
 - LLMs
