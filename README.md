@@ -334,6 +334,12 @@ Black body radiation has been crucial in understanding various phenomena in phys
 
 - Help analyze assets with AI
 
+<a href="https://apps.apple.com/us/app/ai-summarize-pro/id6450951898">
+<img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FAISummary.png&w=256&q=75" alt="AI Summary" style="width:15%">
+</a>
+
+- Summarize the gist of the YouTube video
+
 
 ## 🚗 Roadmap
 - LLMs
