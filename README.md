@@ -340,6 +340,23 @@ Black body radiation has been crucial in understanding various phenomena in phys
 
 - Summarize the gist of the YouTube video
 
+<a href="https://apps.apple.com/us/app/ai-summarize-pro/id6450951898">
+<img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FPagily.png&w=256&q=75" alt="AI Pagily" style="width:15%">
+</a>
+
+- Summarize the content of the Web Page
+
+<a href="https://apps.apple.com/us/app/ai-summarize-pro/id6450951898">
+<img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FBilibiliSummary.png&w=256&q=75" alt="B 站 AI 总结" style="width:15%">
+</a>
+
+- 总结哔哩哔哩视频的要点
+
+<a href="https://apps.apple.com/us/app/ai-summarize-pro/id6450951898">
+<img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FWriter.png&w=256&q=75" alt="帮你写作文" style="width:15%">
+</a>
+
+- 通过图片自动识别题目（拍试卷/图片库中保存的图片）并生成作文
 
 ## 🚗 Roadmap
 - LLMs
