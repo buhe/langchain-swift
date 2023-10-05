@@ -328,6 +328,12 @@ Black body radiation has been crucial in understanding various phenomena in phys
 
 - Recommend the next action with AI technology
 
+<a href="https://apps.apple.com/us/app/investment-for-long-term/id1665352936">
+<img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FInvestDash.png&w=256&q=75" alt="Investment For Long Term" style="width:15%">
+</a>
+
+- Help analyze assets with AI
+
 
 ## 🚗 Roadmap
 - LLMs
