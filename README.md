@@ -325,38 +325,21 @@ Black body radiation has been crucial in understanding various phenomena in phys
 <a href="https://apps.apple.com/us/app/convict-conditioning-pro/id1661449971">
 <img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FCC.png&w=256&q=75" alt="Convict Conditioning" style="width:15%">
 </a>
-
-- Recommend the next action with AI technology
-
 <a href="https://apps.apple.com/us/app/investment-for-long-term/id1665352936">
 <img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FInvestDash.png&w=256&q=75" alt="Investment For Long Term" style="width:15%">
 </a>
-
-- Help analyze assets with AI
-
 <a href="https://apps.apple.com/us/app/ai-summarize-pro/id6450951898">
 <img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FAISummary.png&w=256&q=75" alt="AI Summary" style="width:15%">
 </a>
-
-- Summarize the gist of the YouTube video
-
 <a href="https://apps.apple.com/us/app/ai-pagily/id6452588389">
 <img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FPagily.png&w=256&q=75" alt="AI Pagily" style="width:15%">
 </a>
-
-- Summarize the content of the Web Page
-
 <a href="https://apps.apple.com/us/app/b-%E7%AB%99-ai-%E6%80%BB%E7%BB%93/id6455595076">
 <img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FBilibiliSummary.png&w=256&q=75" alt="B 站 AI 总结" style="width:15%">
 </a>
-
-- 总结哔哩哔哩视频的要点
-
 <a href="https://apps.apple.com/us/app/%E5%B8%AE%E4%BD%A0%E5%86%99%E4%BD%9C%E6%96%87/id6458487704">
 <img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FWriter.png&w=256&q=75" alt="帮你写作文" style="width:15%">
 </a>
-
-- 通过图片自动识别题目（拍试卷/图片库中保存的图片）并生成作文
 
 ## 🚗 Roadmap
 - LLMs
