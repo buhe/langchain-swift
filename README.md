@@ -322,7 +322,7 @@ Black body radiation has been crucial in understanding various phenomena in phys
 </details>
 
 ## 🌐 Trusted by
-<a href="https://baidu.com">
+<a href="https://apps.apple.com/us/app/convict-conditioning-pro/id1661449971">
 <img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FCC.png&w=256&q=75" alt="Convict Conditioning" style="width:15%">
 </a>
 
