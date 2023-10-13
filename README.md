@@ -341,7 +341,7 @@ Black body radiation has been crucial in understanding various phenomena in phys
 <img src="https://www.buhe.dev/_next/image?url=%2Fassets%2FWriter.png&w=256&q=75" alt="帮你写作文" style="width:15%">
 </a>
 
-[Open an issue to add your app.](https://github.com/buhe/langchain-swift/issues/new)
+[Open an issue or PR to add your app.](https://github.com/buhe/langchain-swift/issues/new)
 
 ## 🚗 Roadmap
 - LLMs
