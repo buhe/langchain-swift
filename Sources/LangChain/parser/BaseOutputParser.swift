@@ -27,6 +27,7 @@ public enum Parsed {
     case dict([String: String])
     case object(Codable)
     case enumType(Any)
+    case date(Date)
 }
 public protocol BaseOutputParser {
     func parse(text: String) -> Parsed
