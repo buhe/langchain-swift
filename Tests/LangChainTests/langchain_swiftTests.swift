@@ -1069,6 +1069,18 @@ May God bless you all. May God protect our troops.
         print("llm: \(result.llm_output!)")
         XCTAssertEqual("HO_T", result.llm_output!)
     }
+    
+    func testDatetimePrompt() async throws {
+        let datetimeParse = DatetimeOutputParser()
+        let prompt = datetimeParse.get_format_instructions()
+        print(prompt)
+    }
+    
+    func testDatetimeParse() async throws {
+        let datetimeParse = DatetimeOutputParser()
+        let res = datetimeParse.parse(text: "2001-10-13 01:02:03")
+        print(res)
+    }
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
