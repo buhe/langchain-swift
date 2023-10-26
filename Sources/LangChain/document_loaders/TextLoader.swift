@@ -14,20 +14,16 @@ public class TextLoader: BaseLoader {
         self.file_path = file_path
     }
     public override func _load() async throws  -> [Document] {
-        do {
-            let nameAndExt = self.file_path.split(separator: ".")
-            let name = "\(nameAndExt[0])"
-            let ext = "\(nameAndExt[1])"
-            var text = ""
-            if let res = Bundle.main.path(forResource: name, ofType: ext){
-                text = try String(contentsOfFile: res)
-                let metadata = ["source": self.file_path]
-                return [Document(page_content: text, metadata: metadata)]
-            } else {
-                throw LangChainError.LoaderError("Text fail not exist")
-            }
-        } catch {
-            throw LangChainError.LoaderError("Parse text fail with \(error)")
+        let nameAndExt = self.file_path.split(separator: ".")
+        let name = "\(nameAndExt[0])"
+        let ext = "\(nameAndExt[1])"
+        var text = ""
+        if let res = Bundle.main.path(forResource: name, ofType: ext){
+            text = try String(contentsOfFile: res)
+            let metadata = ["source": self.file_path]
+            return [Document(page_content: text, metadata: metadata)]
+        } else {
+            throw LangChainError.LoaderError("Text fail not exist")
         }
     }
     
