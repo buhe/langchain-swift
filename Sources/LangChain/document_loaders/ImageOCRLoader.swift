@@ -14,14 +14,14 @@ import NIOPosix
  BAIDU_OCR_AK=xxx
  BAIDU_OCR_SK=xxx
  */
-public struct ImageOCRLoader: BaseLoader {
+public class ImageOCRLoader: BaseLoader {
     let image: Data
     
     public init(image: Data) {
         self.image = image
     }
     
-    public func load() async -> [Document] {
+    public override func _load() async throws -> [Document] {
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         defer {
@@ -34,7 +34,7 @@ public struct ImageOCRLoader: BaseLoader {
            let sk = env["BAIDU_OCR_SK"]{
             let ocr = await BaiduClient.ocrImage(ak: ak, sk: sk, httpClient: httpClient, image: image)
             if ocr!["error_msg"].string != nil {
-                return [Document(page_content: ocr!["error_msg"].stringValue, metadata: [:])]
+                throw LangChainError.LoaderError(ocr!["error_msg"].stringValue)
             } else {
                 let words = ocr!["words_result"].arrayValue.map{$0["words"].stringValue}
                 text = words.joined(separator: " ")
@@ -45,5 +45,7 @@ public struct ImageOCRLoader: BaseLoader {
         }
     }
     
-    
+    override func type() -> String {
+        "BaiduOCR"
+    }
 }

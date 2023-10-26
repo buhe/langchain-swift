@@ -12,7 +12,7 @@ import AsyncHTTPClient
 import OpenAIKit
 import AVFoundation
 
-public struct AudioLoader: BaseLoader {
+public class AudioLoader: BaseLoader {
     static let SEG_SIZE = 60
     let audio: URL
     let fileName: String
@@ -22,7 +22,7 @@ public struct AudioLoader: BaseLoader {
         self.fileName = fileName
     }
     
-    public func load() async -> [Document] {
+    public override func _load() async throws -> [Document] {
         var docs: [Document] = []
         
         let asset: AVAsset = AVAsset(url: audio)
@@ -65,8 +65,11 @@ public struct AudioLoader: BaseLoader {
                         docs.append(doc)
                     } catch {
                         print("Unable to load data: \(error)")
+                        throw LangChainError.LoaderError("Unable to load data: \(error)")
                     }
                    
+                } else {
+                    throw LangChainError.LoaderError("Not split audio")
                 }
             }
             return docs
@@ -105,5 +108,9 @@ public struct AudioLoader: BaseLoader {
             })
         }
        
+    }
+    
+    override func type() -> String {
+        "Audio"
     }
 }

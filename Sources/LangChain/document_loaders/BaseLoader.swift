@@ -10,8 +10,33 @@ public struct Document {
     public let page_content: String
     public let metadata: [String: String]
 }
-public protocol BaseLoader {
-    func load() async -> [Document]
+public class BaseLoader {
+    
+    static let LOADER_TYPE_KEY = "loader_type"
+    static let LOADER_REQ_ID = "loader_req_id"
+    static let LOADER_COST_KEY = "cost"
+    
+    func load() async -> [Document] {
+        let type = type()
+        do {
+            let docs = try await _load()
+            
+            return docs
+        } catch LangChainError.LoaderError(let cause) {
+            print(cause)
+            return []
+        } catch {
+            return []
+        }
+    }
+    
+    func _load() async throws -> [Document] {
+        []
+    }
+    
+    func type() -> String {
+        "Base"
+    }
 }
 //class BaseLoader(ABC):
 //    """Interface for loading documents.
