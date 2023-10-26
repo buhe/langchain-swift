@@ -1083,7 +1083,7 @@ May God bless you all. May God protect our troops.
     }
     
     func testLoaderThrow() async throws {
-        let textLoader = TextLoader(file_path: "abc.txt")
+        let textLoader = TextLoader(file_path: "abc.txt", callbacks:[StdOutCallbackHandler()])
         let text = await textLoader.load()
     }
 //

@@ -10,8 +10,9 @@ import Foundation
 public class TextLoader: BaseLoader {
     let file_path: String
     
-    public init(file_path: String) {
+    public init(file_path: String, callbacks: [BaseCallbackHandler] = []) {
         self.file_path = file_path
+        super.init(callbacks: callbacks)
     }
     public override func _load() async throws  -> [Document] {
         let nameAndExt = self.file_path.split(separator: ".")

@@ -12,7 +12,7 @@ public class BaseCallbackHandler: LLMManagerMixin, ChainManagerMixin, CallbackMa
         
     }
     
-    public func on_loader_error(type: String, error: Error, metadata: [String : String]) throws {
+    public func on_loader_error(type: String, cause: String, metadata: [String : String]) throws {
         
     }
     
@@ -81,7 +81,7 @@ public class BaseCallbackHandler: LLMManagerMixin, ChainManagerMixin, CallbackMa
 public protocol LoaderManagerMixin {
     func on_loader_start(type: String, metadata: [String: String]) throws
     
-    func on_loader_error(type: String, error: Error, metadata: [String: String]) throws
+    func on_loader_error(type: String, cause: String, metadata: [String: String]) throws
     
     func on_loader_end(type: String, metadata: [String: String]) throws
 }
