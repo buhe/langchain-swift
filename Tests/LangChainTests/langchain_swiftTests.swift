@@ -1081,6 +1081,11 @@ May God bless you all. May God protect our troops.
         let res = datetimeParse.parse(text: "2001-10-13 01:02:03")
         print(res)
     }
+    
+    func testLoaderThrow() async throws {
+        let textLoader = TextLoader(file_path: "abc.txt")
+        let text = await textLoader.load()
+    }
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)

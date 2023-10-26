@@ -23,7 +23,7 @@ public class BaseLoader {
             
             return docs
         } catch LangChainError.LoaderError(let cause) {
-            print(cause)
+            print("Catch langchain loader error \(cause)")
             return []
         } catch {
             return []

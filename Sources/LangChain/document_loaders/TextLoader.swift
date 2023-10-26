@@ -19,12 +19,15 @@ public class TextLoader: BaseLoader {
             let name = "\(nameAndExt[0])"
             let ext = "\(nameAndExt[1])"
             var text = ""
-            let res = Bundle.main.path(forResource: name, ofType: ext)!
-            text = try String(contentsOfFile: res)
-            let metadata = ["source": self.file_path]
-            return [Document(page_content: text, metadata: metadata)]
+            if let res = Bundle.main.path(forResource: name, ofType: ext){
+                text = try String(contentsOfFile: res)
+                let metadata = ["source": self.file_path]
+                return [Document(page_content: text, metadata: metadata)]
+            } else {
+                throw LangChainError.LoaderError("Text fail not exist")
+            }
         } catch {
-            throw LangChainError.LoaderError("Parse text fail")
+            throw LangChainError.LoaderError("Parse text fail with \(error)")
         }
     }
     
