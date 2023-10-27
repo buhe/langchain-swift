@@ -1071,13 +1071,13 @@ May God bless you all. May God protect our troops.
     }
     
     func testDatetimePrompt() async throws {
-        let datetimeParse = DatetimeOutputParser()
+        let datetimeParse = DateOutputParser()
         let prompt = datetimeParse.get_format_instructions()
         print(prompt)
     }
     
     func testDatetimeParse() async throws {
-        let datetimeParse = DatetimeOutputParser()
+        let datetimeParse = DateOutputParser()
         let res = datetimeParse.parse(text: "2001 10 13")
         print(res)
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct DatetimeOutputParser: BaseOutputParser {
+public struct DateOutputParser: BaseOutputParser {
     public init() {
     }
     
