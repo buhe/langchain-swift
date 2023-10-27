@@ -55,7 +55,7 @@ public class BaseLoader {
         }
     }
     
-    func load() async -> [Document] {
+    public func load() async -> [Document] {
         let type = type()
         let reqId = UUID().uuidString
         var cost = 0.0
