@@ -1078,7 +1078,7 @@ May God bless you all. May God protect our troops.
     
     func testDatetimeParse() async throws {
         let datetimeParse = DatetimeOutputParser()
-        let res = datetimeParse.parse(text: "2001-10-13 01:02:03")
+        let res = datetimeParse.parse(text: "2001 10 13")
         print(res)
     }
     
