@@ -14,9 +14,10 @@ import NIOPosix
 public class YoutubeLoader: BaseLoader {
     let video_id: String
     let language: String
-    public init(video_id: String, language: String) {
+    public init(video_id: String, language: String, callbacks: [BaseCallbackHandler] = []) {
         self.video_id = video_id
         self.language = language
+        super.init(callbacks: callbacks)
     }
     public override func _load() async throws -> [Document] {
         

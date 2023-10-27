@@ -17,8 +17,9 @@ import NIOPosix
 public class ImageOCRLoader: BaseLoader {
     let image: Data
     
-    public init(image: Data) {
+    public init(image: Data, callbacks: [BaseCallbackHandler] = []) {
         self.image = image
+        super.init(callbacks: callbacks)
     }
     
     public override func _load() async throws -> [Document] {

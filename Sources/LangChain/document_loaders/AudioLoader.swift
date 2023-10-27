@@ -17,9 +17,10 @@ public class AudioLoader: BaseLoader {
     let audio: URL
     let fileName: String
     
-    public init(audio: URL, fileName: String) {
+    public init(audio: URL, fileName: String, callbacks: [BaseCallbackHandler] = []) {
         self.audio = audio
         self.fileName = fileName
+        super.init(callbacks: callbacks)
     }
     
     public override func _load() async throws -> [Document] {

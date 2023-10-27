@@ -10,9 +10,10 @@ import Foundation
 public class HtmlLoader: BaseLoader {
     let html: String
     let url: String
-    public init(html: String, url: String) {
+    public init(html: String, url: String, callbacks: [BaseCallbackHandler] = []) {
         self.html = html
         self.url = url
+        super.init(callbacks: callbacks)
     }
     
     public override func _load() async throws -> [Document] {

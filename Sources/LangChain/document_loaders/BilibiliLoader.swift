@@ -10,8 +10,9 @@ import Foundation
 public class BilibiliLoader: BaseLoader {
     let videoId: String
     
-    public init(videoId: String) {
+    public init(videoId: String, callbacks: [BaseCallbackHandler] = []) {
         self.videoId = videoId
+        super.init(callbacks: callbacks)
     }
         
     public override func _load() async throws -> [Document] {

@@ -14,8 +14,9 @@ import PDFKit
 public class PDFLoader: BaseLoader {
     let fileURL: URL
     
-    public init(fileURL: URL) {
+    public init(fileURL: URL, callbacks: [BaseCallbackHandler] = []) {
         self.fileURL = fileURL
+        super.init(callbacks: callbacks)
     }
     
     public override func _load() async throws -> [Document] {
