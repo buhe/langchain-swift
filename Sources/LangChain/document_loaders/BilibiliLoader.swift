@@ -7,18 +7,19 @@
 
 import Foundation
 
-public struct BilibiliLoader: BaseLoader {
+public class BilibiliLoader: BaseLoader {
     let videoId: String
     
-    public init(videoId: String) {
+    public init(videoId: String, callbacks: [BaseCallbackHandler] = []) {
         self.videoId = videoId
+        super.init(callbacks: callbacks)
     }
         
-    public func load() async -> [Document] {
+    public override func _load() async throws -> [Document] {
         let client = BilibiliClient(credential: BilibiliCredential(sessin: "6376fa3e%2C1705926902%2C0b561%2A71gvy_TPyZMWhUweKjYGT502_5FVZdcv8bfjvwtqdlqm8UjyEiUrkPq1AodolcSjIgBXatNwAAEgA", jct: "330aaac577464e453ea1b070fd1281ea"))
         let info = await client.fetchVideoInfo(bvid: videoId)
         if info == nil {
-            return []
+            throw LangChainError.LoaderError("Subtitle not exist")
         }
         return [Document(page_content: info!.subtitle, metadata: [
             "title": info!.title,
@@ -27,4 +28,7 @@ public struct BilibiliLoader: BaseLoader {
         ])]
     }
     
+    override func type() -> String {
+        "Bilibili"
+    }
 }

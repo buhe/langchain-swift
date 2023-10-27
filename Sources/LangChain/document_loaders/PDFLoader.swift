@@ -11,14 +11,15 @@ import PDFKit
 //if let url = Bundle.main.url(forResource: "sample_pdf", withExtension: "pdf") {
 //
 //}
-public struct PDFLoader: BaseLoader {
+public class PDFLoader: BaseLoader {
     let fileURL: URL
     
-    public init(fileURL: URL) {
+    public init(fileURL: URL, callbacks: [BaseCallbackHandler] = []) {
         self.fileURL = fileURL
+        super.init(callbacks: callbacks)
     }
     
-    public func load() async -> [Document] {
+    public override func _load() async throws -> [Document] {
         if let pdfDocument = PDFDocument(url: fileURL) {
             var extractedText = ""
             let metadata = ["url": fileURL.absoluteString]
@@ -34,8 +35,11 @@ public struct PDFLoader: BaseLoader {
 //            print(extractedText)
             return [Document(page_content: extractedText, metadata: metadata)]
         } else{
-            return []
+            throw LangChainError.LoaderError("Parse PDF file fail.")
         }
     }
     
+    override func type() -> String {
+        "PDF"
+    }
 }

@@ -54,4 +54,15 @@ public class StdOutCallbackHandler: BaseCallbackHandler {
         print("💁🏻‍♂️", "[DEBUG] Catch LLM error: '\(error.localizedDescription)'")
     }
     
+    public override func on_loader_start(type: String, metadata: [String : String]) throws {
+        print("💁🏻‍♂️", "[DEBUG] Entering new \(type) loader")
+    }
+    
+    public override func on_loader_error(type: String, cause: String, metadata: [String : String]) throws {
+        print("💁🏻‍♂️", "[DEBUG] Catch \(type) loader error: '\(cause)'")
+    }
+    
+    public override func on_loader_end(type: String, metadata: [String : String]) throws {
+        print("💁🏻‍♂️", "[DEBUG] Finished loader of \(type)")
+    }
 }

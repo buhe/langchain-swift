@@ -7,15 +7,16 @@
 import SwiftSoup
 import Foundation
 
-public struct HtmlLoader: BaseLoader {
+public class HtmlLoader: BaseLoader {
     let html: String
     let url: String
-    public init(html: String, url: String) {
+    public init(html: String, url: String, callbacks: [BaseCallbackHandler] = []) {
         self.html = html
         self.url = url
+        super.init(callbacks: callbacks)
     }
     
-    public func load() async -> [Document] {
+    public override func _load() async throws -> [Document] {
         do {
             let doc: SwiftSoup.Document = try SwiftSoup.parse(html)
             let text = try doc.text()
@@ -25,10 +26,10 @@ public struct HtmlLoader: BaseLoader {
             return [Document(page_content: text, metadata: metadata)]
         } catch Exception.Error( _, let message) {
             print("Get body error " + message)
-            return []
+            throw LangChainError.LoaderError("Parse html fail with \(message)")
         } catch {
             print("Get body error \(error)")
-            return []
+            throw LangChainError.LoaderError("Parse html fail with \(error)")
         }
     }
     func findTitle(doc: SwiftSoup.Document) -> String {
@@ -72,5 +73,9 @@ public struct HtmlLoader: BaseLoader {
             print("Error: \(error.localizedDescription)")
             return ""
         }
+    }
+    
+    override func type() -> String {
+        "Html"
     }
 }

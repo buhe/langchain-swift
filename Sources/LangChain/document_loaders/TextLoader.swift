@@ -7,25 +7,29 @@
 
 import Foundation
 
-public struct TextLoader: BaseLoader {
+public class TextLoader: BaseLoader {
     let file_path: String
     
-    public init(file_path: String) {
+    public init(file_path: String, callbacks: [BaseCallbackHandler] = []) {
         self.file_path = file_path
+        super.init(callbacks: callbacks)
     }
-    public func load() -> [Document] {
+    public override func _load() async throws  -> [Document] {
         let nameAndExt = self.file_path.split(separator: ".")
         let name = "\(nameAndExt[0])"
         let ext = "\(nameAndExt[1])"
         var text = ""
-        let res = Bundle.main.path(forResource: name, ofType: ext)!
-        do {
+        if let res = Bundle.main.path(forResource: name, ofType: ext){
             text = try String(contentsOfFile: res)
-        } catch {
-            print("Unable to load res file: \(error)")
+            let metadata = ["source": self.file_path]
+            return [Document(page_content: text, metadata: metadata)]
+        } else {
+            throw LangChainError.LoaderError("Text fail not exist")
         }
-        let metadata = ["source": self.file_path]
-        return [Document(page_content: text, metadata: metadata)]
+    }
+    
+    override func type() -> String {
+        "Text"
     }
 }
 //class TextLoader(BaseLoader):

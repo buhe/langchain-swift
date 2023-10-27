@@ -9,11 +9,11 @@ import Foundation
 
 public class LLMChain: DefaultChain {
     let llm: LLM
-    let prompt: PromptTemplate
+    let prompt: PromptTemplate?
     let parser: BaseOutputParser?
     let stop: [String]
     
-    public init(llm: LLM, prompt: PromptTemplate, parser: BaseOutputParser? = nil, stop: [String] = [], memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
+    public init(llm: LLM, prompt: PromptTemplate? = nil, parser: BaseOutputParser? = nil, stop: [String] = [], memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
         self.llm = llm
         self.prompt = prompt
         self.parser = parser
@@ -30,9 +30,12 @@ public class LLMChain: DefaultChain {
     
     func generate(input_list: [String]) async -> String {
         // call rest api
-        let input_prompt = self.prompt.format(args: input_list)
+        
+        var input_prompt = ""
+        if let prompt = self.prompt {
+            input_prompt = prompt.format(args: input_list)
+        }
         do {
-//            print(input_prompt)
             var llmResult = await run(args: input_prompt)
             try await llmResult.setOutput()
             return llmResult.llm_output!

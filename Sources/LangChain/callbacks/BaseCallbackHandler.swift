@@ -6,7 +6,21 @@
 //
 
 import Foundation
-public class BaseCallbackHandler: LLMManagerMixin, ChainManagerMixin, CallbackManagerMixin, ToolManagerMixin {
+public class BaseCallbackHandler: LLMManagerMixin, ChainManagerMixin, CallbackManagerMixin, ToolManagerMixin, LoaderManagerMixin {
+    // Loader
+    public func on_loader_start(type: String, metadata: [String : String]) throws {
+        
+    }
+    
+    public func on_loader_error(type: String, cause: String, metadata: [String : String]) throws {
+        
+    }
+    
+    public func on_loader_end(type: String, metadata: [String : String]) throws {
+        
+    }
+    
+    // Agent
     public func on_agent_start(prompt: String, metadata: [String : String]) throws {
         
     }
@@ -64,7 +78,13 @@ public class BaseCallbackHandler: LLMManagerMixin, ChainManagerMixin, CallbackMa
         
     }
 }
-
+public protocol LoaderManagerMixin {
+    func on_loader_start(type: String, metadata: [String: String]) throws
+    
+    func on_loader_error(type: String, cause: String, metadata: [String: String]) throws
+    
+    func on_loader_end(type: String, metadata: [String: String]) throws
+}
 public protocol LLMManagerMixin {
     func on_llm_new_token(metadata: [String: String])
     

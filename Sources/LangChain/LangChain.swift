@@ -7,3 +7,7 @@
 
 import Foundation
 
+enum LangChainError: Error {
+    case LoaderError(String)
+    
+}
