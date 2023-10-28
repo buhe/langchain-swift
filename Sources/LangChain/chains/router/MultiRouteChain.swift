@@ -21,7 +21,7 @@ public class MultiRouteChain: DefaultChain {
     }
     
     // call route
-    public override func call(args: String) async throws -> LLMResult {
+    public override func _call(args: String) async throws -> (LLMResult, Parsed) {
 //        print("call route.")
 //        _run_manager = run_manager or CallbackManagerForChainRun.get_noop_manager()
 //                callbacks = _run_manager.get_child()
@@ -42,11 +42,11 @@ public class MultiRouteChain: DefaultChain {
 //                    raise ValueError(
 //                        f"Received invalid destination chain name '{route.destination}'"
 //                    )
-        let route = await self.router_chain.route(args: ["route": args])
+        let route = await self.router_chain.route(args: args)
         if destination_chains.keys.contains(route.destination) {
-            return try await destination_chains[route.destination]!.call(args: route.next_inputs)
+            return try await destination_chains[route.destination]!._call(args: route.next_inputs)
         } else {
-            return try await default_chain.call(args: route.next_inputs)
+            return try await default_chain._call(args: route.next_inputs)
         }
     }
 }

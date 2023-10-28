@@ -134,7 +134,7 @@ public class AgentExecutor: DefaultChain {
             return (step, "default")
         }
     }
-    public override func call(args: String) async throws -> LLMResult {
+    public override func _call(args: String) async throws -> (LLMResult, Parsed) {
         // chain run -> call -> agent plan -> llm send
         
         // while should_continue and call
@@ -160,7 +160,7 @@ public class AgentExecutor: DefaultChain {
                 for callback in self.callbacks {
                     try callback.on_agent_finish(action: finish, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
                 }
-                return LLMResult(llm_output: next_step_output.1)
+                return (LLMResult(llm_output: next_step_output.1), Parsed.nothing)
             case .action(let action):
                 for callback in self.callbacks {
                     try callback.on_agent_action(action: action, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
@@ -168,7 +168,7 @@ public class AgentExecutor: DefaultChain {
                 intermediate_steps.append((action, next_step_output.1))
             default:
 //                print("error step.")
-                return LLMResult()
+                return (LLMResult(), Parsed.error)
             }
         }
     }

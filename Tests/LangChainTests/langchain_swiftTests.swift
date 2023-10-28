@@ -1021,33 +1021,33 @@ May God bless you all. May God protect our troops.
     
     func testSimpleSequentialChain() async throws {
         class A: DefaultChain {
-            public override func call(args: String) async throws -> LLMResult {
-                return LLMResult(llm_output: args + "_A")
+            public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+                return (LLMResult(llm_output: args + "_A"), Parsed.nothing)
             }
         }
         class B: DefaultChain {
-            public override func call(args: String) async throws -> LLMResult {
-                return LLMResult(llm_output: args + "_B")
+            public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+                return (LLMResult(llm_output: args + "_B"), Parsed.nothing)
             }
         }
         let simpleSequentialChain = SimpleSequentialChain(chains: [A(), B()])
         
-        let llmResult = try await simpleSequentialChain.call(args: "0")
+        let llmResult = try await simpleSequentialChain._call(args: "0")
         
-        print("llm: \(llmResult.llm_output!)")
+        print("llm: \(llmResult.0.llm_output!)")
         
-        XCTAssertEqual("0_A_B", llmResult.llm_output!)
+        XCTAssertEqual("0_A_B", llmResult.0.llm_output!)
     }
     
     func testSequentialChain() async throws {
         class A: DefaultChain {
-            public override func call(args: String) async throws -> LLMResult {
-                return LLMResult(llm_output: args + "_A")
+            public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+                return (LLMResult(llm_output: args + "_A"), Parsed.nothing)
             }
         }
         class B: DefaultChain {
-            public override func call(args: String) async throws -> LLMResult {
-                return LLMResult(llm_output: args + "_B")
+            public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+                return (LLMResult(llm_output: args + "_B"), Parsed.nothing)
             }
         }
         let sequentialChain = SequentialChain(chains: [A(outputKey: "_A_"), B(outputKey: "_B_")])
@@ -1065,9 +1065,9 @@ May God bless you all. May God protect our troops.
             return LLMResult(llm_output: args + "_T")
         }
         
-        let result = try await tc.call(args: "HO")
-        print("llm: \(result.llm_output!)")
-        XCTAssertEqual("HO_T", result.llm_output!)
+        let result = try await tc._call(args: "HO")
+        print("llm: \(result.0.llm_output!)")
+        XCTAssertEqual("HO_T", result.0.llm_output!)
     }
     
     func testDatetimePrompt() async throws {

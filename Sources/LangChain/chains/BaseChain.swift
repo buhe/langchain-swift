@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class DefaultChain: Chain {
+public class DefaultChain {
     static let CHAIN_REQ_ID_KEY = "chain_req_id"
     static let CHAIN_COST_KEY = "cost"
     public init(memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
@@ -23,9 +23,9 @@ public class DefaultChain: Chain {
     let memory: BaseMemory?
     let outputKey: String?
     let callbacks: [BaseCallbackHandler]
-    public func call(args: String) async throws -> LLMResult {
+    public func _call(args: String) async throws -> (LLMResult, Parsed) {
         print("call base.")
-        return LLMResult()
+        return (LLMResult(), Parsed.unimplemented)
     }
     
     func callEnd(output: String, reqId: String, cost: Double) {
@@ -59,25 +59,33 @@ public class DefaultChain: Chain {
     }
     
     // This interface alreadly return 'LLMReult', ensure 'run' method has stream style.
-    public func run(args: String) async -> LLMResult {
+    public func run(args: String) async -> Parsed {
+        let inputAndContext = prep_inputs(inputs: ["input": args])
+        // = Langchain's run + __call__
         let reqId = UUID().uuidString
         var cost = 0.0
         let now = Date.now.timeIntervalSince1970
         do {
             callStart(prompt: args, reqId: reqId)
-            let llmResult = try await self.call(args: args)
+            let outputs = try await self._call(args: args)
             cost = Date.now.timeIntervalSince1970 - now
-            if !llmResult.stream {
-                callEnd(output: llmResult.llm_output!, reqId: reqId, cost: cost)
-            } else {
-                callEnd(output: "[LLM is streamable]", reqId: reqId, cost: cost)
-            }
-            return llmResult
+            //TODO call end trace
+//            if !llmResult.stream {
+//                callEnd(output: llmResult.llm_output!, reqId: reqId, cost: cost)
+//            } else {
+//                callEnd(output: "[LLM is streamable]", reqId: reqId, cost: cost)
+//            }
+            let _ = prep_outputs(inputs: inputAndContext, outputs: [self.outputKey!: outputs.0.llm_output!])
+            return outputs.1
         } catch {
 //            print(error)
             callCatch(error: error, reqId: reqId, cost: cost)
-            return LLMResult(llm_output: "")
+            return Parsed.error
         }
+    }
+    
+    func __call__() {
+        
     }
     
     func prep_outputs(inputs: [String: String], outputs: [String: String]) -> [String: String] {
@@ -140,8 +148,4 @@ public class DefaultChain: Chain {
 //             inputs = dict(inputs, **external_context)
 //         self._validate_inputs(inputs)
 //         return inputs
-}
-
-public protocol Chain {
-    func call(args: String) async throws -> LLMResult
 }

@@ -20,8 +20,8 @@ public class LLMRouterChain: DefaultChain {
         super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
     }
     
-    public func route(args: [String: String]) async -> Route {
-        let parsed = await llmChain.predict_and_parse(args: args)
+    public func route(args: String) async -> Route {
+        let parsed = await llmChain.run(args: args)
         // check and route
         switch parsed {
             case .dict(let d):

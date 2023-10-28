@@ -17,7 +17,7 @@ public class SequentialChain: DefaultChain {
         var input: LLMResult = LLMResult(llm_output: args)
         for chain in self.chains {
             assert(chain.outputKey != nil, "chain.outputKey must not be nil")
-            input = try await chain.call(args: input.llm_output!)
+            input = try await chain._call(args: input.llm_output!).0
             result.updateValue(input.llm_output!, forKey: chain.outputKey!)
         }
         return result

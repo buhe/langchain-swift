@@ -13,11 +13,11 @@ public class SimpleSequentialChain: DefaultChain {
         self.chains = chains
         super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
     }
-    public override func call(args: String) async throws -> LLMResult {
+    public override func _call(args: String) async throws -> (LLMResult, Parsed) {
         var result: LLMResult = LLMResult(llm_output: args)
         for chain in self.chains {
-            result = try await chain.call(args: result.llm_output!)
+            result = try await chain._call(args: result.llm_output!).0
         }
-        return result
+        return (result, Parsed.nothing)
     }
 }
