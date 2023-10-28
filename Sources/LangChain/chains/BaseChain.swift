@@ -69,9 +69,9 @@ public class DefaultChain {
             callStart(prompt: args, reqId: reqId)
             let outputs = try await self._call(args: args)
             cost = Date.now.timeIntervalSince1970 - now
-            //TODO call end trace
-//            if !llmResult.stream {
-//                callEnd(output: llmResult.llm_output!, reqId: reqId, cost: cost)
+            //call end trace
+//            if !outputs.0.stream {
+            callEnd(output: outputs.0.llm_output!, reqId: reqId, cost: cost)
 //            } else {
 //                callEnd(output: "[LLM is streamable]", reqId: reqId, cost: cost)
 //            }
@@ -111,41 +111,4 @@ public class DefaultChain {
             return inputs
         }
     }
-    
-//    def prep_outputs(
-//         self,
-//         inputs: Dict[str, str],
-//         outputs: Dict[str, str],
-//         return_only_outputs: bool = False,
-//     ) -> Dict[str, str]:
-//         """Validate and prep outputs."""
-//         self._validate_outputs(outputs)
-//         if self.memory is not None:
-//             self.memory.save_context(inputs, outputs)
-//         if return_only_outputs:
-//             return outputs
-//         else:
-//             return {**inputs, **outputs}
-//
-//     def prep_inputs(self, inputs: Union[Dict[str, Any], Any]) -> Dict[str, str]:
-//         """Validate and prep inputs."""
-//         if not isinstance(inputs, dict):
-//             _input_keys = set(self.input_keys)
-//             if self.memory is not None:
-//                 # If there are multiple input keys, but some get set by memory so that
-//                 # only one is not set, we can still figure out which key it is.
-//                 _input_keys = _input_keys.difference(self.memory.memory_variables)
-//             if len(_input_keys) != 1:
-//                 raise ValueError(
-//                     f"A single string input was passed in, but this chain expects "
-//                     f"multiple inputs ({_input_keys}). When a chain expects "
-//                     f"multiple inputs, please call it by passing in a dictionary, "
-//                     "eg `chain({'foo': 1, 'bar': 2})`"
-//                 )
-//             inputs = {list(_input_keys)[0]: inputs}
-//         if self.memory is not None:
-//             external_context = self.memory.load_memory_variables(inputs)
-//             inputs = dict(inputs, **external_context)
-//         self._validate_inputs(inputs)
-//         return inputs
 }

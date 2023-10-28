@@ -47,7 +47,7 @@ struct TraceManager {
 
             let response = try await httpClient.execute(request, timeout: .seconds(30))
             if response.status == .ok {
-                let result = String(buffer: try await response.body.collect(upTo: 1024 * 1024))
+                let _ = String(buffer: try await response.body.collect(upTo: 1024 * 1024))
             } else {
                 // handle remote error
                 print("http code is not 200.")
