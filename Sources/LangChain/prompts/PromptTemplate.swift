@@ -19,21 +19,22 @@ public class PromptTemplate {
     public let partial_variable: [String: String]
     // A list of the names of the variables the prompt template expects.
     
-    public var template: String
+    public let template: String
     // The prompt template.
     public func format(args: [String]) -> String {
+        var templateCopy = template
         for (k, v) in partial_variable {
             let replace = "{\(k)}"
-            template = template.replacingOccurrences(of: replace, with: v)
+            templateCopy = templateCopy.replacingOccurrences(of: replace, with: v)
         }
         assert(args.count == input_variables.count)
         var argsCopy = args
         for k in input_variables {
             let replace = "{\(k)}"
             let input = argsCopy.remove(at: 0)
-            template = template.replacingOccurrences(of: replace, with: input)
+            templateCopy = templateCopy.replacingOccurrences(of: replace, with: input)
         }
-        return template
+        return templateCopy
     }
     
     public static func from_template(input_variables: [String], partial_variable: [String : String], template: String) -> PromptTemplate {

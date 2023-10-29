@@ -160,7 +160,7 @@ public class AgentExecutor: DefaultChain {
                 for callback in self.callbacks {
                     try callback.on_agent_finish(action: finish, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
                 }
-                return (LLMResult(llm_output: next_step_output.1), Parsed.nothing)
+                return (LLMResult(llm_output: next_step_output.1), Parsed.str(next_step_output.1))
             case .action(let action):
                 for callback in self.callbacks {
                     try callback.on_agent_action(action: action, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
