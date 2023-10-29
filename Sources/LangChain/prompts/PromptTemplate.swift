@@ -21,18 +21,20 @@ public class PromptTemplate {
     
     public let template: String
     // The prompt template.
-    public func format(args: [String]) -> String {
+    public func format(args: [String: String]) -> String {
         var templateCopy = template
         for (k, v) in partial_variable {
             let replace = "{\(k)}"
             templateCopy = templateCopy.replacingOccurrences(of: replace, with: v)
         }
-        assert(args.count == input_variables.count)
+//        assert(args.count == input_variables.count)
         var argsCopy = args
         for k in input_variables {
             let replace = "{\(k)}"
-            let input = argsCopy.remove(at: 0)
-            templateCopy = templateCopy.replacingOccurrences(of: replace, with: input)
+            let input = argsCopy[k]
+            if input != nil {
+                templateCopy = templateCopy.replacingOccurrences(of: replace, with: input!)
+            }
         }
         return templateCopy
     }

@@ -30,18 +30,18 @@ public class LLMChain: DefaultChain {
     public override func _call(args: String) async throws -> (LLMResult, Parsed) {
         // ["\\nObservation: ", "\\n\\tObservation: "]
         
-        let llmResult = await generate(input_list: [args])
+        let llmResult = await generate(input_list: ["input": args])
         
         return (llmResult, create_outputs(output: llmResult))
     }
-    func prep_prompts(input_list: [String]) -> String {
+    func prep_prompts(input_list: [String: String]) -> String {
         if let prompt = self.prompt {
             return prompt.format(args: input_list)
         } else {
-            return input_list[0]
+            return input_list.first!.value
         }
     }
-    func generate(input_list: [String]) async -> LLMResult {
+    func generate(input_list: [String: String]) async -> LLMResult {
         let input_prompt = prep_prompts(input_list: input_list)
         do {
             //call llm
@@ -54,12 +54,19 @@ public class LLMChain: DefaultChain {
         }
     }
     
-    public func apply(input_list: [String]) async -> Parsed {
+    public func apply(input_list: [String: String]) async -> Parsed {
         let response = await generate(input_list: input_list)
         return create_outputs(output: response)
     }
     
     public func plan(input: String, agent_scratchpad: String) async -> Parsed {
-        return await apply(input_list: [input, agent_scratchpad])
+        return await apply(input_list: ["question": input, "thought": agent_scratchpad])
+    }
+    
+    public func predict(args: [String: String] ) async -> String {
+        let inputAndContext = prep_inputs(inputs: args)
+        let outputs = await self.generate(input_list: inputAndContext)
+        let _ = prep_outputs(inputs: inputAndContext, outputs: [self.outputKey: outputs.llm_output!])
+        return outputs.llm_output!
     }
 }
