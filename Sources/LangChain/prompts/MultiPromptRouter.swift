@@ -32,7 +32,7 @@ public struct MultiPromptRouter {
         \(destinations)
 
         << INPUT >>
-        %@
+        {input}
 
         << OUTPUT >>
         """

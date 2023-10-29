@@ -263,7 +263,7 @@ public class ZeroShotAgent: Agent {
         let tool_names = tools.map{$0.name()}.joined(separator: ", ")
         let format_instructions2 = String(format: format_instructions, tool_names)
         let template = [prefix0, tool_strings, format_instructions2, suffix].joined(separator: "\n\n")
-        return PromptTemplate(input_variables: [], template: template)
+        return PromptTemplate(input_variables: ["question", "thought"], partial_variable: [:], template: template)
     }
 //        @classmethod
 //            def create_prompt(

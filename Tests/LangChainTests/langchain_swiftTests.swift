@@ -12,8 +12,10 @@ final class langchain_swiftTests: XCTestCase {
 
         // Defining Test Cases and Test Methods
         // https://developer.apple.com/documentation/xctest/defining_test_cases_and_test_methods
-        let s1 = PromptTemplate(input_variables: ["1", "2"], template: SUFFIX).format(args: [ "dog" , "cat"] )
+        let s1 = PromptTemplate(input_variables: ["1", "2"], partial_variable: [:], template: "{1} | {2}").format(args: [ "dog" , "cat"] )
+//        print(s1)
         XCTAssertNotNil(s1)
+        XCTAssertEqual(s1, "dog | cat")
     }
     
     func testZeroShotAgent() throws {
@@ -923,10 +925,38 @@ May God bless you all. May God protect our troops.
 //        print(raw)
 //        let i = MultiPromptRouter.formatInput(rawString: raw, input: "123")
 //        print(i)
-        let input = PromptTemplate(input_variables: [], template: raw).format(args: ["123"])
-        print(input)
+        let input = PromptTemplate(input_variables: ["input"], partial_variable: [:], template: raw).format(args: ["123"])
+//        print(input)
         XCTAssertNotNil(raw)
         XCTAssertNotNil(input)
+        let c = """
+        Given a raw text input to a language model select the model prompt best suited for
+        the input. You will be given the names of the available prompts and a description of
+        what the prompt is best suited for. You may also revise the original input if you
+        think that revising it will ultimately lead to a better response from the language
+        model.
+
+        << FORMATTING >>
+        Return a JSON object formatted to look like:
+        {
+            "destination": string \\ name of the prompt to use or "DEFAULT"
+            "next_inputs": string \\ a potentially modified version of the original input
+        }
+
+        REMEMBER: "destination" MUST be one of the candidate prompt names specified below OR \
+        it can be "DEFAULT" if the input is not well suited for any of the candidate prompts.
+        REMEMBER: "next_inputs" can just be the original input if you don't think any \
+        modifications are needed.
+
+        << CANDIDATE PROMPTS >>
+        abc
+
+        << INPUT >>
+        123
+
+        << OUTPUT >>
+        """
+        XCTAssertEqual(c, input)
     }
     
     func testObjectOutputParser() async throws {
