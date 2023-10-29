@@ -10,7 +10,7 @@ public class AgentExecutor: DefaultChain {
     static let AGENT_REQ_ID = "agent_req_id"
     let agent: Agent
     let tools: [BaseTool]
-    public init(agent: Agent, tools: [BaseTool], memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
+    public init(agent: Agent, tools: [BaseTool], memory: BaseMemory? = nil, outputKey: String = "output", callbacks: [BaseCallbackHandler] = []) {
         self.agent = agent
         self.tools = tools
         var cbs: [BaseCallbackHandler] = callbacks

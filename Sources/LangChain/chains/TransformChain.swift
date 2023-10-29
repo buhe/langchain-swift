@@ -8,7 +8,7 @@
 import Foundation
 
 public class TransformChain: DefaultChain {
-    public init(fn: @escaping (_: String) -> LLMResult, memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
+    public init(fn: @escaping (_: String) -> LLMResult, memory: BaseMemory? = nil, outputKey: String = "output", callbacks: [BaseCallbackHandler] = []) {
         self.fn = fn
         super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
     }

@@ -8,7 +8,7 @@
 import Foundation
 public class SequentialChain: DefaultChain {
     let chains: [DefaultChain]
-    public init(chains: [DefaultChain], memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
+    public init(chains: [DefaultChain], memory: BaseMemory? = nil, outputKey: String = "output", callbacks: [BaseCallbackHandler] = []) {
         self.chains = chains
         super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
     }
@@ -16,9 +16,9 @@ public class SequentialChain: DefaultChain {
         var result: [String: String] = [:]
         var input: LLMResult = LLMResult(llm_output: args)
         for chain in self.chains {
-            assert(chain.outputKey != nil, "chain.outputKey must not be nil")
+//            assert(chain.outputKey != nil, "chain.outputKey must not be nil")
             input = try await chain._call(args: input.llm_output!).0
-            result.updateValue(input.llm_output!, forKey: chain.outputKey!)
+            result.updateValue(input.llm_output!, forKey: chain.outputKey)
         }
         return result
     }

@@ -9,7 +9,7 @@ import Foundation
 
 public class SimpleSequentialChain: DefaultChain {
     let chains: [DefaultChain]
-    public init(chains: [DefaultChain], memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
+    public init(chains: [DefaultChain], memory: BaseMemory? = nil, outputKey: String = "output", callbacks: [BaseCallbackHandler] = []) {
         self.chains = chains
         super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
     }

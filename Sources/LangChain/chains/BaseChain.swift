@@ -10,7 +10,7 @@ import Foundation
 public class DefaultChain {
     static let CHAIN_REQ_ID_KEY = "chain_req_id"
     static let CHAIN_COST_KEY = "cost"
-    public init(memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
+    public init(memory: BaseMemory? = nil, outputKey: String = "output", callbacks: [BaseCallbackHandler] = []) {
         self.memory = memory
         self.outputKey = outputKey
         var cbs: [BaseCallbackHandler] = callbacks
@@ -21,7 +21,7 @@ public class DefaultChain {
         self.callbacks = cbs
     }
     let memory: BaseMemory?
-    let outputKey: String?
+    let outputKey: String
     let callbacks: [BaseCallbackHandler]
     public func _call(args: String) async throws -> (LLMResult, Parsed) {
         print("call base.")
@@ -75,7 +75,7 @@ public class DefaultChain {
 //            } else {
 //                callEnd(output: "[LLM is streamable]", reqId: reqId, cost: cost)
 //            }
-            let _ = prep_outputs(inputs: inputAndContext, outputs: [self.outputKey!: outputs.0.llm_output!])
+            let _ = prep_outputs(inputs: inputAndContext, outputs: [self.outputKey: outputs.0.llm_output!])
             return outputs.1
         } catch {
 //            print(error)
