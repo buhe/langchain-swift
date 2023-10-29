@@ -12,7 +12,7 @@ final class langchain_swiftTests: XCTestCase {
 
         // Defining Test Cases and Test Methods
         // https://developer.apple.com/documentation/xctest/defining_test_cases_and_test_methods
-        let s1 = PromptTemplate(input_variables: ["1", "2"], partial_variable: [:], template: "{1} | {2}").format(args: [ "dog" , "cat"] )
+        let s1 = PromptTemplate(input_variables: ["1", "2"], partial_variable: [:], template: "{1} | {2}").format(args: [ "1":"dog" ,"2": "cat"] )
 //        print(s1)
         XCTAssertNotNil(s1)
         XCTAssertEqual(s1, "dog | cat")
@@ -45,7 +45,7 @@ Begin!
 Question: cat
 Thought: dog
 """
-        XCTAssertEqual(c, p.format(args: ["cat", "dog"]))
+        XCTAssertEqual(c, p.format(args: ["question": "cat","thought": "dog"]))
     }
     
     func testCharacterTextSplitter() throws {
@@ -925,7 +925,7 @@ May God bless you all. May God protect our troops.
 //        print(raw)
 //        let i = MultiPromptRouter.formatInput(rawString: raw, input: "123")
 //        print(i)
-        let input = PromptTemplate(input_variables: ["input"], partial_variable: [:], template: raw).format(args: ["123"])
+        let input = PromptTemplate(input_variables: ["input"], partial_variable: [:], template: raw).format(args: ["input": "123"])
 //        print(input)
         XCTAssertNotNil(raw)
         XCTAssertNotNil(input)

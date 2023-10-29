@@ -20,8 +20,7 @@ let package = Package(
         .package(url: "https://github.com/supabase-community/supabase-swift", .upToNextMajor(from: "0.2.1")),
         .package(url: "https://github.com/SwiftyJSON/SwiftyJSON", .upToNextMajor(from: "5.0.1")),
         .package(url: "https://github.com/drmohundro/SWXMLHash", .upToNextMajor(from: "7.0.2")),
-        .package(url: "https://github.com/scinfu/SwiftSoup", .upToNextMajor(from: "2.6.1")),
-        .package(url: "https://github.com/swift-server/async-http-client", .upToNextMajor(from: "1.18.0")),
+        .package(url: "https://github.com/scinfu/SwiftSoup", .upToNextMajor(from: "2.6.1"))
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.

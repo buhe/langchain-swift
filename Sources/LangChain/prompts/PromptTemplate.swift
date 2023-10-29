@@ -28,10 +28,10 @@ public class PromptTemplate {
             templateCopy = templateCopy.replacingOccurrences(of: replace, with: v)
         }
 //        assert(args.count == input_variables.count)
-        var argsCopy = args
+//        var argsCopy = args
         for k in input_variables {
             let replace = "{\(k)}"
-            let input = argsCopy[k]
+            let input = args[k]
             if input != nil {
                 templateCopy = templateCopy.replacingOccurrences(of: replace, with: input!)
             }
