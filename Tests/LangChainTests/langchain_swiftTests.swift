@@ -1117,6 +1117,17 @@ May God bless you all. May God protect our troops.
         let docs = await textLoader.load()
         XCTAssertTrue(docs.isEmpty)
     }
+    
+    func testMRKLOutputParser() async throws {
+        let p = MRKLOutputParser()
+        let inputString = """
+Action: the action to take, should be one of [%@]
+Action Input: the input to the action
+"""
+        let a = p.parse(text: inputString)
+        print(a)
+        
+    }
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
