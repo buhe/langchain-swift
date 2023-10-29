@@ -9,9 +9,9 @@ import Foundation
 
 public class SimpleSequentialChain: DefaultChain {
     let chains: [DefaultChain]
-    public init(chains: [DefaultChain], memory: BaseMemory? = nil, outputKey: String = "output", callbacks: [BaseCallbackHandler] = []) {
+    public init(chains: [DefaultChain], memory: BaseMemory? = nil, outputKey: String = "output", inputKey: String = "input", callbacks: [BaseCallbackHandler] = []) {
         self.chains = chains
-        super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
+        super.init(memory: memory, outputKey: outputKey, inputKey: inputKey, callbacks: callbacks)
     }
     public override func _call(args: String) async throws -> (LLMResult, Parsed) {
         var result: LLMResult = LLMResult(llm_output: args)

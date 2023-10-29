@@ -10,9 +10,10 @@ import Foundation
 public class DefaultChain {
     static let CHAIN_REQ_ID_KEY = "chain_req_id"
     static let CHAIN_COST_KEY = "cost"
-    public init(memory: BaseMemory? = nil, outputKey: String = "output", callbacks: [BaseCallbackHandler] = []) {
+    public init(memory: BaseMemory? = nil, outputKey: String, inputKey: String, callbacks: [BaseCallbackHandler] = []) {
         self.memory = memory
         self.outputKey = outputKey
+        self.inputKey = inputKey
         var cbs: [BaseCallbackHandler] = callbacks
         if Env.addTraceCallbak() && !cbs.contains(where: { item in item is TraceCallbackHandler}) {
             cbs.append(TraceCallbackHandler())
@@ -21,6 +22,7 @@ public class DefaultChain {
         self.callbacks = cbs
     }
     let memory: BaseMemory?
+    let inputKey: String
     let outputKey: String
     let callbacks: [BaseCallbackHandler]
     public func _call(args: String) async throws -> (LLMResult, Parsed) {
@@ -60,7 +62,7 @@ public class DefaultChain {
     
     // This interface alreadly return 'LLMReult', ensure 'run' method has stream style.
     public func run(args: String) async -> Parsed {
-        let inputAndContext = prep_inputs(inputs: ["input": args])
+        let inputAndContext = prep_inputs(inputs: [inputKey: args])
         // = Langchain's run + __call__
         let reqId = UUID().uuidString
         var cost = 0.0
@@ -75,7 +77,7 @@ public class DefaultChain {
 //            } else {
 //                callEnd(output: "[LLM is streamable]", reqId: reqId, cost: cost)
 //            }
-            let _ = prep_outputs(inputs: inputAndContext, outputs: [self.outputKey: outputs.0.llm_output!])
+            let _ = prep_outputs(inputs: [inputKey: args], outputs: [self.outputKey: outputs.0.llm_output!])
             return outputs.1
         } catch {
 //            print(error)
@@ -102,7 +104,7 @@ public class DefaultChain {
     func prep_inputs(inputs: [String: String]) -> [String: String] {
         if self.memory != nil {
             var external_context = Dictionary(uniqueKeysWithValues: self.memory!.load_memory_variables(inputs: inputs).map {(key, value) in return (key, value.joined(separator: "\n"))})
-            //        print("ctx: \(external_context)")
+                    print("ctx: \(external_context)")
             inputs.forEach { (key, value) in
                 external_context[key] = value
             }

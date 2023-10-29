@@ -8,9 +8,9 @@
 import Foundation
 public class SequentialChain: DefaultChain {
     let chains: [DefaultChain]
-    public init(chains: [DefaultChain], memory: BaseMemory? = nil, outputKey: String = "output", callbacks: [BaseCallbackHandler] = []) {
+    public init(chains: [DefaultChain], memory: BaseMemory? = nil, outputKey: String = "output", inputKey: String = "input", callbacks: [BaseCallbackHandler] = []) {
         self.chains = chains
-        super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
+        super.init(memory: memory, outputKey: outputKey, inputKey: inputKey, callbacks: callbacks)
     }
     public func predict(args: String) async throws -> [String: String] {
         var result: [String: String] = [:]

@@ -13,11 +13,11 @@ public class MultiRouteChain: DefaultChain {
 
     let default_chain: DefaultChain
     
-    public init(router_chain: LLMRouterChain, destination_chains: [String : DefaultChain], default_chain: DefaultChain, memory: BaseMemory? = nil, outputKey: String = "output", callbacks: [BaseCallbackHandler] = []) {
+    public init(router_chain: LLMRouterChain, destination_chains: [String : DefaultChain], default_chain: DefaultChain, memory: BaseMemory? = nil, outputKey: String = "output", inputKey: String = "input", callbacks: [BaseCallbackHandler] = []) {
         self.router_chain = router_chain
         self.destination_chains = destination_chains
         self.default_chain = default_chain
-        super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
+        super.init(memory: memory, outputKey: outputKey, inputKey: inputKey, callbacks: callbacks)
     }
     
     // call route

@@ -10,7 +10,7 @@ public class AgentExecutor: DefaultChain {
     static let AGENT_REQ_ID = "agent_req_id"
     let agent: Agent
     let tools: [BaseTool]
-    public init(agent: Agent, tools: [BaseTool], memory: BaseMemory? = nil, outputKey: String = "output", callbacks: [BaseCallbackHandler] = []) {
+    public init(agent: Agent, tools: [BaseTool], memory: BaseMemory? = nil, outputKey: String = "output", inputKey: String = "input", callbacks: [BaseCallbackHandler] = []) {
         self.agent = agent
         self.tools = tools
         var cbs: [BaseCallbackHandler] = callbacks
@@ -18,7 +18,7 @@ public class AgentExecutor: DefaultChain {
             cbs.append(TraceCallbackHandler())
         }
 //        assert(cbs.count == 1)
-        super.init(memory: memory, outputKey: outputKey, callbacks: cbs)
+        super.init(memory: memory, outputKey: outputKey, inputKey: inputKey, callbacks: cbs)
     }
     
 //    def _take_next_step(
