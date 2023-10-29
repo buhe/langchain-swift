@@ -104,7 +104,7 @@ public class DefaultChain {
     func prep_inputs(inputs: [String: String]) -> [String: String] {
         if self.memory != nil {
             var external_context = Dictionary(uniqueKeysWithValues: self.memory!.load_memory_variables(inputs: inputs).map {(key, value) in return (key, value.joined(separator: "\n"))})
-                    print("ctx: \(external_context)")
+//                    print("ctx: \(external_context)")
             inputs.forEach { (key, value) in
                 external_context[key] = value
             }
