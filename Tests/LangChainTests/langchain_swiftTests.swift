@@ -1051,11 +1051,17 @@ May God bless you all. May God protect our troops.
     
     func testSimpleSequentialChain() async throws {
         class A: DefaultChain {
+            init() {
+                super.init(outputKey: "output", inputKey: "input")
+            }
             public override func _call(args: String) async throws -> (LLMResult, Parsed) {
                 return (LLMResult(llm_output: args + "_A"), Parsed.nothing)
             }
         }
         class B: DefaultChain {
+            init() {
+                super.init(outputKey: "output", inputKey: "input")
+            }
             public override func _call(args: String) async throws -> (LLMResult, Parsed) {
                 return (LLMResult(llm_output: args + "_B"), Parsed.nothing)
             }
@@ -1071,11 +1077,17 @@ May God bless you all. May God protect our troops.
     
     func testSequentialChain() async throws {
         class A: DefaultChain {
+            init(outputKey: String) {
+                super.init(outputKey: outputKey, inputKey: "input")
+            }
             public override func _call(args: String) async throws -> (LLMResult, Parsed) {
                 return (LLMResult(llm_output: args + "_A"), Parsed.nothing)
             }
         }
         class B: DefaultChain {
+            init(outputKey: String) {
+                super.init(outputKey: outputKey, inputKey: "input")
+            }
             public override func _call(args: String) async throws -> (LLMResult, Parsed) {
                 return (LLMResult(llm_output: args + "_B"), Parsed.nothing)
             }

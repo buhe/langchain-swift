@@ -62,7 +62,7 @@ public class DefaultChain {
     
     // This interface alreadly return 'LLMReult', ensure 'run' method has stream style.
     public func run(args: String) async -> Parsed {
-        let inputAndContext = prep_inputs(inputs: [inputKey: args])
+        let _ = prep_inputs(inputs: [inputKey: args])
         // = Langchain's run + __call__
         let reqId = UUID().uuidString
         var cost = 0.0
