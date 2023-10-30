@@ -215,31 +215,22 @@ router text: {
 <summary>ObjectOutputParser</summary>
     
 ```swift
-    struct Unit: Codable {
-        let num: Int
-    }
-    struct Book: Codable {
-        let title: String
-        let content: String
-        let unit: Unit
-    }
+let demo = Book(title: "a", content: "b", unit: Unit(num: 1))
 
-    let demo = Book(title: "a", content: "b", unit: Unit(num: 1))
-        
-        var p = ObjectOutputParser(demo: demo)
-        
-        let llm = OpenAI()
-        
-        let t = PromptTemplate(input_variables: [], template: "Answer the user query.\n" + p.get_format_instructions() + "\n%@")
-        
-        let chain = LLMChain(llm: llm, prompt: t, parser: p)
-        Task {
-            let pasred = await chain.predict_and_parse(args: ["text": "The book title is 123 , content is 456 , num of unit is 7"])
-            switch pasred {
-            case Parsed.object(let o): print("object: \(o)")
-            default: break
-            }
-        }
+var parser = ObjectOutputParser(demo: demo)
+
+let llm = OpenAI()
+
+let t = PromptTemplate(input_variables: ["query"], partial_variable:["format_instructions": parser.get_format_instructions()], template: "Answer the user query.\n{format_instructions}\n{query}\n")
+
+let chain = LLMChain(llm: llm, prompt: t, parser: parser, inputKey: "query")
+Task {
+    let pasred = await chain.run(args: "The book title is 123 , content is 456 , num of unit is 7")
+    switch pasred {
+    case Parsed.object(let o): print("🚗object: \(o)")
+    default: break
+    }
+}
 ```
 </details>
 
