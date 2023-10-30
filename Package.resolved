@@ -118,6 +118,15 @@
       }
     },
     {
+      "identity" : "swift-filestore",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/juyan/swift-filestore",
+      "state" : {
+        "revision" : "878a896cc2fef836bd70a46bbb873b495155e2d0",
+        "version" : "0.2.0"
+      }
+    },
+    {
       "identity" : "swift-log",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log.git",
