@@ -274,24 +274,29 @@ Black body radiation has been crucial in understanding various phenomena in phys
 <summary>EnumOutputParser</summary>
 
 ```swift
-    enum MyEnum: String {
+    enum MyEnum: String, CaseIterable  {
         case value1
         case value2
         case value3
     }
+    for v in MyEnum.allCases {
+        print(v.rawValue)
+    }
     let llm = OpenAI()
     let parser = EnumOutputParser<MyEnum>(enumType: MyEnum.self)
-    let t = PromptTemplate(input_variables: [], template: "Answer the user query.\n" + parser.get_format_instructions() + "\n%@")
-        
-    let chain = LLMChain(llm: llm, prompt: t, parser: parser)
+    let i = parser.get_format_instructions()
+    print("ins: \(i)")
+    let t = PromptTemplate(input_variables: ["query"], partial_variable:["format_instructions": parser.get_format_instructions()], template: "Answer the user query.\n{format_instructions}\n{query}\n")
+    
+    let chain = LLMChain(llm: llm, prompt: t, parser: parser, inputKey: "query")
     Task {
-        let result = await chain.predict_and_parse(args: ["text": "Value is 'value2"])
+        let result = await chain.run(args: "Value is 'value2'")
         switch result {
-            case .enumType(let e):
-                print("enum: \(e)")
-            default:
-                print("parse fail. \(result)")
-            }
+           case .enumType(let e):
+               print("🦙enum: \(e)")
+           default:
+               print("parse fail. \(result)")
+           }
     }
 ```
 </details>
