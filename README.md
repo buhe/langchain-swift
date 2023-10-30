@@ -41,40 +41,39 @@ Assistant is constantly learning and improving, and its capabilities are constan
 
 Overall, Assistant is a powerful tool that can help with a wide range of tasks and provide valuable insights and information on a wide range of topics. Whether you need help with a specific question or just want to have a conversation about a particular topic, Assistant is here to assist.
 
-%@
-Human: %@
+{history}
+Human: {human_input}
 Assistant:
 """
 
-let prompt = PromptTemplate(input_variables: ["history", "human_input"], template: template)
+let prompt = PromptTemplate(input_variables: ["history", "human_input"], partial_variable: [:], template: template)
 
 
 let chatgpt_chain = LLMChain(
     llm: OpenAI(),
     prompt: prompt,
-    parser: StrOutputParser(),
     memory: ConversationBufferWindowMemory()
 )
 Task {
-    var input = ["human_input": "I want you to act as a Linux terminal. I will type commands and you will reply with what the terminal should show. I want you to only reply with the terminal output inside one unique code block, and nothing else. Do not write explanations. Do not type commands unless I instruct you to do so. When I need to tell you something in English I will do so by putting text inside curly brackets {like this}. My first command is pwd."
-    ]
-    var output = await chatgpt_chain.predict(args: input)
-    print(input["human_input"]!)
-    print(output["Answer"]!)
-    input = ["human_input": "ls ~"]
-    output = await chatgpt_chain.predict(args: input)
-    print(input["human_input"]!)
-    print(output["Answer"]!)
+    var input = "I want you to act as a Linux terminal. I will type commands and you will reply with what the terminal should show. I want you to only reply with the terminal output inside one unique code block, and nothing else. Do not write explanations. Do not type commands unless I instruct you to do so. When I need to tell you something in English I will do so by putting text inside curly brackets {like this}. My first command is pwd."
+    
+    var res = await chatgpt_chain.predict(args: ["human_input": input])
+    print(input)
+    print("🌈:" + res)
+    input = "ls ~"
+    res = await chatgpt_chain.predict(args: ["human_input": input])
+    print(input)
+    print("🌈:" + res)
 }
 ```
 Log
 ```
 I want you to act as a Linux terminal. I will type commands and you will reply with what the terminal should show. I want you to only reply with the terminal output inside one unique code block, and nothing else. Do not write explanations. Do not type commands unless I instruct you to do so. When I need to tell you something in English I will do so by putting text inside curly brackets {like this}. My first command is pwd.
-
+🌈:
 /home/user
 
 ls ~
-
+🌈:
 Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos
 
 ```
