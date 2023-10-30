@@ -9,15 +9,15 @@ import Foundation
 
 public class SimpleSequentialChain: DefaultChain {
     let chains: [DefaultChain]
-    public init(chains: [DefaultChain], memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
+    public init(chains: [DefaultChain], memory: BaseMemory? = nil, outputKey: String = "output", inputKey: String = "input", callbacks: [BaseCallbackHandler] = []) {
         self.chains = chains
-        super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
+        super.init(memory: memory, outputKey: outputKey, inputKey: inputKey, callbacks: callbacks)
     }
-    public override func call(args: String) async throws -> LLMResult {
+    public override func _call(args: String) async throws -> (LLMResult, Parsed) {
         var result: LLMResult = LLMResult(llm_output: args)
         for chain in self.chains {
-            result = try await chain.call(args: result.llm_output!)
+            result = try await chain._call(args: result.llm_output!).0
         }
-        return result
+        return (result, Parsed.nothing)
     }
 }

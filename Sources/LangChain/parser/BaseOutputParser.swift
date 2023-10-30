@@ -21,6 +21,8 @@ public enum Parsed {
     case action(AgentAction)
     case finish(AgentFinish)
     case error
+    case unimplemented
+    case nothing
     case str(String)
     case list([String])
     case json(JSON)

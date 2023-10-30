@@ -15,13 +15,13 @@ public struct Route {
 public class LLMRouterChain: DefaultChain {
     let llmChain: LLMChain
     
-    public init(llmChain: LLMChain, memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
+    public init(llmChain: LLMChain, memory: BaseMemory? = nil, outputKey: String = "output",inputKey: String = "input", callbacks: [BaseCallbackHandler] = []) {
         self.llmChain = llmChain
-        super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
+        super.init(memory: memory, outputKey: outputKey, inputKey: inputKey, callbacks: callbacks)
     }
     
-    public func route(args: [String: String]) async -> Route {
-        let parsed = await llmChain.predict_and_parse(args: args)
+    public func route(args: String) async -> Route {
+        let parsed = await llmChain.run(args: args)
         // check and route
         switch parsed {
             case .dict(let d):

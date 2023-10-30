@@ -12,8 +12,10 @@ final class langchain_swiftTests: XCTestCase {
 
         // Defining Test Cases and Test Methods
         // https://developer.apple.com/documentation/xctest/defining_test_cases_and_test_methods
-        let s1 = PromptTemplate(input_variables: ["1", "2"], template: SUFFIX).format(args: [ "dog" , "cat"] )
+        let s1 = PromptTemplate(input_variables: ["1", "2"], partial_variable: [:], template: "{1} | {2}").format(args: [ "1":"dog" ,"2": "cat"] )
+//        print(s1)
         XCTAssertNotNil(s1)
+        XCTAssertEqual(s1, "dog | cat")
     }
     
     func testZeroShotAgent() throws {
@@ -43,7 +45,7 @@ Begin!
 Question: cat
 Thought: dog
 """
-        XCTAssertEqual(c, p.format(args: ["cat", "dog"]))
+        XCTAssertEqual(c, p.format(args: ["question": "cat","thought": "dog"]))
     }
     
     func testCharacterTextSplitter() throws {
@@ -923,10 +925,38 @@ May God bless you all. May God protect our troops.
 //        print(raw)
 //        let i = MultiPromptRouter.formatInput(rawString: raw, input: "123")
 //        print(i)
-        let input = PromptTemplate(input_variables: [], template: raw).format(args: ["123"])
-        print(input)
+        let input = PromptTemplate(input_variables: ["input"], partial_variable: [:], template: raw).format(args: ["input": "123"])
+//        print(input)
         XCTAssertNotNil(raw)
         XCTAssertNotNil(input)
+        let c = """
+        Given a raw text input to a language model select the model prompt best suited for
+        the input. You will be given the names of the available prompts and a description of
+        what the prompt is best suited for. You may also revise the original input if you
+        think that revising it will ultimately lead to a better response from the language
+        model.
+
+        << FORMATTING >>
+        Return a JSON object formatted to look like:
+        {
+            "destination": string \\ name of the prompt to use or "DEFAULT"
+            "next_inputs": string \\ a potentially modified version of the original input
+        }
+
+        REMEMBER: "destination" MUST be one of the candidate prompt names specified below OR \
+        it can be "DEFAULT" if the input is not well suited for any of the candidate prompts.
+        REMEMBER: "next_inputs" can just be the original input if you don't think any \
+        modifications are needed.
+
+        << CANDIDATE PROMPTS >>
+        abc
+
+        << INPUT >>
+        123
+
+        << OUTPUT >>
+        """
+        XCTAssertEqual(c, input)
     }
     
     func testObjectOutputParser() async throws {
@@ -1021,33 +1051,45 @@ May God bless you all. May God protect our troops.
     
     func testSimpleSequentialChain() async throws {
         class A: DefaultChain {
-            public override func call(args: String) async throws -> LLMResult {
-                return LLMResult(llm_output: args + "_A")
+            init() {
+                super.init(outputKey: "output", inputKey: "input")
+            }
+            public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+                return (LLMResult(llm_output: args + "_A"), Parsed.nothing)
             }
         }
         class B: DefaultChain {
-            public override func call(args: String) async throws -> LLMResult {
-                return LLMResult(llm_output: args + "_B")
+            init() {
+                super.init(outputKey: "output", inputKey: "input")
+            }
+            public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+                return (LLMResult(llm_output: args + "_B"), Parsed.nothing)
             }
         }
         let simpleSequentialChain = SimpleSequentialChain(chains: [A(), B()])
         
-        let llmResult = try await simpleSequentialChain.call(args: "0")
+        let llmResult = try await simpleSequentialChain._call(args: "0")
         
-        print("llm: \(llmResult.llm_output!)")
+        print("llm: \(llmResult.0.llm_output!)")
         
-        XCTAssertEqual("0_A_B", llmResult.llm_output!)
+        XCTAssertEqual("0_A_B", llmResult.0.llm_output!)
     }
     
     func testSequentialChain() async throws {
         class A: DefaultChain {
-            public override func call(args: String) async throws -> LLMResult {
-                return LLMResult(llm_output: args + "_A")
+            init(outputKey: String) {
+                super.init(outputKey: outputKey, inputKey: "input")
+            }
+            public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+                return (LLMResult(llm_output: args + "_A"), Parsed.nothing)
             }
         }
         class B: DefaultChain {
-            public override func call(args: String) async throws -> LLMResult {
-                return LLMResult(llm_output: args + "_B")
+            init(outputKey: String) {
+                super.init(outputKey: outputKey, inputKey: "input")
+            }
+            public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+                return (LLMResult(llm_output: args + "_B"), Parsed.nothing)
             }
         }
         let sequentialChain = SequentialChain(chains: [A(outputKey: "_A_"), B(outputKey: "_B_")])
@@ -1065,9 +1107,9 @@ May God bless you all. May God protect our troops.
             return LLMResult(llm_output: args + "_T")
         }
         
-        let result = try await tc.call(args: "HO")
-        print("llm: \(result.llm_output!)")
-        XCTAssertEqual("HO_T", result.llm_output!)
+        let result = try await tc._call(args: "HO")
+        print("llm: \(result.0.llm_output!)")
+        XCTAssertEqual("HO_T", result.0.llm_output!)
     }
     
     func testDatetimePrompt() async throws {
@@ -1086,6 +1128,17 @@ May God bless you all. May God protect our troops.
         let textLoader = TextLoader(file_path: "abc.txt", callbacks:[StdOutCallbackHandler()])
         let docs = await textLoader.load()
         XCTAssertTrue(docs.isEmpty)
+    }
+    
+    func testMRKLOutputParser() async throws {
+        let p = MRKLOutputParser()
+        let inputString = """
+Action: the action to take, should be one of [%@]
+Action Input: the input to the action
+"""
+        let a = p.parse(text: inputString)
+        print(a)
+        
     }
 //
 //    func testYoutubeHackClientList() async throws {

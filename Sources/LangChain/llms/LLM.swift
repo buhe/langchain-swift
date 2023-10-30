@@ -20,7 +20,7 @@ public class LLM {
     }
     let callbacks: [BaseCallbackHandler]
     
-    public func send(text: String, stops: [String] = []) async -> LLMResult {
+    public func generate(text: String, stops: [String] = []) async -> LLMResult {
         let reqId = UUID().uuidString
         var cost = 0.0
         let now = Date.now.timeIntervalSince1970
