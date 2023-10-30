@@ -28,7 +28,16 @@ public class LLM {
         let now = Date.now.timeIntervalSince1970
         callStart(prompt: text, reqId: reqId)
         do {
+            if let cache = self.cache {
+                if let llmResult = cache.lookup(prompt: text) {
+                    callEnd(output: llmResult.llm_output!, reqId: reqId, cost: 0)
+                    return llmResult
+                }
+            }
             let llmResult = try await _send(text: text, stops: stops)
+            if let cache = self.cache {
+                cache.update(prompt: text, return_val: llmResult)
+            }
             cost = Date.now.timeIntervalSince1970 - now
             if !llmResult.stream {
                 callEnd(output: llmResult.llm_output!, reqId: reqId, cost: cost)

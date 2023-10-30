@@ -10,9 +10,10 @@ public class HuggingFace: LLM {
     let repo: String
     let task: String
     
-    public init(repo: String, task: String = "text-generation") {
+    public init(repo: String, task: String = "text-generation", callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
         self.repo = repo
         self.task = task
+        super.init(callbacks: callbacks, cache: cache)
     }
     
     public override func _send(text: String, stops: [String] = []) async throws -> LLMResult {
