@@ -35,3 +35,7 @@ public class InMemoryCache: BaseCache {
         memery = [:]
     }
 }
+
+public class CoreDataCache: BaseCache {
+    
+}
