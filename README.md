@@ -116,46 +116,20 @@ A:[LangChain.MatchedModel(content: Optional("In state after state, new laws have
 <summary>🤖 Agent</summary>
     
 Code
-
 ```swift
-let agent = initialize_agent(llm: llm, tools: [WeatherTool()])
-let answer = await agent.run(args: "Query the weather of this week")
-print(answer)
+let agent = initialize_agent(llm: OpenAI(), tools: [WeatherTool()])
+Task {
+    let res = await agent.run(args: "Query the weather of this week")
+    switch res {
+    case Parsed.str(let str):
+        print("🌈:" + str)
+    default: break
+    }
+}
 ```
 Log
 ```
-Answer the following questions as best you can. You have access to the following tools:
-
-Weather:useful for When you want to know about the weather
-
-Use the following format:
-
-Question: the input question you must answer
-Thought: you should always think about what to do
-Action: the action to take, should be one of [Weather]
-Action Input: the input to the action
-Observation: the result of the action
-... (this Thought/Action/Action Input/Observation can repeat N times)
-Thought: I now know the final answer
-Final Answer: the final answer to the original input question
-
-Begin!
-
-Question: Query the weather of this week
-Thought:     This was your previous work
-    but I haven't seen any of it! I only see what "
-    you return as final answer):
-I need to know the location for which I want to check the weather
-Action: Weather
-Action Input: Location
-Observation: Sunny^_^
-Thought: I need to know the specific days for which I want to check the weather
-Action: Weather
-Action Input: Days of the week
-Observation: Sunny^_^
-Thought: 
-final answer.
- The weather for the specified location and days of the week is sunny.
+🌈: The weather for this week is sunny.
 ```
 </details>
 <details>
