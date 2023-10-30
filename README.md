@@ -271,22 +271,24 @@ Task {
 <summary>Stream Chat - Must be use ChatOpenAI model </summary>
 
 ```swift
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
-
-        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
-        
-        defer {
-            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
-            try? httpClient.syncShutdown()
+  Task {
+    let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+    
+    let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
+    
+    defer {
+        // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
+        try? httpClient.syncShutdown()
+    }
+    let llm = ChatOpenAI(httpClient: httpClient, temperature: 0.8)
+    let answer = await llm.generate(text: "Hey")
+    print("🥰")
+    for try await c in answer.generation! {
+        if let message = c.choices.first?.delta.content {
+            print(message)
         }
-		let llm = ChatOpenAI(httpClient: httpClient, temperature: 0.8)
-		let answer = await llm.send(text: "Hey")
-		let writerText = ""
-            for try await c in answer.generation! {
-                if let message = c.choices.first?.delta.content {
-                    writerText += message
-                }
-            }
+    }
+}
 ```
 </details>
 
