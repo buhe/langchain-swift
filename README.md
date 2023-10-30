@@ -137,75 +137,75 @@ Log
 <summary>📡 Router</summary>
     
 ```swift
- let physics_template = """
-        You are a very smart physics professor. \
-        You are great at answering questions about physics in a concise and easy to understand manner. \
-        When you don't know the answer to a question you admit that you don't know.
+let physics_template = """
+You are a very smart physics professor. \
+You are great at answering questions about physics in a concise and easy to understand manner. \
+When you don't know the answer to a question you admit that you don't know.
 
-        Here is a question:
-        {input}
+Here is a question:
+{input}
 """
 
 
-        let math_template = """
-        You are a very good mathematician. You are great at answering math questions. \
-        You are so good because you are able to break down hard problems into their component parts, \
-        answer the component parts, and then put them together to answer the broader question.
+let math_template = """
+You are a very good mathematician. You are great at answering math questions. \
+You are so good because you are able to break down hard problems into their component parts, \
+answer the component parts, and then put them together to answer the broader question.
 
-        Here is a question:
-        {input}
+Here is a question:
+{input}
 """
-        
-        let prompt_infos = [
-            [
-                "name": "physics",
-                "description": "Good for answering questions about physics",
-                "prompt_template": physics_template,
-            ],
-            [
-                "name": "math",
-                "description": "Good for answering math questions",
-                "prompt_template": math_template,
-            ]
-        ]
-        
-        let llm = OpenAI()
-        
-        var destination_chains: [String: DefaultChain] = [:]
-        for p_info in prompt_infos {
-            let name = p_info["name"]!
-            let prompt_template = p_info["prompt_template"]!
-            let prompt = PromptTemplate(input_variables: [], template: prompt_template)
-            let chain = LLMChain(llm: llm, prompt: prompt, parser: StrOutputParser())
-            destination_chains[name] = chain
-        }
-        let default_prompt = PromptTemplate(input_variables: [], template: "")
-        let default_chain = LLMChain(llm: llm, prompt: default_prompt, parser: StrOutputParser())
-        
-        let destinations = prompt_infos.map{
-            "\($0["name"]!): \($0["description"]!)"
-        }
-        let destinations_str = destinations.joined(separator: "\n")
-        
-        let router_template = MultiPromptRouter.formatDestinations(destinations: destinations_str)
-        let router_prompt = PromptTemplate(input_variables: [], template: router_template, output_parser: RouterOutputParser())
-        
-        let llmChain = LLMChain(llm: llm, prompt: router_prompt, parser: RouterOutputParser())
-        
-        let router_chain = LLMRouterChain(llmChain: llmChain)
-        
-        let chain = MultiRouteChain(router_chain: router_chain, destination_chains: destination_chains, default_chain: default_chain)
-        Task {
-            print(await chain.run(args: "What is black body radiation?"))
-        }
+   
+let prompt_infos = [
+   [
+       "name": "physics",
+       "description": "Good for answering questions about physics",
+       "prompt_template": physics_template,
+   ],
+   [
+       "name": "math",
+       "description": "Good for answering math questions",
+       "prompt_template": math_template,
+   ]
+]
+
+let llm = OpenAI()
+
+var destination_chains: [String: DefaultChain] = [:]
+for p_info in prompt_infos {
+   let name = p_info["name"]!
+   let prompt_template = p_info["prompt_template"]!
+   let prompt = PromptTemplate(input_variables: ["input"], partial_variable: [:], template: prompt_template)
+   let chain = LLMChain(llm: llm, prompt: prompt, parser: StrOutputParser())
+   destination_chains[name] = chain
+}
+let default_prompt = PromptTemplate(input_variables: [], partial_variable: [:], template: "")
+let default_chain = LLMChain(llm: llm, prompt: default_prompt, parser: StrOutputParser())
+
+let destinations = prompt_infos.map{
+   "\($0["name"]!): \($0["description"]!)"
+}
+let destinations_str = destinations.joined(separator: "\n")
+
+let router_template = MultiPromptRouter.formatDestinations(destinations: destinations_str)
+let router_prompt = PromptTemplate(input_variables: ["input"], partial_variable: [:], template: router_template)
+
+let llmChain = LLMChain(llm: llm, prompt: router_prompt, parser: RouterOutputParser())
+
+let router_chain = LLMRouterChain(llmChain: llmChain)
+
+let chain = MultiRouteChain(router_chain: router_chain, destination_chains: destination_chains, default_chain: default_chain)
+Task {
+   print("💁🏻‍♂️", await chain.run(args: "What is black body radiation?"))
+}
 ```
 Log
 ```
-Black body radiation refers to the electromagnetic radiation emitted by an idealized object known as a black body. A black body is an object that absorbs all incident radiation and reflects or transmits none of it. It is also a perfect emitter, meaning it emits radiation at all wavelengths and intensities.
-
-Black body radiation is characterized by its spectral distribution, which follows a specific pattern known as Planck's law. According to this law, the intensity of radiation emitted by a black body is a function of its temperature and wavelength. At higher temperatures, the peak intensity of radiation shifts towards shorter wavelengths, resulting in a bluer color. At lower temperatures, the peak intensity shifts towards longer wavelengths, resulting in a redder color.
-
-Black body radiation has been crucial in understanding various phenomena in physics, such as the ultraviolet catastrophe and the development of quantum mechanics. It also has practical applications in fields like astrophysics, where it helps determine the temperature and composition of celestial objects based on their emitted radiation.
+router text: {
+    "destination": "physics",
+    "next_inputs": "What is black body radiation?"
+}
+💁🏻‍♂️ str("Black body radiation refers to the electromagnetic radiation emitted by an object that absorbs all incident radiation and reflects or transmits none. It is an idealized concept used in physics to understand the behavior of objects that emit and absorb radiation. \n\nAccording to Planck\'s law, the intensity and spectrum of black body radiation depend on the temperature of the object. As the temperature increases, the peak intensity of the radiation shifts to shorter wavelengths, resulting in a change in color from red to orange, yellow, white, and eventually blue.\n\nBlack body radiation is important in various fields of physics, such as astrophysics, where it helps explain the emission of radiation from stars and other celestial bodies. It also plays a crucial role in understanding the behavior of objects at high temperatures, such as in industrial processes or the study of the early universe.\n\nHowever, it\'s worth noting that while I strive to provide accurate and concise explanations, there may be more intricate details or specific mathematical formulations related to black body radiation that I haven\'t covered.")
 ```
 </details>
 
