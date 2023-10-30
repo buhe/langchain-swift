@@ -10,15 +10,17 @@ import Foundation
 public class LLM {
     static let LLM_REQ_ID_KEY = "llm_req_id"
     static let LLM_COST_KEY = "cost"
-    public init(callbacks: [BaseCallbackHandler] = []) {
+    public init(callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
         var cbs: [BaseCallbackHandler] = callbacks
         if Env.addTraceCallbak() && !cbs.contains(where: { item in item is TraceCallbackHandler}) {
             cbs.append(TraceCallbackHandler())
         }
 //        assert(cbs.count == 1)
         self.callbacks = cbs
+        self.cache = cache
     }
     let callbacks: [BaseCallbackHandler]
+    let cache: BaseCache?
     
     public func generate(text: String, stops: [String] = []) async -> LLMResult {
         let reqId = UUID().uuidString
