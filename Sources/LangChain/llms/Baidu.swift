@@ -13,8 +13,9 @@ import AsyncHTTPClient
 public class Baidu: LLM {
     let temperature: Double
     
-    public init(temperature: Double = 0.8) {
+    public init(temperature: Double = 0.8, callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
         self.temperature = temperature
+        super.init(callbacks: callbacks, cache: cache)
     }
     
     public override func _send(text: String, stops: [String] = []) async throws -> LLMResult {

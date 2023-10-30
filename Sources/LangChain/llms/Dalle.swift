@@ -12,8 +12,9 @@ import OpenAIKit
 
 public class Dalle: LLM {
     let size: DalleImage.Size
-    public init(size: DalleImage.Size) {
+    public init(size: DalleImage.Size, callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
         self.size = size
+        super.init(callbacks: callbacks, cache: cache)
     }
     
     public override func _send(text: String, stops: [String] = []) async throws -> LLMResult {
