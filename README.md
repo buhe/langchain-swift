@@ -59,11 +59,11 @@ Task {
     
     var res = await chatgpt_chain.predict(args: ["human_input": input])
     print(input)
-    print("🌈:" + res)
+    print("🌈:" + res!)
     input = "ls ~"
     res = await chatgpt_chain.predict(args: ["human_input": input])
     print(input)
-    print("🌈:" + res)
+    print("🌈:" + res!)
 }
 ```
 Log
@@ -283,7 +283,7 @@ Task {
     let llm = ChatOpenAI(httpClient: httpClient, temperature: 0.8)
     let answer = await llm.generate(text: "Hey")
     print("🥰")
-    for try await c in answer.generation! {
+    for try await c in answer!.generation! {
         if let message = c.choices.first?.delta.content {
             print(message)
         }
