@@ -10,7 +10,7 @@ import CommonCrypto
 
 enum LangChainError: Error {
     case LoaderError(String)
-    
+    case ChainError
 }
 
 extension Data{

@@ -25,7 +25,7 @@ public class DefaultChain {
     let inputKey: String
     let outputKey: String
     let callbacks: [BaseCallbackHandler]
-    public func _call(args: String) async throws -> (LLMResult, Parsed) {
+    public func _call(args: String) async -> (LLMResult?, Parsed) {
         print("call base.")
         return (LLMResult(), Parsed.unimplemented)
     }
@@ -67,21 +67,21 @@ public class DefaultChain {
         let reqId = UUID().uuidString
         var cost = 0.0
         let now = Date.now.timeIntervalSince1970
-        do {
+        
             callStart(prompt: args, reqId: reqId)
-            let outputs = try await self._call(args: args)
+        let outputs = await self._call(args: args)
+        if let llmResult = outputs.0 {
             cost = Date.now.timeIntervalSince1970 - now
             //call end trace
-//            if !outputs.0.stream {
-            callEnd(output: outputs.0.llm_output!, reqId: reqId, cost: cost)
-//            } else {
-//                callEnd(output: "[LLM is streamable]", reqId: reqId, cost: cost)
-//            }
-            let _ = prep_outputs(inputs: [inputKey: args], outputs: [self.outputKey: outputs.0.llm_output!])
+            //            if !outputs.0.stream {
+            callEnd(output: llmResult.llm_output!, reqId: reqId, cost: cost)
+            //            } else {
+            //                callEnd(output: "[LLM is streamable]", reqId: reqId, cost: cost)
+            //            }
+            let _ = prep_outputs(inputs: [inputKey: args], outputs: [self.outputKey: llmResult.llm_output!])
             return outputs.1
-        } catch {
-//            print(error)
-            callCatch(error: error, reqId: reqId, cost: cost)
+        } else {
+            callCatch(error: LangChainError.ChainError, reqId: reqId, cost: cost)
             return Parsed.error
         }
     }

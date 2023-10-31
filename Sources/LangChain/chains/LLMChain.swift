@@ -20,14 +20,18 @@ public class LLMChain: DefaultChain {
         self.stop = stop
         super.init(memory: memory, outputKey: outputKey, inputKey: inputKey, callbacks: callbacks)
     }
-    func create_outputs(output: LLMResult) -> Parsed {
-        if let parser = self.parser {
-            return parser.parse(text: output.llm_output!)
+    func create_outputs(output: LLMResult?) -> Parsed {
+        if let output = output {
+            if let parser = self.parser {
+                return parser.parse(text: output.llm_output!)
+            } else {
+                return Parsed.str(output.llm_output!)
+            }
         } else {
-            return Parsed.str(output.llm_output!)
+            return Parsed.error
         }
     }
-    public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+    public override func _call(args: String) async -> (LLMResult?, Parsed) {
         // ["\\nObservation: ", "\\n\\tObservation: "]
         
         let llmResult = await generate(input_list: [inputKey: args])
@@ -41,16 +45,16 @@ public class LLMChain: DefaultChain {
             return input_list.first!.value
         }
     }
-    func generate(input_list: [String: String]) async -> LLMResult {
+    func generate(input_list: [String: String]) async -> LLMResult? {
         let input_prompt = prep_prompts(input_list: input_list)
         do {
             //call llm
             var llmResult = await self.llm.generate(text: input_prompt, stops:  stop)
-            try await llmResult.setOutput()
+            try await llmResult?.setOutput()
             return llmResult
         } catch {
             print(error)
-            return LLMResult()
+            return nil
         }
     }
     
@@ -63,10 +67,14 @@ public class LLMChain: DefaultChain {
         return await apply(input_list: ["question": input, "thought": agent_scratchpad])
     }
     
-    public func predict(args: [String: String] ) async -> String {
+    public func predict(args: [String: String] ) async -> String? {
         let inputAndContext = prep_inputs(inputs: args)
         let outputs = await self.generate(input_list: inputAndContext)
-        let _ = prep_outputs(inputs: args, outputs: [self.outputKey: outputs.llm_output!])
-        return outputs.llm_output!
+        if let o = outputs {
+            let _ = prep_outputs(inputs: args, outputs: [self.outputKey: o.llm_output!])
+            return o.llm_output!
+        } else {
+            return nil
+        }
     }
 }

@@ -21,7 +21,7 @@ public class MultiRouteChain: DefaultChain {
     }
     
     // call route
-    public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+    public override func _call(args: String) async -> (LLMResult?, Parsed) {
 //        print("call route.")
 //        _run_manager = run_manager or CallbackManagerForChainRun.get_noop_manager()
 //                callbacks = _run_manager.get_child()

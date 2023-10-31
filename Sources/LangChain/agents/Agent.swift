@@ -134,14 +134,18 @@ public class AgentExecutor: DefaultChain {
             return (step, "default")
         }
     }
-    public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+    public override func _call(args: String) async -> (LLMResult?, Parsed) {
         // chain run -> call -> agent plan -> llm send
         
         // while should_continue and call
 //        let name_to_tool_map = tools.map { [$0.name(): $0] }
         let reqId = UUID().uuidString
-        for callback in self.callbacks {
-            try callback.on_agent_start(prompt: args, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
+        do {
+            for callback in self.callbacks {
+                try callback.on_agent_start(prompt: args, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
+            }
+        } catch {
+            
         }
         var intermediate_steps: [(AgentAction, String)] = []
         while true {
@@ -157,14 +161,22 @@ public class AgentExecutor: DefaultChain {
             switch next_step_output.0 {
             case .finish(let finish):
 //                print("final answer.")
+                do {
                 for callback in self.callbacks {
                     try callback.on_agent_finish(action: finish, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
                 }
+                } catch {
+                    
+                }
                 return (LLMResult(llm_output: next_step_output.1), Parsed.str(next_step_output.1))
             case .action(let action):
+                    do {
                 for callback in self.callbacks {
                     try callback.on_agent_action(action: action, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
                 }
+                    } catch {
+                        
+                    }
                 intermediate_steps.append((action, next_step_output.1))
             default:
 //                print("error step.")
