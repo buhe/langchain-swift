@@ -44,9 +44,9 @@ public class MultiRouteChain: DefaultChain {
 //                    )
         let route = await self.router_chain.route(args: args)
         if destination_chains.keys.contains(route.destination) {
-            return try await destination_chains[route.destination]!._call(args: route.next_inputs)
+            return await destination_chains[route.destination]!._call(args: route.next_inputs)
         } else {
-            return try await default_chain._call(args: route.next_inputs)
+            return await default_chain._call(args: route.next_inputs)
         }
     }
 }

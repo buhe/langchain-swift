@@ -9,7 +9,7 @@ import Foundation
 public protocol Embeddings {
     // Interface for embedding models.
     
-    func embedDocuments(texts: [String]) -> [[Float]]
+//    func embedDocuments(texts: [String]) -> [[Float]]
     
     func embedQuery(text: String) async -> [Float]
 }
