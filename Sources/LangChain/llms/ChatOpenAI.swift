@@ -31,7 +31,7 @@ public class ChatOpenAI: LLM {
 
             let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
             let buffer = try await openAIClient.chats.stream(model: model, messages: [.user(content: text)], temperature: temperature)
-            return LLMResult(generation: buffer)
+            return OpenAIResult(generation: buffer)
         } else {
             print("Please set openai api key.")
             return LLMResult()

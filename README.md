@@ -271,7 +271,7 @@ Task {
 <summary>Stream Chat - Must be use ChatOpenAI model </summary>
 
 ```swift
-  Task {
+Task {
     let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
     
     let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
@@ -283,8 +283,8 @@ Task {
     let llm = ChatOpenAI(httpClient: httpClient, temperature: 0.8)
     let answer = await llm.generate(text: "Hey")
     print("🥰")
-    for try await c in answer!.generation! {
-        if let message = c.choices.first?.delta.content {
+    for try await c in answer!.getGeneration()! {
+        if let message = c {
             print(message)
         }
     }
