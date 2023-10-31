@@ -13,7 +13,7 @@ public struct LLMResult {
     init(generation: AsyncThrowingStream<ChatStream, Error>? = nil, llm_output: String? = nil) {
         self.generation = generation
         self.llm_output = llm_output
-        self.stream = generation != nil
+        self.stream = generation != nil && llm_output == nil
     }
     public let generation: AsyncThrowingStream<ChatStream, Error>?
     
@@ -22,7 +22,7 @@ public struct LLMResult {
     public var stream: Bool
     
     public mutating func setOutput() async throws {
-        if llm_output == nil {
+        if stream {
             llm_output = ""
             for try await c in generation! {
                 if let message = c.choices.first?.delta.content {
