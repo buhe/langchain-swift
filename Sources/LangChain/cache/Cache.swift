@@ -54,8 +54,15 @@ public class FileCache: BaseCache {
     public override func lookup(prompt: String) async -> LLMResult? {
         print("🍰 Get \(prompt) from file")
         do {
-            let cache = try await objectStore!.read(key: prompt, namespace: "llm_cache", objectType: LLMCache.self)
-            return LLMResult(llm_output: cache?.value)
+            if let data = prompt.data(using: .utf8) {
+                let base64 = data.base64EncodedString()
+                
+                let cache = try await objectStore!.read(key: base64.sha256(), namespace: "llm_cache", objectType: LLMCache.self)
+                if let c = cache {
+                    return LLMResult(llm_output: c.value)
+                }
+            }
+            return nil
         } catch {
             return nil
         }
@@ -65,10 +72,13 @@ public class FileCache: BaseCache {
     public override func update(prompt: String, return_val: LLMResult) async {
         print("🍰 Update \(prompt) at file")
         do {
-            let cache = LLMCache(key: prompt, value: return_val.llm_output!)
-            try await objectStore!.write(key: cache.key, namespace: "llm_cache", object: cache)
+            if let data = prompt.data(using: .utf8) {
+                let base64 = data.base64EncodedString()
+                let cache = LLMCache(key: prompt, value: return_val.llm_output!)
+                try await objectStore!.write(key: base64.sha256(), namespace: "llm_cache", object: cache)
+            }
         } catch {
-            
+            print("FileCache set failed")
         }
     }
     public override func clear() {
