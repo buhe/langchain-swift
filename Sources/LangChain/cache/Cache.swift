@@ -64,6 +64,7 @@ public class FileCache: BaseCache {
             }
             return nil
         } catch {
+            print("FileCache get failed")
             return nil
         }
         
