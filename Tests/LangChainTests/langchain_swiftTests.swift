@@ -1054,7 +1054,7 @@ May God bless you all. May God protect our troops.
             init() {
                 super.init(outputKey: "output", inputKey: "input")
             }
-            public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+            public override func _call(args: String) async -> (LLMResult?, Parsed) {
                 return (LLMResult(llm_output: args + "_A"), Parsed.nothing)
             }
         }
@@ -1062,17 +1062,17 @@ May God bless you all. May God protect our troops.
             init() {
                 super.init(outputKey: "output", inputKey: "input")
             }
-            public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+            public override func _call(args: String) async -> (LLMResult?, Parsed) {
                 return (LLMResult(llm_output: args + "_B"), Parsed.nothing)
             }
         }
         let simpleSequentialChain = SimpleSequentialChain(chains: [A(), B()])
         
-        let llmResult = try await simpleSequentialChain._call(args: "0")
+        let llmResult = await simpleSequentialChain._call(args: "0")
         
-        print("llm: \(llmResult.0.llm_output!)")
+        print("llm: \(llmResult.0!.llm_output!)")
         
-        XCTAssertEqual("0_A_B", llmResult.0.llm_output!)
+        XCTAssertEqual("0_A_B", llmResult.0!.llm_output!)
     }
     
     func testSequentialChain() async throws {
@@ -1080,7 +1080,7 @@ May God bless you all. May God protect our troops.
             init(outputKey: String) {
                 super.init(outputKey: outputKey, inputKey: "input")
             }
-            public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+            public override func _call(args: String) async -> (LLMResult?, Parsed) {
                 return (LLMResult(llm_output: args + "_A"), Parsed.nothing)
             }
         }
@@ -1088,7 +1088,7 @@ May God bless you all. May God protect our troops.
             init(outputKey: String) {
                 super.init(outputKey: outputKey, inputKey: "input")
             }
-            public override func _call(args: String) async throws -> (LLMResult, Parsed) {
+            public override func _call(args: String) async -> (LLMResult?, Parsed) {
                 return (LLMResult(llm_output: args + "_B"), Parsed.nothing)
             }
         }
@@ -1107,9 +1107,9 @@ May God bless you all. May God protect our troops.
             return LLMResult(llm_output: args + "_T")
         }
         
-        let result = try await tc._call(args: "HO")
-        print("llm: \(result.0.llm_output!)")
-        XCTAssertEqual("HO_T", result.0.llm_output!)
+        let result = await tc._call(args: "HO")
+        print("llm: \(result.0!.llm_output!)")
+        XCTAssertEqual("HO_T", result.0!.llm_output!)
     }
     
     func testDatetimePrompt() async throws {
