@@ -22,20 +22,22 @@ struct WikipediaAPIWrapper {
         var components = URLComponents(string: baseURL)!
         components.queryItems = [
             URLQueryItem(name: "srlimit", value: "10"),
+            URLQueryItem(name: "list", value: "search"),
             URLQueryItem(name: "srsearch", value: query),
             URLQueryItem(name: "action", value: "query"),
             URLQueryItem(name: "format", value: "json"),
         ]
-        print(components.url!.absoluteString)
+//        print(components.url!.absoluteString)
         var request = HTTPClientRequest(url: components.url!.absoluteString)
         request.method = .GET
         
         let response = try await httpClient.execute(request, timeout: .seconds(30))
         if response.status == .ok {
             let str = String(buffer: try await response.body.collect(upTo: 1024 * 1024))
+//            print(str)
             let json = try JSON(data: str.data(using: .utf8)!)
             var wikis: [WikipediaPage] = []
-            let searchResults = json["qyery"]["search"].arrayValue
+            let searchResults = json["query"]["search"].arrayValue
             
             for wiki in searchResults {
                 wikis.append(WikipediaPage(title: wiki["title"].stringValue, pageid: wiki["pageid"].intValue))

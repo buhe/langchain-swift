@@ -1140,6 +1140,16 @@ Action Input: the input to the action
         print(a)
         
     }
+    func testWikipediaSearchAPI() async throws {
+        let client = WikipediaAPIWrapper()
+        let wikis = try await client.search(query: "abc")
+        print(wikis)
+        XCTAssertEqual(wikis.count, 10)
+    }
+    
+    func testWikipediaFetchPageContentAPI() async throws {
+
+    }
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
