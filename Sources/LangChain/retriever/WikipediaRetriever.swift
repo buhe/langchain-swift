@@ -7,5 +7,7 @@
 
 import Foundation
 public class WikipediaRetriever: BaseRetriever {
-    
+    public override func _get_relevant_documents(query: String) -> [Document] {
+        []
+    }
 }

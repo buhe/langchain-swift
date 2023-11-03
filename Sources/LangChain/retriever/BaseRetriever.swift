@@ -8,7 +8,11 @@
 import Foundation
 
 public class BaseRetriever {
-    public func get_relevant_documents(query: String) -> [Document] {
+    public func _get_relevant_documents(query: String) -> [Document] {
         []
+    }
+    
+    public func get_relevant_documents(query: String) -> [Document] {
+        self._get_relevant_documents(query: query)
     }
 }
