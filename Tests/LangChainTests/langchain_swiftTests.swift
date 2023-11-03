@@ -1148,7 +1148,10 @@ Action Input: the input to the action
     }
     
     func testWikipediaFetchPageContentAPI() async throws {
-
+        let page = WikipediaPage(title: "American Broadcasting Company", pageid: 62027)
+        let content = try await page.content()
+        print(content)
+        XCTAssertNotEqual(content.count, 0)
     }
 //
 //    func testYoutubeHackClientList() async throws {
