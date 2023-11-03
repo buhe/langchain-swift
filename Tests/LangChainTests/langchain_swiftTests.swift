@@ -1153,6 +1153,13 @@ Action Input: the input to the action
         print(content)
         XCTAssertNotEqual(content.count, 0)
     }
+    
+    func testWikipediaSearchLoad() async throws {
+        let client = WikipediaAPIWrapper()
+        let docs = try await client.load(query: "abc")
+        print(docs)
+        XCTAssertEqual(docs.count, 10)
+    }
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)

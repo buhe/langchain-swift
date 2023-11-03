@@ -49,4 +49,14 @@ struct WikipediaAPIWrapper {
             return []
         }
     }
+    
+    func load(query: String) async throws -> [Document] {
+        let pages = try await self.search(query: query)
+        var docs: [Document] = []
+        for page in pages {
+            let content = try await page.content()
+            docs.append(Document(page_content: content, metadata: [:]))
+        }
+        return docs
+    }
 }
