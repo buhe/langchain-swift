@@ -43,3 +43,14 @@ public class PromptTemplate {
         PromptTemplate(input_variables: input_variables, partial_variable: partial_variable, template: template)
     }
 }
+
+
+let _template = """
+Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question, in its original language.
+
+Chat History:
+{chat_history}
+Follow Up Input: {question}
+Standalone question:
+"""
+let CONDENSE_QUESTION_PROMPT = PromptTemplate(input_variables: ["chat_history", "question"], partial_variable: [:], template: _template)
