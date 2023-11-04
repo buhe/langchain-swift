@@ -12,4 +12,8 @@ public class WikipediaRetriever: BaseRetriever {
     public override func _get_relevant_documents(query: String) async throws -> [Document] {
         try await client.load(query: query)
     }
+    
+    public override init() {
+        
+    }
 }
