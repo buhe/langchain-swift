@@ -113,6 +113,42 @@ A🚀:[LangChain.MatchedModel(content: Optional("In state after state, new laws 
 ```
 </details>
 <details>
+
+<summary>📄 Retriever</summary>
+    
+Code
+```swift
+Task {
+    let retriever = WikipediaRetriever()
+    let qa = ConversationalRetrievalChain(retriver: retriever, llm: OpenAI())
+    let questions = [
+        "What is Apify?",
+        "When the Monument to the Martyrs of the 1830 Revolution was created?",
+        "What is the Abhayagiri Vihāra?"
+    ]
+    var chat_history:[(String, String)] = []
+
+    for question in questions{
+        let result = await qa.predict(args: ["question": question, "chat_history": ConversationalRetrievalChain.get_chat_history(chat_history: chat_history)])
+        chat_history.append((question, result!))
+        print("⚠️**Question**: \(question)")
+        print("✅**Answer**: \(result!)")
+    }
+}
+```
+Log
+```
+⚠️**Question**: What is Apify?
+✅**Answer**: Apify refers to a web scraping and automation platform.
+read(descriptor:pointer:size:): Connection reset by peer (errno: 54)
+⚠️**Question**: When the Monument to the Martyrs of the 1830 Revolution was created?
+✅**Answer**: The Monument to the Martyrs of the 1830 Revolution was created in 1906.
+⚠️**Question**: What is the Abhayagiri Vihāra?
+✅**Answer**: The term "Abhayagiri Vihāra" refers to a Buddhist monastery in ancient Sri Lanka.
+```
+</details>
+<details>
+
 <summary>🤖 Agent</summary>
     
 Code
@@ -337,6 +373,8 @@ Task {
     - Router
         - [x] LLMRouterChain
         - [x] MultiRouteChain
+    - QA
+        - [x] ConversationalRetrievalChain
 - Tools
     - [x] Dummy
     - [x] InvalidTool
@@ -377,6 +415,8 @@ Task {
 - LLM Cache
     - [x] InMemery
     - [x] File
+- Retriever
+    - [x] WikipediaRetriever
 ## 👍 Got Ideas?
 Open an issue, and let's discuss!
 

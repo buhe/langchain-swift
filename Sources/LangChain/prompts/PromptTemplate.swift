@@ -43,3 +43,4 @@ public class PromptTemplate {
         PromptTemplate(input_variables: input_variables, partial_variable: partial_variable, template: template)
     }
 }
+

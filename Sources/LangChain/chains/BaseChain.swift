@@ -29,7 +29,7 @@ public class DefaultChain {
         print("call base.")
         return (LLMResult(), Parsed.unimplemented)
     }
-    
+
     func callEnd(output: String, reqId: String, cost: Double) {
         for callback in self.callbacks {
             do {
@@ -84,10 +84,6 @@ public class DefaultChain {
             callCatch(error: LangChainError.ChainError, reqId: reqId, cost: cost)
             return Parsed.error
         }
-    }
-    
-    func __call__() {
-        
     }
     
     func prep_outputs(inputs: [String: String], outputs: [String: String]) -> [String: String] {

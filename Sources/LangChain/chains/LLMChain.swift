@@ -49,7 +49,7 @@ public class LLMChain: DefaultChain {
         let input_prompt = prep_prompts(input_list: input_list)
         do {
             //call llm
-            var llmResult = await self.llm.generate(text: input_prompt, stops:  stop)
+            let llmResult = await self.llm.generate(text: input_prompt, stops:  stop)
             try await llmResult?.setOutput()
             return llmResult
         } catch {
