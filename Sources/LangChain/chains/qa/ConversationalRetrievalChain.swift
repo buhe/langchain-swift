@@ -7,9 +7,10 @@
 
 import Foundation
 public class ConversationalRetrievalChain: BaseConversationalRetrievalChain {
-    public override init(retriver: BaseRetriever, combineChain: BaseCombineDocumentsChain) {
-        
-        super.init(retriver: retriver, combineChain: combineChain)
+    let retriver: BaseRetriever
+    public init(retriver: BaseRetriever, llm: LLM) {
+        self.retriver = retriver
+        super.init(llm: llm)
     }
     
     override func get_docs(question: String) async -> String {
