@@ -29,10 +29,7 @@ public class DefaultChain {
         print("call base.")
         return (LLMResult(), Parsed.unimplemented)
     }
-    public func _callDict(args: [String: String]) async -> (LLMResult?, Parsed) {
-        print("call base.")
-        return (LLMResult(), Parsed.unimplemented)
-    }
+
     func callEnd(output: String, reqId: String, cost: Double) {
         for callback in self.callbacks {
             do {
@@ -85,31 +82,6 @@ public class DefaultChain {
             return outputs.1
         } else {
             callCatch(error: LangChainError.ChainError, reqId: reqId, cost: cost)
-            return Parsed.error
-        }
-    }
-    
-    public func runDict(args: [String: String]) async -> Parsed {
-//        let _ = prep_inputs(inputs: args)
-        // = Langchain's run + __call__
-//        let reqId = UUID().uuidString
-//        var cost = 0.0
-//        let now = Date.now.timeIntervalSince1970
-        
-//            callStart(prompt: args, reqId: reqId)
-        let outputs = await self._callDict(args: args)
-        if let _ = outputs.0 {
-//            cost = Date.now.timeIntervalSince1970 - now
-            //call end trace
-            //            if !outputs.0.stream {
-//            callEnd(output: llmResult.llm_output!, reqId: reqId, cost: cost)
-            //            } else {
-            //                callEnd(output: "[LLM is streamable]", reqId: reqId, cost: cost)
-            //            }
-//            let _ = prep_outputs(inputs: [inputKey: args], outputs: [self.outputKey: llmResult.llm_output!])
-            return outputs.1
-        } else {
-//            callCatch(error: LangChainError.ChainError, reqId: reqId, cost: cost)
             return Parsed.error
         }
     }
