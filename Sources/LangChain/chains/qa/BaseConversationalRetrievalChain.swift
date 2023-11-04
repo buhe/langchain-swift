@@ -20,6 +20,7 @@ public class BaseConversationalRetrievalChain: DefaultChain {
     }
     public override func _call(args: String) async -> (LLMResult?, Parsed) {
         print("call qa base.")
+        // TODO gen new question with chat history
         let output = await combineChain.runDict(args: ["docs": await self.get_docs(question: args), "question": args])
         return (LLMResult(), output)
     }
