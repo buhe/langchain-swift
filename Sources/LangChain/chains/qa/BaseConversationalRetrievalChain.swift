@@ -29,15 +29,27 @@ public class BaseConversationalRetrievalChain: DefaultChain {
     func get_docs(question: String) async -> String {
         ""
     }
-    public override func _call(args: String) async -> (LLMResult?, Parsed) {
+    public override func _callDict(args: [String: String]) async -> (LLMResult?, Parsed) {
         print("call qa base.")
         // TODO gen new question with chat history
-        let new_question = await self.condense_question_chain.predict(args: ["question": args, "chat_history": ""])
+        let new_question = await self.condense_question_chain.predict(args: args)
         if let new_question = new_question {
             let output = await combineChain.runDict(args: ["docs": await self.get_docs(question: new_question), "question": new_question])
             return (LLMResult(), output)
         } else {
             return (nil, Parsed.error)
         }
+    }
+    
+    
+    public static func get_chat_history(chat_history: [(String, String)]) -> String {
+        var buffer = ""
+        for dialogue_turn in chat_history {
+            let human = "Human: " + dialogue_turn.0
+            let ai = "Assistant: " + dialogue_turn.1
+            buffer += "\n\(human)\n\(ai)"
+        }
+        return buffer
+//        chat_history.joined(separator: "\n")
     }
 }
