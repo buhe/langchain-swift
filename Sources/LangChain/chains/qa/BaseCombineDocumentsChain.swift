@@ -13,7 +13,7 @@ public class BaseCombineDocumentsChain: DefaultChain {
         return output
     }
     
-    public func combine_docs(docs: String, question: String) async -> String {
+    public func combine_docs(docs: String, question: String) async -> String? {
         ""
     }
 }

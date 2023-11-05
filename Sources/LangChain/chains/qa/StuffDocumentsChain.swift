@@ -24,8 +24,8 @@ public class StuffDocumentsChain: BaseCombineDocumentsChain {
         self.llm_chain = LLMChain(llm: llm, prompt: StuffDocumentsChain.PROMPT)
         super.init(outputKey: "input", inputKey: "output")
     }
-    public override func combine_docs(docs: String, question: String) async -> String {
-        return await llm_chain.predict(args: ["question": question, "context": docs])!
+    public override func combine_docs(docs: String, question: String) async -> String? {
+        return await llm_chain.predict(args: ["question": question, "context": docs])
     }
 
 }

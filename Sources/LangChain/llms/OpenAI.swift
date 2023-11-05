@@ -15,7 +15,7 @@ public class OpenAI: LLM {
     let temperature: Double
     let model: ModelID
     
-    public init(temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo, callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
+    public init(temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo16K, callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
         self.temperature = temperature
         self.model = model
         super.init(callbacks: callbacks, cache: cache)

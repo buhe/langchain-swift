@@ -16,7 +16,7 @@ public class BaseRetriever {
         do {
             return try await self._get_relevant_documents(query: query)
         } catch {
-            print(error)
+            print("get_relevant_documents error \(error.localizedDescription)")
             return []
         }
     }

@@ -15,7 +15,7 @@ public class ChatOpenAI: LLM {
     let model: ModelID
     let httpClient: HTTPClient
     
-    public init(httpClient: HTTPClient, temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo, callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
+    public init(httpClient: HTTPClient, temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo16K, callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
         self.httpClient = httpClient
         self.temperature = temperature
         self.model = model
