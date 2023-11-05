@@ -21,7 +21,7 @@ struct WikipediaAPIWrapper {
         let baseURL = "http://en.wikipedia.org/w/api.php"
         var components = URLComponents(string: baseURL)!
         components.queryItems = [
-            URLQueryItem(name: "srlimit", value: "10"),
+            URLQueryItem(name: "srlimit", value: "3"),
             URLQueryItem(name: "list", value: "search"),
             URLQueryItem(name: "srsearch", value: query),
             URLQueryItem(name: "action", value: "query"),

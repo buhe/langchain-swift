@@ -53,7 +53,7 @@ public class LLMChain: DefaultChain {
             try await llmResult?.setOutput()
             return llmResult
         } catch {
-            print(error)
+            print("LLM chain generate \(error.localizedDescription)")
             return nil
         }
     }

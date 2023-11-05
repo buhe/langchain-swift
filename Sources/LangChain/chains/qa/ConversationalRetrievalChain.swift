@@ -15,7 +15,7 @@ public class ConversationalRetrievalChain: BaseConversationalRetrievalChain {
     
     override func get_docs(question: String) async -> String {
         let docs = await retriver.get_relevant_documents(query: question)
-        let docsStr = docs.map{$0.page_content}.joined(separator: "\n\n")
+        let docsStr = docs.map{$0.page_content}.joined(separator: "\n\n").prefix(50000)
         print("🦙>>Collect docs: \(docsStr.prefix(10))... \(docsStr.count) count")
         return "\(docsStr)"
     }

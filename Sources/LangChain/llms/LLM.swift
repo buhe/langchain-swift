@@ -47,6 +47,7 @@ public class LLM {
             return llmResult
         } catch {
             callCatch(error: error, reqId: reqId, cost: cost)
+            print("LLM generate \(error.localizedDescription)")
             return nil
         }
         
