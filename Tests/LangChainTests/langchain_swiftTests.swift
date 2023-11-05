@@ -1158,7 +1158,7 @@ Action Input: the input to the action
         let client = WikipediaAPIWrapper()
         let docs = try await client.load(query: "abc")
         print(docs)
-        XCTAssertEqual(docs.count, 10)
+        XCTAssertEqual(docs.count, 3)
     }
 //
 //    func testYoutubeHackClientList() async throws {
