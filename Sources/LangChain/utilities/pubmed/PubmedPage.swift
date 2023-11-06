@@ -38,9 +38,19 @@ struct PubmedPage {
         if response.status == .ok {
             let str = String(buffer: try await response.body.collect(upTo: 1024 * 1024))
             let xml = XMLHash.parse(str.data(using: .utf8)!)
-            let summary = xml["PubmedArticleSet"].element!.text
-            print("xml: \(summary)")
-            return summary
+            var ar = xml["PubmedArticleSet"]["PubmedArticle"]["MedlineCitation"][
+                "Article"
+            ]
+            if ar.element == nil {
+                ar = xml["PubmedArticleSet"]["PubmedBookArticle"]["BookDocument"]
+            }
+            let summarys = ar["Abstract"]["AbstractText"].all
+            let summarysStr = summarys.map{$0.element?.text}
+            if !summarysStr.isEmpty && summarysStr.first != nil {
+                return summarysStr.map{$0!}.joined(separator: "\n")
+            } else {
+                return ""
+            }
         } else {
             // handle remote error
             print("http code is not 200.")
