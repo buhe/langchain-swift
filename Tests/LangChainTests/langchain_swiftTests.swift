@@ -1160,6 +1160,28 @@ Action Input: the input to the action
         print(docs)
         XCTAssertEqual(docs.count, 3)
     }
+    
+    func testPubmedSearchAPI() async throws {
+        let client = PubmedAPIWrapper()
+        let pubmeds = try await client.search(query: "ai")
+        print(pubmeds)
+        XCTAssertEqual(pubmeds.count, 5)
+    }
+    
+    func testPubmedFetchPageContentAPI() async throws {
+        let page = PubmedPage(uid: "37926277", webenv: "MCID_6548a476fc7406607a2fa42d")
+        let content = try await page.content()
+        print(content)
+        print(content.count)
+        XCTAssertNotEqual(content.count, 0)
+    }
+    
+    func testPubmedSearchLoad() async throws {
+        let client = PubmedAPIWrapper()
+        let docs = try await client.load(query: "ai")
+        print(docs)
+        XCTAssertEqual(docs.count, 5)
+    }
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
