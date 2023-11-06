@@ -417,6 +417,7 @@ Task {
     - [x] File
 - Retriever
     - [x] WikipediaRetriever
+    - [x] PubmedRetriever
 ## 👍 Got Ideas?
 Open an issue, and let's discuss!
 
