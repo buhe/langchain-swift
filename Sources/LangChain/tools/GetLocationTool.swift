@@ -23,7 +23,7 @@ public class GetLocationTool: BaseTool, CLLocationManagerDelegate {
     
     public override func description() -> String {
         """
-        Tool to get current locationz.
+        Tool to get current location.
         Input must be here.
         Returns the current longitude and latitude, such as -78.4:38.5.
 """
