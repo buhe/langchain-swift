@@ -11,11 +11,11 @@ import CoreLocation
 public class GetLocationTool: BaseTool, CLLocationManagerDelegate {
     
     // Add "Privacy – Location When In Use Usage Description" to Info.plist (or add NSLocationWhenInUseUsageDescription key)
-    
+
     var longitude: Double =  0.0
     var latitude: Double =  0.0
     let locationManager:CLLocationManager = CLLocationManager()
-    
+    private var locationContinuation: CheckedContinuation<String, Error>?
     public override init(callbacks: [BaseCallbackHandler] = []) {
         super.init(callbacks: callbacks)
     }
@@ -42,7 +42,10 @@ public class GetLocationTool: BaseTool, CLLocationManagerDelegate {
             print("started get location.")
         }
         //wait
-        return "\(longitude):\(latitude)"
+        return try await withCheckedThrowingContinuation { continuation in
+            locationContinuation = continuation
+        }
+        
     }
     
     private func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -50,5 +53,6 @@ public class GetLocationTool: BaseTool, CLLocationManagerDelegate {
         longitude = currLocation.coordinate.longitude
         latitude = currLocation.coordinate.latitude
         // signal
+        locationContinuation?.resume(returning: "\(longitude):\(latitude)")
     }
 }
