@@ -47,7 +47,6 @@ public class GetLocationTool: BaseTool, CLLocationManagerDelegate {
     }
     
     public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        print(manager.authorizationStatus)
         switch manager.authorizationStatus {
         case .authorizedWhenInUse:  // Location services are available.
             // Insert code here of what should happen when Location services are authorized
@@ -77,5 +76,6 @@ public class GetLocationTool: BaseTool, CLLocationManagerDelegate {
     
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("error: \(error.localizedDescription)")
+        locationContinuation?.resume(throwing: error)
     }
 }
