@@ -9,6 +9,9 @@ import Foundation
 import CoreLocation
 
 public class GetLocationTool: BaseTool, CLLocationManagerDelegate {
+    
+    // Add "Privacy – Location When In Use Usage Description" to Info.plist (or add NSLocationWhenInUseUsageDescription key)
+    
     var longitude: Double =  0.0
     var latitude: Double =  0.0
     let locationManager:CLLocationManager = CLLocationManager()
