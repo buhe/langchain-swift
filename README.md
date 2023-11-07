@@ -1,8 +1,8 @@
 ![](https://p.ipic.vip/2qqnzz.png)
-# 🐇 LangChain Swift
+# 🐇 Langchain Swift
 [![Swift](https://github.com/buhe/langchain-swift/actions/workflows/swift.yml/badge.svg)](https://github.com/buhe/langchain-swift/actions/workflows/swift.yml) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![Swift Package Manager](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg) [![Twitter](https://img.shields.io/badge/twitter-@buhe1986-blue.svg?style=flat)](http://twitter.com/buhe1986)
 
-🚀 A langchain copy, for ios or macOS apps.
+🚀 A Langchain copy, for iOS or macOS apps.
 
 
 ## Setup
