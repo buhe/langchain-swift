@@ -50,7 +50,7 @@ public class GetLocationTool: BaseTool, CLLocationManagerDelegate {
         switch manager.authorizationStatus {
         case .authorizedWhenInUse:  // Location services are available.
             // Insert code here of what should happen when Location services are authorized
-            authorizationStatus = .authorizedWhenInUse
+//            authorizationStatus = .authorizedWhenInUse
             locationManager.requestLocation()
             break
             
