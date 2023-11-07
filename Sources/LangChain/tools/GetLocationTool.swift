@@ -10,10 +10,7 @@ import CoreLocation
 
 public class GetLocationTool: BaseTool, CLLocationManagerDelegate {
     
-    // Add "Privacy - Location Always and When In Use Usage Description" to Info.plist
-
-    var longitude: Double =  0.0
-    var latitude: Double =  0.0
+    // Add "Privacy - Location When In Use Usage Description" to Info.plist
     let locationManager:CLLocationManager = CLLocationManager()
     var authorizationStatus: CLAuthorizationStatus?
     private var locationContinuation: CheckedContinuation<String, Error>?
@@ -43,8 +40,8 @@ public class GetLocationTool: BaseTool, CLLocationManagerDelegate {
     
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let currLocation:CLLocation = locations.last!
-        longitude = currLocation.coordinate.longitude
-        latitude = currLocation.coordinate.latitude
+        let longitude = currLocation.coordinate.longitude
+        let latitude = currLocation.coordinate.latitude
         // signal
         locationContinuation?.resume(returning: "\(longitude):\(latitude)")
     }
