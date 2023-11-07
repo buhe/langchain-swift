@@ -10,11 +10,12 @@ import CoreLocation
 
 public class GetLocationTool: BaseTool, CLLocationManagerDelegate {
     
-    // Add "Privacy – Location When In Use Usage Description" to Info.plist (or add NSLocationWhenInUseUsageDescription key)
+    // Add "Privacy - Location Always and When In Use Usage Description" to Info.plist
 
     var longitude: Double =  0.0
     var latitude: Double =  0.0
     let locationManager:CLLocationManager = CLLocationManager()
+    var authorizationStatus: CLAuthorizationStatus?
     private var locationContinuation: CheckedContinuation<String, Error>?
     public override init(callbacks: [BaseCallbackHandler] = []) {
         super.init(callbacks: callbacks)
@@ -33,14 +34,6 @@ public class GetLocationTool: BaseTool, CLLocationManagerDelegate {
     
     public override func _run(args: String) async throws -> String {
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = 100
-        locationManager.requestAlwaysAuthorization()
-        if (CLLocationManager.locationServicesEnabled())
-        {
-            locationManager.startUpdatingLocation()
-            print("started get location.")
-        }
         //wait
         return try await withCheckedThrowingContinuation { continuation in
             locationContinuation = continuation
@@ -48,11 +41,44 @@ public class GetLocationTool: BaseTool, CLLocationManagerDelegate {
         
     }
     
-    private func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let currLocation:CLLocation = locations.last!
         longitude = currLocation.coordinate.longitude
         latitude = currLocation.coordinate.latitude
         // signal
         locationContinuation?.resume(returning: "\(longitude):\(latitude)")
+    }
+    
+    public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        print(manager.authorizationStatus)
+        switch manager.authorizationStatus {
+        case .authorizedWhenInUse:  // Location services are available.
+            // Insert code here of what should happen when Location services are authorized
+            authorizationStatus = .authorizedWhenInUse
+            locationManager.requestLocation()
+            break
+            
+        case .restricted:  // Location services currently unavailable.
+            // Insert code here of what should happen when Location services are NOT authorized
+            authorizationStatus = .restricted
+            break
+            
+        case .denied:  // Location services currently unavailable.
+            // Insert code here of what should happen when Location services are NOT authorized
+            authorizationStatus = .denied
+            break
+            
+        case .notDetermined:        // Authorization not determined yet.
+            authorizationStatus = .notDetermined
+            manager.requestWhenInUseAuthorization()
+            break
+            
+        default:
+            break
+        }
+    }
+    
+    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("error: \(error.localizedDescription)")
     }
 }
