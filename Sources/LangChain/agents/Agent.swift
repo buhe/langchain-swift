@@ -126,7 +126,7 @@ public class AgentExecutor: DefaultChain {
                 }
                 return (step, observation)
             } catch {
-//                print("\(error) at run \(tool.name()) tool.")
+                print("\(error.localizedDescription) at run \(tool.name()) tool.")
                 let observation = try! await InvalidTool(tool_name: tool.name()).run(args: action.input)
                 return (step, observation)
             }
