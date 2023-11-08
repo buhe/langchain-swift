@@ -380,7 +380,7 @@ Task {
     - [x] InvalidTool
     - [x] Serper
     - [ ] Zapier
-    - [x] JavascriptREPLTool
+    - [x] JavascriptREPLTool(Via JSC)
     - [x] GetLocation(Via CoreLocation)
 - Agent
     - [x] ZeroShotAgent
