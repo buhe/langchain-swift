@@ -381,7 +381,7 @@ Task {
     - [x] Serper
     - [ ] Zapier
     - [x] JavascriptREPLTool
-    - [ ] GetLocation(Via CoreLocation)
+    - [x] GetLocation(Via CoreLocation)
 - Agent
     - [x] ZeroShotAgent
 - Memory
