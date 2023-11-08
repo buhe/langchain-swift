@@ -806,7 +806,7 @@ May God bless you all. May God protect our troops.
     func testBilibiliLoader() async throws {
         let loader = BilibiliLoader(videoId: "BV1iP411y7Vs")
         let doc = await loader.load()
-        print(doc.first!.metadata["thumbnail"]!)
+//        print(doc.first!.metadata["thumbnail"]!)
         XCTAssertFalse(doc.isEmpty)
         XCTAssertNotEqual("", doc.first!.page_content)
     }
@@ -851,8 +851,8 @@ May God bless you all. May God protect our troops.
                 let plain = String(buffer: try await response.body.collect(upTo: 10240 * 1024))
                 let loader = HtmlLoader(html: plain, url: url)
                 let doc = await loader.load()
-                print("thumbnail: \(doc.first!.metadata["thumbnail"]!)")
-                print("title: \(doc.first!.metadata["title"]!)")
+//                print("thumbnail: \(doc.first!.metadata["thumbnail"]!)")
+//                print("title: \(doc.first!.metadata["title"]!)")
                 
                 XCTAssertFalse(doc.isEmpty)
                 XCTAssertNotEqual("", doc.first!.page_content)
@@ -915,7 +915,7 @@ May God bless you all. May God protect our troops.
             try? httpClient.syncShutdown()
         }
         let result = await BaiduClient.ocrImage(ak: "vjLPbepeMfSIjZyzpuMCufhv", sk: "WAANBg7crEIlozpwPfplPagNzspx49Gy", httpClient: httpClient, image: imageData)
-        print("ocr: \(result!)")
+//        print("ocr: \(result!)")
         XCTAssertNotNil(result)
         XCTAssertNotNil(result!["words_result"])
     }
@@ -971,15 +971,15 @@ May God bless you all. May God protect our troops.
         }
         let demo = Book(title: 1.1, content: 2.2, isBuy: true,unit: [Unit(num: 1)])
         let s = String(data: try! JSONEncoder().encode(demo), encoding: .utf8)!
-        print("json: \(s)")
+//        print("json: \(s)")
 //        let book = Book(title: "a", content: "b")
 //        let mirror = Mirror(reflecting: book)
 //        guard let types = getTypesOfProperties(inClass: Book.self) else { return }
         var parser = ObjectOutputParser<Book>(demo: demo)
         let i = parser.get_format_instructions()
         let b = parser.parse(text: s)
-        print("\(b)")
-        print("i: \(i)")
+//        print("\(b)")
+//        print("i: \(i)")
         switch b {
         case Parsed.object(let o):
             XCTAssertNotNil(o)
@@ -999,15 +999,15 @@ May God bless you all. May God protect our troops.
         }
         let demo = Book(title: "a", content: "b", unit: Unit(num: 1))
         let s = String(data: try! JSONEncoder().encode(demo), encoding: .utf8)!
-        print("json: \(s)")
+//        print("json: \(s)")
 //        let book = Book(title: "a", content: "b")
 //        let mirror = Mirror(reflecting: book)
 //        guard let types = getTypesOfProperties(inClass: Book.self) else { return }
         var parser = ObjectOutputParser<Book>(demo: demo)
         let i = parser.get_format_instructions()
         let b = parser.parse(text: s)
-        print("\(b)")
-        print("i: \(i)")
+//        print("\(b)")
+//        print("i: \(i)")
         switch b {
         case Parsed.object(let o):
             XCTAssertNotNil(o)
@@ -1035,8 +1035,8 @@ May God bless you all. May God protect our troops.
                 let plain = String(buffer: try await response.body.collect(upTo: 10240 * 1024))
                 let loader = HtmlLoader(html: plain, url: url)
                 let doc = await loader.load()
-                print("thumbnail: \(doc.first!.metadata["thumbnail"]!)")
-                print("title: \(doc.first!.metadata["title"]!)")
+//                print("thumbnail: \(doc.first!.metadata["thumbnail"]!)")
+//                print("title: \(doc.first!.metadata["title"]!)")
                 
                 XCTAssertFalse(doc.isEmpty)
                 XCTAssertNotEqual("", doc.first!.page_content)
@@ -1070,7 +1070,7 @@ May God bless you all. May God protect our troops.
         
         let llmResult = await simpleSequentialChain._call(args: "0")
         
-        print("llm: \(llmResult.0!.llm_output!)")
+//        print("llm: \(llmResult.0!.llm_output!)")
         
         XCTAssertEqual("0_A_B", llmResult.0!.llm_output!)
     }
@@ -1096,7 +1096,7 @@ May God bless you all. May God protect our troops.
         
         let result = try await sequentialChain.predict(args: "0")
         
-        print("llm: \(result)")
+//        print("llm: \(result)")
         XCTAssertEqual("0_A", result["_A_"]!)
         XCTAssertEqual("0_A_B", result["_B_"]!)
     }
@@ -1108,20 +1108,20 @@ May God bless you all. May God protect our troops.
         }
         
         let result = await tc._call(args: "HO")
-        print("llm: \(result.0!.llm_output!)")
+//        print("llm: \(result.0!.llm_output!)")
         XCTAssertEqual("HO_T", result.0!.llm_output!)
     }
     
     func testDatetimePrompt() async throws {
         let datetimeParse = DateOutputParser()
         let prompt = datetimeParse.get_format_instructions()
-        print(prompt)
+//        print(prompt)
     }
     
     func testDatetimeParse() async throws {
         let datetimeParse = DateOutputParser()
         let res = datetimeParse.parse(text: "2001 10 13")
-        print(res)
+//        print(res)
     }
     
     func testLoaderThrow() async throws {
@@ -1137,49 +1137,49 @@ Action: the action to take, should be one of [%@]
 Action Input: the input to the action
 """
         let a = p.parse(text: inputString)
-        print(a)
+//        print(a)
         
     }
     func testWikipediaSearchAPI() async throws {
         let client = WikipediaAPIWrapper()
         let wikis = try await client.search(query: "abc")
-        print(wikis)
+//        print(wikis)
         XCTAssertEqual(wikis.count, 3)
     }
     
     func testWikipediaFetchPageContentAPI() async throws {
         let page = WikipediaPage(title: "American Broadcasting Company", pageid: 62027)
         let content = try await page.content()
-        print(content)
+//        print(content)
         XCTAssertNotEqual(content.count, 0)
     }
     
     func testWikipediaSearchLoad() async throws {
         let client = WikipediaAPIWrapper()
         let docs = try await client.load(query: "abc")
-        print(docs)
+//        print(docs)
         XCTAssertEqual(docs.count, 3)
     }
     
     func testPubmedSearchAPI() async throws {
         let client = PubmedAPIWrapper()
         let pubmeds = try await client.search(query: "ai")
-        print(pubmeds)
+//        print(pubmeds)
         XCTAssertEqual(pubmeds.count, 5)
     }
     
     func testPubmedFetchPageContentAPI() async throws {
         let page = PubmedPage(uid: "37926277", webenv: "MCID_6548a476fc7406607a2fa42d")
         let content = try await page.content()
-        print(content)
-        print(content.count)
+//        print(content)
+//        print(content.count)
         XCTAssertNotEqual(content.count, 0)
     }
     
     func testPubmedSearchLoad() async throws {
         let client = PubmedAPIWrapper()
         let docs = try await client.load(query: "ai")
-        print(docs)
+//        print(docs)
         XCTAssertEqual(docs.count, 5)
     }
 //
