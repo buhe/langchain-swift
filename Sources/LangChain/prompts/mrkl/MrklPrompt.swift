@@ -29,4 +29,4 @@ Question: {question}
 Thought: {thought}
 """
 
-public let FINAL_ANSWER_ACTION = "Final Answer:"
+public let FINAL_ANSWER_ACTION = "FINAL ANSWER"

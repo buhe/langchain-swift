@@ -119,7 +119,7 @@ public class AgentExecutor: DefaultChain {
         case .action(let action):
             let tool = tools.filter{$0.name() == action.action}.first!
             do {
-//                print("try call \(tool.name()) tool.")
+                print("try call \(tool.name()) tool.")
                 var observation = try await tool.run(args: action.input)
                 if observation.count > 1000 {
                     observation = String(observation.prefix(1000))
@@ -131,7 +131,7 @@ public class AgentExecutor: DefaultChain {
                 return (step, observation)
             }
         default:
-            return (step, "default")
+            return (step, "fail")
         }
     }
     public override func _call(args: String) async -> (LLMResult?, Parsed) {
@@ -160,7 +160,7 @@ public class AgentExecutor: DefaultChain {
             
             switch next_step_output.0 {
             case .finish(let finish):
-//                print("final answer.")
+                print("Found final answer.")
                 do {
                 for callback in self.callbacks {
                     try callback.on_agent_finish(action: finish, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
@@ -180,7 +180,7 @@ public class AgentExecutor: DefaultChain {
                 intermediate_steps.append((action, next_step_output.1))
             default:
 //                print("error step.")
-                return (LLMResult(), Parsed.error)
+                return (nil, Parsed.error)
             }
         }
     }
@@ -242,11 +242,13 @@ public class Agent {
             thoughts += action.log
             thoughts += "\nObservation: \(observation)\nThought: "
         }
-        return """
+        let ret = """
             This was your previous work
             but I haven't seen any of it! I only see what "
             you return as final answer):\n\(thoughts)
         """
+        print(ret)
+        return ret
     }
     
 //    def _construct_agent_scratchpad(
