@@ -979,7 +979,7 @@ May God bless you all. May God protect our troops.
         let i = parser.get_format_instructions()
         let b = parser.parse(text: s)
 //        print("\(b)")
-//        print("i: \(i)")
+        print("i: \(i)")
         switch b {
         case Parsed.object(let o):
             XCTAssertNotNil(o)
@@ -1007,7 +1007,7 @@ May God bless you all. May God protect our troops.
         let i = parser.get_format_instructions()
         let b = parser.parse(text: s)
 //        print("\(b)")
-//        print("i: \(i)")
+        print("i: \(i)")
         switch b {
         case Parsed.object(let o):
             XCTAssertNotNil(o)
@@ -1115,12 +1115,16 @@ May God bless you all. May God protect our troops.
     func testDatetimePrompt() async throws {
         let datetimeParse = DateOutputParser()
         let prompt = datetimeParse.get_format_instructions()
-//        print(prompt)
+        print(prompt)
     }
     
     func testDatetimeParse() async throws {
         let datetimeParse = DateOutputParser()
         let res = datetimeParse.parse(text: "2001 10 13")
+        switch res {
+        case .date(_): XCTAssertTrue(true)
+        default:XCTAssertTrue(false)
+        }
 //        print(res)
     }
     
@@ -1137,6 +1141,10 @@ Action: the action to take, should be one of [%@]
 Action Input: the input to the action
 """
         let a = p.parse(text: inputString)
+        switch a {
+        case .action(_): XCTAssertTrue(true)
+        default: XCTAssertTrue(false)
+        }
 //        print(a)
         
     }
