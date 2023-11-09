@@ -11,6 +11,7 @@ import CommonCrypto
 enum LangChainError: Error {
     case LoaderError(String)
     case ChainError
+    case ToolError
 }
 
 extension Data{
