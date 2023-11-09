@@ -383,6 +383,7 @@ Task {
     - [ ] Zapier
     - [x] JavascriptREPLTool(Via JSC)
     - [x] GetLocation(Via CoreLocation)
+    - [x] Weather
 - Agent
     - [x] ZeroShotAgent
 - Memory
