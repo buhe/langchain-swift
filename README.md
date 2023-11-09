@@ -23,6 +23,7 @@ BAIDU_OCR_SK=xxx
 BAIDU_LLM_AK=xxx
 BAIDU_LLM_SK=xxx
 CHATGLM_API_KEY=xxx
+OPENWEATHER_API_KEY=xxx
 ```
 
 ## Get stated
