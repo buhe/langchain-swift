@@ -131,7 +131,7 @@ public class AgentExecutor: DefaultChain {
                 return (step, observation)
             }
         default:
-            return (step, "default")
+            return (step, "fail")
         }
     }
     public override func _call(args: String) async -> (LLMResult?, Parsed) {
@@ -242,11 +242,13 @@ public class Agent {
             thoughts += action.log
             thoughts += "\nObservation: \(observation)\nThought: "
         }
-        return """
+        let ret = """
             This was your previous work
             but I haven't seen any of it! I only see what "
             you return as final answer):\n\(thoughts)
         """
+        print(ret)
+        return ret
     }
     
 //    def _construct_agent_scratchpad(
