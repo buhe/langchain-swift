@@ -1190,6 +1190,12 @@ Action Input: the input to the action
 //        print(docs)
         XCTAssertEqual(docs.count, 5)
     }
+    
+    func testOpenWeatherAPI() async throws {
+        let client = OpenWeatherAPIWrapper()
+        let currentWeather = try await client.search(query: "10.99:44.34", apiKey: "7463430d465b51d78562f11033424be7")
+        print(currentWeather!)
+    }
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)

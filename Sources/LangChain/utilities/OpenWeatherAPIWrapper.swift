@@ -61,7 +61,9 @@ public struct OpenWeatherAPIWrapper {
 //      "name": "Zocca",
 //      "cod": 200
 //    }
-    
+    public init() {
+        
+    }
     func search(query: String, apiKey: String) async throws -> String? {
         let coord = query.split(separator: ":")
         if coord.count != 2 {
@@ -104,7 +106,7 @@ public struct OpenWeatherAPIWrapper {
               - Low: \(json["main"]["temp_min"].doubleValue)°C
               - Feels like: \(json["main"]["feels_like"].doubleValue)°C
             Rain: \(json["rain"]["1h"].doubleValue)%
-            Cloud cover: \(json["cloud"]["all"].doubleValue)%
+            Cloud cover: \(json["clouds"]["all"].doubleValue)%
 """
         } else {
             // handle remote error
