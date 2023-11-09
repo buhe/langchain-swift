@@ -119,7 +119,7 @@ public class AgentExecutor: DefaultChain {
         case .action(let action):
             let tool = tools.filter{$0.name() == action.action}.first!
             do {
-//                print("try call \(tool.name()) tool.")
+                print("try call \(tool.name()) tool.")
                 var observation = try await tool.run(args: action.input)
                 if observation.count > 1000 {
                     observation = String(observation.prefix(1000))
@@ -160,7 +160,7 @@ public class AgentExecutor: DefaultChain {
             
             switch next_step_output.0 {
             case .finish(let finish):
-//                print("final answer.")
+                print("Found final answer.")
                 do {
                 for callback in self.callbacks {
                     try callback.on_agent_finish(action: finish, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
@@ -180,7 +180,7 @@ public class AgentExecutor: DefaultChain {
                 intermediate_steps.append((action, next_step_output.1))
             default:
 //                print("error step.")
-                return (LLMResult(), Parsed.error)
+                return (nil, Parsed.error)
             }
         }
     }
