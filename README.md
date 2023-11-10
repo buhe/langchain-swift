@@ -55,7 +55,7 @@ let chatgpt_chain = LLMChain(
     prompt: prompt,
     memory: ConversationBufferWindowMemory()
 )
-Task {
+Task(priority: .background)  {
     var input = "I want you to act as a Linux terminal. I will type commands and you will reply with what the terminal should show. I want you to only reply with the terminal output inside one unique code block, and nothing else. Do not write explanations. Do not type commands unless I instruct you to do so. When I need to tell you something in English I will do so by putting text inside curly brackets {like this}. My first command is pwd."
     
     var res = await chatgpt_chain.predict(args: ["human_input": input])
@@ -88,7 +88,7 @@ ref: https://supabase.com/docs/guides/database/extensions/pgvector
 
 Code
 ```swift
-Task {
+Task(priority: .background)  {
     let loader = TextLoader(file_path: "state_of_the_union.txt")
     let documents = await loader.load()
     let text_splitter = CharacterTextSplitter(chunk_size: 1000, chunk_overlap: 0)
@@ -119,7 +119,7 @@ A🚀:[LangChain.MatchedModel(content: Optional("In state after state, new laws 
     
 Code
 ```swift
-Task {
+Task(priority: .background)  {
     let retriever = WikipediaRetriever()
     let qa = ConversationalRetrievalChain(retriver: retriever, llm: OpenAI())
     let questions = [
@@ -155,7 +155,7 @@ read(descriptor:pointer:size:): Connection reset by peer (errno: 54)
 Code
 ```swift
 let agent = initialize_agent(llm: OpenAI(), tools: [WeatherTool()])
-Task {
+Task(priority: .background)  {
     let res = await agent.run(args: "Query the weather of this week")
     switch res {
     case Parsed.str(let str):
@@ -232,7 +232,7 @@ let llmChain = LLMChain(llm: llm, prompt: router_prompt, parser: RouterOutputPar
 let router_chain = LLMRouterChain(llmChain: llmChain)
 
 let chain = MultiRouteChain(router_chain: router_chain, destination_chains: destination_chains, default_chain: default_chain)
-Task {
+Task(priority: .background)  {
    print("💁🏻‍♂️", await chain.run(args: "What is black body radiation?"))
 }
 ```
@@ -261,7 +261,7 @@ let llm = OpenAI()
 let t = PromptTemplate(input_variables: ["query"], partial_variable:["format_instructions": parser.get_format_instructions()], template: "Answer the user query.\n{format_instructions}\n{query}\n")
 
 let chain = LLMChain(llm: llm, prompt: t, parser: parser, inputKey: "query")
-Task {
+Task(priority: .background)  {
     let pasred = await chain.run(args: "The book title is 123 , content is 456 , num of unit is 7")
     switch pasred {
     case Parsed.object(let o): print("🚗object: \(o)")
@@ -290,7 +290,7 @@ Task {
     let t = PromptTemplate(input_variables: ["query"], partial_variable:["format_instructions": parser.get_format_instructions()], template: "Answer the user query.\n{format_instructions}\n{query}\n")
     
     let chain = LLMChain(llm: llm, prompt: t, parser: parser, inputKey: "query")
-    Task {
+    Task(priority: .background)  {
         let result = await chain.run(args: "Value is 'value2'")
         switch result {
            case .enumType(let e):
@@ -308,7 +308,7 @@ Task {
 <summary>Stream Chat - Must be use ChatOpenAI model </summary>
 
 ```swift
-Task {
+Task(priority: .background)  {
     let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
     
     let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
