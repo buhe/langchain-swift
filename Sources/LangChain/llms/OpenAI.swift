@@ -26,7 +26,7 @@ public class OpenAI: LLM {
         
         if let apiKey = env["OPENAI_API_KEY"] {
             let baseUrl = env["OPENAI_API_BASE"] ?? "api.openai.com"
-            let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+            let eventLoopGroup = ThreadManager.thread
 
             let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
             defer {

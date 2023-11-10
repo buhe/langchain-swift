@@ -33,7 +33,7 @@ public class AudioLoader: BaseLoader {
         let numOfSegments = Int(ceil(duration / 60) - 1)
         // For each segment, we need to split it up
         
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let eventLoopGroup = ThreadManager.thread
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
        

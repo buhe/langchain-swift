@@ -834,7 +834,7 @@ May God bless you all. May God protect our troops.
     
     func testHtmlLoader() async throws {
         let url = "https://medium.com/@michaellong/swiftui-ready-for-prime-time-53d3b96dfff0"
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let eventLoopGroup = ThreadManager.thread
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         defer {
             // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
@@ -895,7 +895,7 @@ May God bless you all. May God protect our troops.
     
     func testBaiduAccessToken() async throws {
         
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let eventLoopGroup = ThreadManager.thread
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         defer {
             // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
@@ -908,7 +908,7 @@ May God bless you all. May God protect our troops.
     
     func testOCR() async throws {
         
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let eventLoopGroup = ThreadManager.thread
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         defer {
             // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
@@ -1018,7 +1018,7 @@ May God bless you all. May God protect our troops.
     
     func testHtmlLoaderForWX() async throws {
         let url = "https://mp.weixin.qq.com/s/WPyNxKlaBuzFlJyYb2-Lpw"
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let eventLoopGroup = ThreadManager.thread
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         defer {
             // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
@@ -1198,7 +1198,7 @@ Action Input: the input to the action
     }
 //
 //    func testYoutubeHackClientList() async throws {
-//        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+//        let eventLoopGroup = ThreadManager.thread
 //
 //        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
 //        defer {
@@ -1219,7 +1219,7 @@ Action Input: the input to the action
 //    }
 //    
 //    func testYoutubeHackClientTranslate() async throws {
-//        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+//        let eventLoopGroup = ThreadManager.thread
 //
 //        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
 //        defer {
@@ -1241,7 +1241,7 @@ Action Input: the input to the action
 //    }
 //    
 //    func testYoutubeHackClientTranslateEN() async throws {
-//        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+//        let eventLoopGroup = ThreadManager.thread
 //
 //        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
 //        defer {
@@ -1262,7 +1262,7 @@ Action Input: the input to the action
 //    }
 //    
 //    func testYoutubeInfoFetch() async throws {
-//        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+//        let eventLoopGroup = ThreadManager.thread
 //        
 //        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
 //        defer {

@@ -53,7 +53,7 @@ struct ChatGLMAPIWrapper {
         let env = Env.loadEnv()
         if let apiKey = env["CHATGLM_API_KEY"] {
             let splited = apiKey.components(separatedBy: ".")
-            let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+            let eventLoopGroup = ThreadManager.thread
 
             let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
             

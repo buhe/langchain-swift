@@ -31,7 +31,7 @@ struct TraceManager {
     
     func sendServer(report: Report) async {
         // TODO: Http keep alive
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let eventLoopGroup = ThreadManager.thread
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         defer {

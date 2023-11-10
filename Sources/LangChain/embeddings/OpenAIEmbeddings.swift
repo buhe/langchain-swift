@@ -20,7 +20,7 @@ public struct OpenAIEmbeddings: Embeddings {
 //    }
     
     public func embedQuery(text: String) async -> [Float] {
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let eventLoopGroup = ThreadManager.thread
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
        

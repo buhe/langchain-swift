@@ -21,7 +21,7 @@ public class YoutubeLoader: BaseLoader {
     }
     public override func _load() async throws -> [Document] {
         
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let eventLoopGroup = ThreadManager.thread
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         defer {
