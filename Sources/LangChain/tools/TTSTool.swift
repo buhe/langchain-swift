@@ -29,21 +29,18 @@ public class TTSTool: BaseTool {
         if let apiKey = env["OPENAI_API_KEY"] {
             let baseUrl = env["OPENAI_API_BASE"] ?? "api.openai.com"
             let data = await OpenAITTSAPIWrapper().tts(text: args, key: apiKey, base: baseUrl)
-//            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//
-//            guard let path = paths.first else {
-//                throw LangChainError.ToolError
-//            }
+            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
 
-//            let url = path.appendingPathComponent("tts.mp3")
+            guard let path = paths.first else {
+                throw LangChainError.ToolError
+            }
+
+            let url = path.appendingPathComponent("tts-\(UUID().uuidString).mp3")
             do {
-//                try data?.write(to: url)
-//                try AVAudioSession.sharedInstance().setCategory(.playback)
-//                try AVAudioSession.sharedInstance().setActive(true)
-                audioPlayer = try AVAudioPlayer(data: data!)
-//                audioPlayer.prepareToPlay()
+                try data?.write(to: url)
+                audioPlayer = try AVAudioPlayer(contentsOf: url)
                 audioPlayer?.play()
-                return "tts.mps"
+                return url.absoluteString
             } catch {
                 throw LangChainError.ToolError
             }
