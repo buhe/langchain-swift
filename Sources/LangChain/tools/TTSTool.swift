@@ -9,6 +9,7 @@ import Foundation
 import AVFoundation
 
 public class TTSTool: BaseTool {
+    var audioPlayer: AVAudioPlayer?
     public override init(callbacks: [BaseCallbackHandler] = []) {
         super.init(callbacks: callbacks)
     }
@@ -28,18 +29,21 @@ public class TTSTool: BaseTool {
         if let apiKey = env["OPENAI_API_KEY"] {
             let baseUrl = env["OPENAI_API_BASE"] ?? "api.openai.com"
             let data = await OpenAITTSAPIWrapper().tts(text: args, key: apiKey, base: baseUrl)
-            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//
+//            guard let path = paths.first else {
+//                throw LangChainError.ToolError
+//            }
 
-            guard let path = paths.first else {
-                throw LangChainError.ToolError
-            }
-
-            let url = path.appendingPathComponent("tts.mp3")
+//            let url = path.appendingPathComponent("tts.mp3")
             do {
-                try data?.write(to: url)
-                var audioPlayer = try AVAudioPlayer(data: data!)
-                audioPlayer.play()
-                return url.absoluteString
+//                try data?.write(to: url)
+//                try AVAudioSession.sharedInstance().setCategory(.playback)
+//                try AVAudioSession.sharedInstance().setActive(true)
+                audioPlayer = try AVAudioPlayer(data: data!)
+//                audioPlayer.prepareToPlay()
+                audioPlayer?.play()
+                return "tts.mps"
             } catch {
                 throw LangChainError.ToolError
             }
