@@ -15,9 +15,27 @@ struct OpenAITTSRequest: Encodable {
     let response_format: String
     let speed: String
 }
+enum Voice: String, Encodable {
+    case alloy
+    case echo
+    case fable
+    case onyx
+    case nova
+    case shimmer
+}
+enum TTSModel: String, Encodable{
+    case tts1hd = "tts-1-hd"
+    case tts1 = "tts-1"
+}
+enum TTSFormat: String {
+    case mp3
+    case opus
+    case aac
+    case flac
+}
 struct OpenAITTSAPIWrapper {
     
-    func tts(text: String, key: String, base: String) async -> Data? {
+    func tts(voice: Voice = .alloy, model: TTSModel = .tts1, format: TTSFormat = .mp3, speed: String = "1.0", text: String, key: String, base: String) async -> Data? {
         let eventLoopGroup = ThreadManager.thread
         
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
@@ -30,7 +48,7 @@ struct OpenAITTSAPIWrapper {
             request.method = .POST
             request.headers.add(name: "Authorization", value: "Bearer \(key)")
             request.headers.add(name: "Content-Type", value: "application/json")
-            let requestBody = try! JSONEncoder().encode(OpenAITTSRequest(model: "tts-1-hd", input: text, voice: "alloy", response_format: "mp3", speed: "1.1"))
+            let requestBody = try! JSONEncoder().encode(OpenAITTSRequest(model: model.rawValue, input: text, voice: voice.rawValue, response_format: format.rawValue, speed: speed))
             request.body = .bytes(requestBody)
 
             let response = try await httpClient.execute(request, timeout: .seconds(30))
