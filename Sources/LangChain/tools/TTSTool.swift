@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import NIOPosix
-import AsyncHTTPClient
 
 public class TTSTool: BaseTool {
     public override init(callbacks: [BaseCallbackHandler] = []) {
@@ -29,14 +27,25 @@ public class TTSTool: BaseTool {
         
         if let apiKey = env["OPENAI_API_KEY"] {
             let baseUrl = env["OPENAI_API_BASE"] ?? "api.openai.com"
-            let eventLoopGroup = ThreadManager.thread
-            
-            let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
-            defer {
-                // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
-                try? httpClient.syncShutdown()
+            let data = await OpenAITTSAPIWrapper().tts(text: args, key: apiKey, base: baseUrl)
+            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+
+            guard let path = paths.first else {
+                print("无法获取到路径")
+                throw LangChainError.ToolError
             }
+
+            let url = path.appendingPathComponent("tts.mp3")
+            do {
+                try data?.write(to: url)
+                print("文件写入成功")
+                return url.absoluteString
+            } catch {
+                print("文件写入失败：\(error)")
+                throw LangChainError.ToolError
+            }
+        } else {
+            throw LangChainError.ToolError
         }
-        return ""
     }
 }
