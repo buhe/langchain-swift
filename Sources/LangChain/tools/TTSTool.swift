@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AVFoundation
 
 public class TTSTool: BaseTool {
     public override init(callbacks: [BaseCallbackHandler] = []) {
@@ -17,8 +18,7 @@ public class TTSTool: BaseTool {
     
     public override func description() -> String {
         """
-        useful for When you want to 
-        return file name
+        useful for convert text into sound and play it, returning the sound file path
 """
     }
     
@@ -31,18 +31,16 @@ public class TTSTool: BaseTool {
             let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
 
             guard let path = paths.first else {
-                print("无法获取到路径")
                 throw LangChainError.ToolError
             }
 
             let url = path.appendingPathComponent("tts.mp3")
             do {
                 try data?.write(to: url)
-                print("文件写入成功")
-                // TODO voice
+                var audioPlayer = try AVAudioPlayer(data: data!)
+                audioPlayer.play()
                 return url.absoluteString
             } catch {
-                print("文件写入失败：\(error)")
                 throw LangChainError.ToolError
             }
         } else {

@@ -26,7 +26,7 @@ struct OpenAITTSAPIWrapper {
             try? httpClient.syncShutdown()
         }
         do {
-            var request = HTTPClientRequest(url: "\(base)/v1/audio/speech")
+            var request = HTTPClientRequest(url: "https://\(base)/v1/audio/speech")
             request.method = .POST
             request.headers.add(name: "Authorization", value: "Bearer \(key)")
             request.headers.add(name: "Content-Type", value: "application/json")
@@ -43,7 +43,7 @@ struct OpenAITTSAPIWrapper {
             }
         } catch {
             // handle error
-            print(error)
+            print(error.localizedDescription)
             return nil
         }
     }
