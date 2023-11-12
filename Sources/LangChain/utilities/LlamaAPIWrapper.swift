@@ -15,7 +15,7 @@ struct LlamaRequest: Encodable {
 
 struct LlamaAPIWrapper {
     
-    func tts(text: String, key: String, base: String) async -> Data? {
+    func execute(text: String, key: String) async -> Data? {
         let eventLoopGroup = ThreadManager.thread
         
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
@@ -24,7 +24,7 @@ struct LlamaAPIWrapper {
             try? httpClient.syncShutdown()
         }
         do {
-            var request = HTTPClientRequest(url: "https://\(base)/v1/audio/speech")
+            var request = HTTPClientRequest(url: "https://api.llama-api.com/chat/completions")
             request.method = .POST
             request.headers.add(name: "Authorization", value: "Bearer \(key)")
             request.headers.add(name: "Content-Type", value: "application/json")
