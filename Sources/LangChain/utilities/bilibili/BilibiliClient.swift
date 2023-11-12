@@ -14,16 +14,16 @@ public struct BilibiliClient {
     let credential: BilibiliCredential
     
     func fetchVideoInfo(bvid: String) async -> BilibiliVideo? {
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
-
+        let eventLoopGroup = ThreadManager.thread
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
+        defer {
+            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
+            try? httpClient.syncShutdown()
+        }
         do {
             var request = HTTPClientRequest(url: String(format: "https://api.bilibili.com/x/web-interface/view?bvid=%@", bvid))
             request.method = .GET
-            defer {
-                // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
-                try? httpClient.syncShutdown()
-            }
+
             let response = try await httpClient.execute(request, timeout: .seconds(30))
             if response.status == .ok {
                 let str = String(buffer: try await response.body.collect(upTo: 1024 * 1024))
@@ -111,7 +111,7 @@ public struct BilibiliClient {
     }
     
     public static func getLongUrl(short: String) async -> String? {
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let eventLoopGroup = ThreadManager.thread
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup), configuration: HTTPClient.Configuration(redirectConfiguration: .disallow))
         do {

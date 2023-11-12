@@ -8,12 +8,12 @@
 import Foundation
 
 public class TransformChain: DefaultChain {
-    public init(fn: @escaping (_: String) -> LLMResult, memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
+    public init(fn: @escaping (_: String) -> LLMResult?, memory: BaseMemory? = nil, outputKey: String = "output", inputKey: String = "input", callbacks: [BaseCallbackHandler] = []) {
         self.fn = fn
-        super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
+        super.init(memory: memory, outputKey: outputKey, inputKey: inputKey, callbacks: callbacks)
     }
-    let fn: (_ args: String) async -> LLMResult
-    public override func call(args: String) async throws -> LLMResult {
-        return await fn(args)
+    let fn: (_ args: String) async -> LLMResult?
+    public override func _call(args: String) async -> (LLMResult?, Parsed) {
+        return (await fn(args), Parsed.nothing)
     }
 }

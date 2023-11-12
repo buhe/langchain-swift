@@ -7,12 +7,18 @@
 
 import Foundation
 public class AgentExecutor: DefaultChain {
+    static let AGENT_REQ_ID = "agent_req_id"
     let agent: Agent
     let tools: [BaseTool]
-    public init(agent: Agent, tools: [BaseTool], memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
+    public init(agent: Agent, tools: [BaseTool], memory: BaseMemory? = nil, outputKey: String = "output", inputKey: String = "input", callbacks: [BaseCallbackHandler] = []) {
         self.agent = agent
         self.tools = tools
-        super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
+        var cbs: [BaseCallbackHandler] = callbacks
+        if Env.addTraceCallbak() && !cbs.contains(where: { item in item is TraceCallbackHandler}) {
+            cbs.append(TraceCallbackHandler())
+        }
+//        assert(cbs.count == 1)
+        super.init(memory: memory, outputKey: outputKey, inputKey: inputKey, callbacks: cbs)
     }
     
 //    def _take_next_step(
@@ -113,27 +119,34 @@ public class AgentExecutor: DefaultChain {
         case .action(let action):
             let tool = tools.filter{$0.name() == action.action}.first!
             do {
-//                print("try call \(tool.name()) tool.")
+                print("try call \(tool.name()) tool.")
                 var observation = try await tool.run(args: action.input)
                 if observation.count > 1000 {
                     observation = String(observation.prefix(1000))
                 }
                 return (step, observation)
             } catch {
-//                print("\(error) at run \(tool.name()) tool.")
+                print("\(error.localizedDescription) at run \(tool.name()) tool.")
                 let observation = try! await InvalidTool(tool_name: tool.name()).run(args: action.input)
                 return (step, observation)
             }
         default:
-            return (step, "default")
+            return (step, "fail")
         }
     }
-    public override func call(args: String) async throws -> LLMResult {
+    public override func _call(args: String) async -> (LLMResult?, Parsed) {
         // chain run -> call -> agent plan -> llm send
         
         // while should_continue and call
 //        let name_to_tool_map = tools.map { [$0.name(): $0] }
-//        
+        let reqId = UUID().uuidString
+        do {
+            for callback in self.callbacks {
+                try callback.on_agent_start(prompt: args, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
+            }
+        } catch {
+            
+        }
         var intermediate_steps: [(AgentAction, String)] = []
         while true {
 //            next_step_output = self._take_next_step(
@@ -147,19 +160,27 @@ public class AgentExecutor: DefaultChain {
             
             switch next_step_output.0 {
             case .finish(let finish):
-//                print("final answer.")
+                print("Found final answer.")
+                do {
                 for callback in self.callbacks {
-                    try callback.on_agent_finish(action: finish)
+                    try callback.on_agent_finish(action: finish, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
                 }
-                return LLMResult(llm_output: next_step_output.1)
+                } catch {
+                    
+                }
+                return (LLMResult(llm_output: next_step_output.1), Parsed.str(next_step_output.1))
             case .action(let action):
+                    do {
                 for callback in self.callbacks {
-                    try callback.on_agent_action(action: action)
+                    try callback.on_agent_action(action: action, metadata: [AgentExecutor.AGENT_REQ_ID: reqId])
                 }
+                    } catch {
+                        
+                    }
                 intermediate_steps.append((action, next_step_output.1))
             default:
 //                print("error step.")
-                return LLMResult()
+                return (nil, Parsed.error)
             }
         }
     }
@@ -221,11 +242,13 @@ public class Agent {
             thoughts += action.log
             thoughts += "\nObservation: \(observation)\nThought: "
         }
-        return """
+        let ret = """
             This was your previous work
             but I haven't seen any of it! I only see what "
             you return as final answer):\n\(thoughts)
         """
+        print(ret)
+        return ret
     }
     
 //    def _construct_agent_scratchpad(
@@ -254,7 +277,7 @@ public class ZeroShotAgent: Agent {
         let tool_names = tools.map{$0.name()}.joined(separator: ", ")
         let format_instructions2 = String(format: format_instructions, tool_names)
         let template = [prefix0, tool_strings, format_instructions2, suffix].joined(separator: "\n\n")
-        return PromptTemplate(input_variables: [], template: template)
+        return PromptTemplate(input_variables: ["question", "thought"], partial_variable: [:], template: template)
     }
 //        @classmethod
 //            def create_prompt(

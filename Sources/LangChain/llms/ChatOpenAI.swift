@@ -10,17 +10,18 @@ import NIOPosix
 import AsyncHTTPClient
 import OpenAIKit
 
-public struct ChatOpenAI: LLM {
+public class ChatOpenAI: LLM {
     let temperature: Double
     let model: ModelID
     let httpClient: HTTPClient
     
-    public init(httpClient: HTTPClient, temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo) {
+    public init(httpClient: HTTPClient, temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo16K, callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
         self.httpClient = httpClient
         self.temperature = temperature
         self.model = model
+        super.init(callbacks: callbacks, cache: cache)
     }
-    public func send(text: String, stops: [String] = []) async -> LLMResult {
+    public override func _send(text: String, stops: [String] = []) async throws -> LLMResult {
         let env = Env.loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
@@ -29,8 +30,8 @@ public struct ChatOpenAI: LLM {
             let configuration = Configuration(apiKey: apiKey, api: API(scheme: .https, host: baseUrl))
 
             let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
-            let buffer = try! await openAIClient.chats.stream(model: model, messages: [.user(content: text)], temperature: temperature)
-            return LLMResult(generation: buffer)
+            let buffer = try await openAIClient.chats.stream(model: model, messages: [.user(content: text)], temperature: temperature)
+            return OpenAIResult(generation: buffer)
         } else {
             print("Please set openai api key.")
             return LLMResult()

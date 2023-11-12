@@ -15,12 +15,12 @@ public struct OpenAIEmbeddings: Embeddings {
         
     }
     
-    public func embedDocuments(texts: [String]) -> [[Float]] {
-        []
-    }
+//    public func embedDocuments(texts: [String]) -> [[Float]] {
+//        []
+//    }
     
     public func embedQuery(text: String) async -> [Float] {
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let eventLoopGroup = ThreadManager.thread
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
        
@@ -36,10 +36,14 @@ public struct OpenAIEmbeddings: Embeddings {
                 // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
                 try? httpClient.syncShutdown()
             }
-            let embedding = try! await openAIClient.embeddings.create(input: text)
-                 
-//            print(embedding.data[0].embedding)
-            return embedding.data[0].embedding
+            do {
+                let embedding = try await openAIClient.embeddings.create(input: text)
+                
+                //            print(embedding.data[0].embedding)
+                return embedding.data[0].embedding
+            } catch {
+                return []
+            }
         } else {
             print("Please set openai api key.")
             return []

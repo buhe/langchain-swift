@@ -21,11 +21,15 @@ public enum Parsed {
     case action(AgentAction)
     case finish(AgentFinish)
     case error
+    case unimplemented
+    case nothing
     case str(String)
     case list([String])
     case json(JSON)
     case dict([String: String])
     case object(Codable)
+    case enumType(Any)
+    case date(Date)
 }
 public protocol BaseOutputParser {
     func parse(text: String) -> Parsed

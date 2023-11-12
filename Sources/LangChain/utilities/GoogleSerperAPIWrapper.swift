@@ -35,9 +35,13 @@ struct GoogleSerperAPIWrapper {
     
     func _google_serper_api_results(search_term: String, search_type: String = "search", k: Int = 10, gl: String = "us", hl: String = "en") async -> String {
         let env = Env.loadEnv()
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let eventLoopGroup = ThreadManager.thread
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
+        defer {
+            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
+            try? httpClient.syncShutdown()
+        }
         do {
             var request = HTTPClientRequest(url: "https://google.serper.dev/\(search_type)")
             request.method = .POST
@@ -45,10 +49,7 @@ struct GoogleSerperAPIWrapper {
             request.headers.add(name: "Content-Type", value: "application/json")
             let requestBody = try! JSONEncoder().encode(GooglrRequest(k: k, gl: gl, hl: hl, q: search_term))
             request.body = .bytes(requestBody)
-            defer {
-                // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
-                try? httpClient.syncShutdown()
-            }
+
             let response = try await httpClient.execute(request, timeout: .seconds(30))
             if response.status == .ok {
                 return String(buffer: try await response.body.collect(upTo: 1024 * 1024))

@@ -7,12 +7,12 @@
 
 import Foundation
 public class DNChain: DefaultChain {
-    public override init(memory: BaseMemory? = nil, outputKey: String? = nil, callbacks: [BaseCallbackHandler] = []) {
-        super.init(memory: memory, outputKey: outputKey, callbacks: callbacks)
+    public override init(memory: BaseMemory? = nil, outputKey: String = "output", inputKey: String = "input", callbacks: [BaseCallbackHandler] = []) {
+        super.init(memory: memory, outputKey: outputKey, inputKey: inputKey, callbacks: callbacks)
     }
-    public override func call(args: String) async throws -> LLMResult {
-        print("Do nothing.")
-        return LLMResult()
+    public override func _call(args: String) async -> (LLMResult?, Parsed) {
+//        print("Do nothing.")
+        return (LLMResult(), Parsed.nothing)
     }
     
 }

@@ -11,16 +11,17 @@ import Foundation
 import NIOPosix
 
 
-public struct YoutubeLoader: BaseLoader {
+public class YoutubeLoader: BaseLoader {
     let video_id: String
     let language: String
-    public init(video_id: String, language: String) {
+    public init(video_id: String, language: String, callbacks: [BaseCallbackHandler] = []) {
         self.video_id = video_id
         self.language = language
+        super.init(callbacks: callbacks)
     }
-    public func load() async -> [Document] {
+    public override func _load() async throws -> [Document] {
         
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let eventLoopGroup = ThreadManager.thread
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         defer {
@@ -35,10 +36,11 @@ public struct YoutubeLoader: BaseLoader {
                         "thumbnail": info!.thumbnail]
         var transcript_list = await YoutubeHackClient.list_transcripts(video_id: self.video_id, httpClient: httpClient)
         if transcript_list == nil {
-            return []
+            throw LangChainError.LoaderError("Subtitle not exist")
         }
         if transcript_list!.generated_transcripts.isEmpty && transcript_list!.manually_created_transcripts.isEmpty {
-            return [Document(page_content: "Content is empty.", metadata: metadata)]
+//            return [Document(page_content: "Content is empty.", metadata: metadata)]
+            throw LangChainError.LoaderError("Subtitle not exist")
         }
         var transcript = transcript_list!.find_transcript(language_codes: [self.language])
         if transcript == nil {
@@ -53,5 +55,7 @@ public struct YoutubeLoader: BaseLoader {
     
     }
     
-    
+    override func type() -> String {
+        "Youtube"
+    }
 }

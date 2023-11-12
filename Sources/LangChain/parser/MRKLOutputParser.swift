@@ -10,9 +10,9 @@ import Foundation
 public struct MRKLOutputParser: BaseOutputParser {
     public init() {}
     public func parse(text: String) -> Parsed {
-//        print(text)
-        if text.contains(FINAL_ANSWER_ACTION) {
-            return Parsed.finish(AgentFinish(final: text.components(separatedBy: FINAL_ANSWER_ACTION)[1]))
+        print(text.uppercased())
+        if text.uppercased().contains(FINAL_ANSWER_ACTION) {
+            return Parsed.finish(AgentFinish(final: text))
         }
         let pattern = "Action\\s*:[\\s]*(.*)[\\s]*Action\\s*Input\\s*:[\\s]*(.*)"
         let regex = try! NSRegularExpression(pattern: pattern)

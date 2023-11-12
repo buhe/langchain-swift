@@ -25,8 +25,8 @@ Final Answer: the final answer to the original input question
 public let SUFFIX = """
 Begin!
 
-Question: %@
-Thought: %@
+Question: {question}
+Thought: {thought}
 """
 
-public let FINAL_ANSWER_ACTION = "Final Answer:"
+public let FINAL_ANSWER_ACTION = "FINAL ANSWER"

@@ -10,34 +10,34 @@ import NIOPosix
 import AsyncHTTPClient
 import OpenAIKit
 
-public struct OpenAI: LLM {
+public class OpenAI: LLM {
     
     let temperature: Double
     let model: ModelID
     
-    public init(temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo) {
+    public init(temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo16K, callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
         self.temperature = temperature
         self.model = model
+        super.init(callbacks: callbacks, cache: cache)
     }
     
-    public func send(text: String, stops: [String] = []) async -> LLMResult {
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
-
-        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
-       
+    public override func _send(text: String, stops: [String] = []) async throws -> LLMResult {
         let env = Env.loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
             let baseUrl = env["OPENAI_API_BASE"] ?? "api.openai.com"
+            let eventLoopGroup = ThreadManager.thread
 
-            let configuration = Configuration(apiKey: apiKey, api: API(scheme: .https, host: baseUrl))
-
-            let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
+            let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
             defer {
                 // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
                 try? httpClient.syncShutdown()
             }
-            let completion = try! await openAIClient.chats.create(model: model, messages: [.user(content: text)], temperature: temperature, stops: stops)
+            let configuration = Configuration(apiKey: apiKey, api: API(scheme: .https, host: baseUrl))
+
+            let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
+            
+            let completion = try await openAIClient.chats.create(model: model, messages: [.user(content: text)], temperature: temperature, stops: stops)
             return LLMResult(llm_output: completion.choices.first!.message.content)
         } else {
             print("Please set openai api key.")

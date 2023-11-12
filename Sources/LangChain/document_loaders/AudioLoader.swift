@@ -12,17 +12,18 @@ import AsyncHTTPClient
 import OpenAIKit
 import AVFoundation
 
-public struct AudioLoader: BaseLoader {
+public class AudioLoader: BaseLoader {
     static let SEG_SIZE = 60
     let audio: URL
     let fileName: String
     
-    public init(audio: URL, fileName: String) {
+    public init(audio: URL, fileName: String, callbacks: [BaseCallbackHandler] = []) {
         self.audio = audio
         self.fileName = fileName
+        super.init(callbacks: callbacks)
     }
     
-    public func load() async -> [Document] {
+    public override func _load() async throws -> [Document] {
         var docs: [Document] = []
         
         let asset: AVAsset = AVAsset(url: audio)
@@ -32,7 +33,7 @@ public struct AudioLoader: BaseLoader {
         let numOfSegments = Int(ceil(duration / 60) - 1)
         // For each segment, we need to split it up
         
-        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+        let eventLoopGroup = ThreadManager.thread
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
        
@@ -65,8 +66,11 @@ public struct AudioLoader: BaseLoader {
                         docs.append(doc)
                     } catch {
                         print("Unable to load data: \(error)")
+                        throw LangChainError.LoaderError("Unable to load data: \(error)")
                     }
                    
+                } else {
+                    throw LangChainError.LoaderError("Not split audio")
                 }
             }
             return docs
@@ -105,5 +109,9 @@ public struct AudioLoader: BaseLoader {
             })
         }
        
+    }
+    
+    override func type() -> String {
+        "Audio"
     }
 }
