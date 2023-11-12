@@ -13,7 +13,7 @@ import NIOPosix
 import AsyncHTTPClient
 import OpenAIKit
 
-public struct Llama2: LLM {
+public class Llama2: LLM {
     
     let temperature: Double
     let model: ModelID
@@ -23,7 +23,7 @@ public struct Llama2: LLM {
         self.model = model
     }
     
-    public func send(text: String, stops: [String] = []) async -> LLMResult {
+    public override func _send(text: String, stops: [String] = []) async -> LLMResult {
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
