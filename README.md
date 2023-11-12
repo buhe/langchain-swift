@@ -384,6 +384,7 @@ Task(priority: .background)  {
     - [x] JavascriptREPLTool(Via JSC)
     - [x] GetLocation(Via CoreLocation)
     - [x] Weather
+    - [x] TTSTool
 - Agent
     - [x] ZeroShotAgent
 - Memory
