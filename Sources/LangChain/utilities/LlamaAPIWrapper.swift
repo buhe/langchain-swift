@@ -41,7 +41,7 @@ struct LlamaAPIWrapper {
             let response = try await httpClient.execute(request, timeout: .seconds(30))
             if response.status == .ok {
                 let str = String(buffer: try await response.body.collect(upTo: 1024 * 1024))
-                print(str)
+//                print(str)
                 let json = try JSON(data: str.data(using: .utf8)!)
                 return json["choices"].arrayValue[0]["message"]["content"].stringValue
             } else {
