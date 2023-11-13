@@ -24,6 +24,7 @@ BAIDU_LLM_AK=xxx
 BAIDU_LLM_SK=xxx
 CHATGLM_API_KEY=xxx
 OPENWEATHER_API_KEY=xxx
+LLAMA2_API_KEY=xxx
 ```
 
 ## Get stated
@@ -359,7 +360,7 @@ Task(priority: .background)  {
     - [x] ChatGLM
     - [x] ChatOpenAI
     - [x] Baidu
-    - [ ] Llama 2
+    - [x] Llama 2
 - Vectorstore
     - [x] Supabase
     - [x] Supabase by user
