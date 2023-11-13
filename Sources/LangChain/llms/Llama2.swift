@@ -22,8 +22,6 @@ public class Llama2: LLM {
     }
     
     public override func _send(text: String, stops: [String] = []) async -> LLMResult {
-       
-       
         let env = Env.loadEnv()
         
         if let apiKey = env["LLAMA2_API_KEY"] {
@@ -39,9 +37,4 @@ public class Llama2: LLM {
     
 }
 
-//extension Model {
-//    public enum LLAMA2: String, ModelID {
-//        case llama13bchat = "llama-13b-chat"
-//    }
-//}
 

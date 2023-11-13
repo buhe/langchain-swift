@@ -360,7 +360,7 @@ Task(priority: .background)  {
     - [x] ChatGLM
     - [x] ChatOpenAI
     - [x] Baidu
-    - [ ] Llama 2
+    - [x] Llama 2
 - Vectorstore
     - [x] Supabase
     - [x] Supabase by user
