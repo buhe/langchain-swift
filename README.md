@@ -2,7 +2,7 @@
 # 🐇 Langchain Swift
 [![Swift](https://github.com/buhe/langchain-swift/actions/workflows/swift.yml/badge.svg)](https://github.com/buhe/langchain-swift/actions/workflows/swift.yml) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![Swift Package Manager](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg) [![Twitter](https://img.shields.io/badge/twitter-@buhe1986-blue.svg?style=flat)](http://twitter.com/buhe1986)
 
-🚀 Langchain for Swift. Optimized for iOS and macOS.
+🚀 Langchain for Swift. Optimized for iOS and macOS.(beta)
 
 
 ## Setup
@@ -425,6 +425,8 @@ Task(priority: .background)  {
     - [x] PubmedRetriever
 ## 👍 Got Ideas?
 Open an issue, and let's discuss!
+
+Join Slack: https://join.slack.com/t/langchain-mobile/shared_invite/zt-26tzdzb2u-8RnP7hDQz~MWMg8EeIu0lQ
 
 ## 💁 Contributing
 As an open-source project in a rapidly developing field, we are extremely open to contributions, whether it be in the form of a new feature, improved infrastructure, or better documentation.
