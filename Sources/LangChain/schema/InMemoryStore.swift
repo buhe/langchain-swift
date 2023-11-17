@@ -6,6 +6,6 @@
 //
 
 import Foundation
-public class MultiVectorRetriever: BaseRetriever {
+public class InMemoryStore: BaseStore {
     
 }

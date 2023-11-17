@@ -6,6 +6,6 @@
 //
 
 import Foundation
-public class ParentDocumentRetriever {
+public class ParentDocumentRetriever: MultiVectorRetriever {
     
 }
