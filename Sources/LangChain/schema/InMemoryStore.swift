@@ -32,7 +32,7 @@ public class InMemoryStore: BaseStore {
         }
     }
     
-    override func keys(prefix: String?) -> [String] {
+    override func keys(prefix: String? = nil) -> [String] {
         if prefix == nil {
             return Array(self.store.keys)
         } else {

@@ -19,7 +19,7 @@ public class BaseStore {
         
     }
     
-    func keys(prefix: String?) -> [String] {
+    func keys(prefix: String? = nil) -> [String] {
         []
     }
 }

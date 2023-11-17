@@ -15,4 +15,8 @@ public class MultiVectorRetriever: BaseRetriever {
         self.vectorstore = vectorstore
         self.docstore = docstore
     }
+    
+    public override func _get_relevant_documents(query: String) async throws  -> [Document] {
+        []
+    }
 }

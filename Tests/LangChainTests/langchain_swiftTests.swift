@@ -1196,6 +1196,14 @@ Action Input: the input to the action
         let currentWeather = try await client.search(query: "10.99:44.34", apiKey: "7463430d465b51d78562f11033424be7")
         print(currentWeather!)
     }
+    
+    func testInMemoryStore() async throws {
+        let store = InMemoryStore()
+        store.mset(kvpairs: [("1", "a"), ("2", "b")])
+        XCTAssertEqual(store.mget(keys: ["1", "2"]), ["a", "b"])
+        store.mdelete(keys: ["1"])
+        XCTAssertEqual(store.keys(), ["2"])
+    }
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = ThreadManager.thread

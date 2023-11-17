@@ -75,6 +75,10 @@ public class CharacterTextSplitter: TextSplitter {
         return self._merge_splits(splits: splits)
     }
 }
+
+public class RecursiveCharacterTextSplitter: TextSplitter {
+    
+}
 //class BaseDocumentTransformer(ABC):
 //    """Base interface for transforming documents."""
 //
