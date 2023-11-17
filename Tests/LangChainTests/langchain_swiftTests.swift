@@ -777,9 +777,12 @@ May God bless you all. May God protect our troops.
 """
         
         let docs = split.split_text(text: text)
-//        print(docs.count)
+        print(text.count)
         XCTAssertEqual(docs.count, 21)
         XCTAssertEqual(docs.first!.count, 1983)
+        for doc in docs {
+            XCTAssertTrue(doc.count < 2000)
+        }
 //        print(docs.first!.count)
     }
     
