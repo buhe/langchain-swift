@@ -19,11 +19,7 @@ public class BaseStore {
         
     }
     
-    func keys(prefix: [String] = []) -> [String] {
-        if prefix.isEmpty {
-            return [] //TODO all keys
-        } else {
-            return [] //TODO matched 
-        }
+    func keys(prefix: String?) -> [String] {
+        []
     }
 }
