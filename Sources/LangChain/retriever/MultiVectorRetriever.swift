@@ -7,5 +7,12 @@
 
 import Foundation
 public class MultiVectorRetriever: BaseRetriever {
+    let vectorstore: VectorStore
+    let docstore: BaseStore
+    let id_key = "doc_id"
     
+    public init(vectorstore: VectorStore, docstore: BaseStore) {
+        self.vectorstore = vectorstore
+        self.docstore = docstore
+    }
 }
