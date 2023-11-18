@@ -22,6 +22,7 @@ let package = Package(
         .package(url: "https://github.com/drmohundro/SWXMLHash", .upToNextMajor(from: "7.0.2")),
         .package(url: "https://github.com/scinfu/SwiftSoup", .upToNextMajor(from: "2.6.1")),
         .package(url: "https://github.com/juyan/swift-filestore", .upToNextMajor(from: "0.2.0")),
+        .package(url: "https://github.com/ZachNagengast/similarity-search-kit.git", from: "0.0.1")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -35,6 +36,7 @@ let package = Package(
                 .product(name: "SWXMLHash", package: "SWXMLHash"),
                 .product(name: "SwiftSoup", package: "SwiftSoup"),
                 .product(name: "SwiftFileStore", package: "swift-filestore"),
+                .product(name: "SimilaritySearchKit", package: "similarity-search-kit"),
             ]
         
         ),
