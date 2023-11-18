@@ -10,14 +10,14 @@ import SimilaritySearchKit
 
 private struct LangChainEmbeddingBridge: EmbeddingsProtocol {
     
-    var tokenizer: T?
+    var tokenizer: _T?
     
-    var model: M?
+    var model: _M?
 
-    class  M {
+    class  _M {
         
     }
-    class T: TokenizerProtocol {
+    class _T: TokenizerProtocol {
         func tokenize(text: String) -> [String] {
             []
         }
