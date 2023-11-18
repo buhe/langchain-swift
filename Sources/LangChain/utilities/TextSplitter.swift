@@ -128,9 +128,9 @@ public class RecursiveCharacterTextSplitter: TextSplitter {
         // Get appropriate separator to use
         var separator = separators.last!
         var new_separators: [String] = []
-        for i in 0...separators.count {
+        for i in 0..<separators.count {
             let _s = separators[i]
-            if _s == ""{
+            if _s == "" {
                 separator = _s
                 break
             }
