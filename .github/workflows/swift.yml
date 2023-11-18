@@ -11,9 +11,11 @@ on:
 
 jobs:
   build:
-
-    runs-on: macos-latest
-
+    strategy:
+      matrix:
+        os: [macos-latest]
+        swift: ["5.2", "5.8"]
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
     - name: Build
