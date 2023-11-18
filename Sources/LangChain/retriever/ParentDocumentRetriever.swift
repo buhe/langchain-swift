@@ -7,7 +7,7 @@
 
 import Foundation
 public class ParentDocumentRetriever: MultiVectorRetriever {
-    init(child_splitter: TextSplitter, parent_splitter: TextSplitter, vectorstore: VectorStore, docstore: BaseStore) {
+    public init(child_splitter: TextSplitter, parent_splitter: TextSplitter, vectorstore: VectorStore, docstore: BaseStore) {
         self.child_splitter = child_splitter
         self.parent_splitter = parent_splitter
         super.init(vectorstore: vectorstore, docstore: docstore)

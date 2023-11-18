@@ -38,7 +38,7 @@ private struct LangChainEmbeddingBridge: EmbeddingsProtocol {
 public class SimilaritySearchKit: VectorStore {
     let vs: SimilarityIndex
     
-    init(embeddings: Embeddings) async {
+    public init(embeddings: Embeddings) async {
         self.vs =  await SimilarityIndex(
             model: LangChainEmbeddingBridge(embeddings: embeddings),
             metric: CosineSimilarity()

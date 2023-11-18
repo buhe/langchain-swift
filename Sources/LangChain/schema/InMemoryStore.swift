@@ -8,7 +8,9 @@
 import Foundation
 public class InMemoryStore: BaseStore {
     var store:[String: String] = [:]
-    
+    public override init() {
+        super.init()
+    }
     override func mget(keys: [String]) -> [String] {
         var values: [String] = []
         for k in keys {

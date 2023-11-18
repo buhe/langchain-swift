@@ -155,7 +155,9 @@ public class RecursiveCharacterTextSplitter: TextSplitter {
     //                merged_text = self._merge_splits(_good_splits, _separator)
     //                final_chunks.extend(merged_text)
     //            return final_chunks
-    
+    public override init(chunk_size: Int, chunk_overlap: Int) {
+        super.init(chunk_size: chunk_size, chunk_overlap: chunk_overlap)
+    }
     public override func split_text(text: String) -> [String] {
         return self._split_text(text: text, separators: ["\n\n", "\n", " ", ""])
     }
