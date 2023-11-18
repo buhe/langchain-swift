@@ -82,6 +82,15 @@
       }
     },
     {
+      "identity" : "similarity-search-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ZachNagengast/similarity-search-kit.git",
+      "state" : {
+        "revision" : "6d78d3051aa35f5701af34f9f49ab793a97c6b76",
+        "version" : "0.0.11"
+      }
+    },
+    {
       "identity" : "storage-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/supabase-community/storage-swift.git",

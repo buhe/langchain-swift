@@ -5,6 +5,7 @@ create table documents (
   id bigserial primary key,
   content text,  -- corresponds to Document.pageContent
   embedding vector(1536)  -- 1536 works for OpenAI embeddings, change if needed
+  metadata jsonb
 );
 
 -- Create a function to search for documents
@@ -18,6 +19,7 @@ begin
   select
     id,
     content,
+    metadata,
     1 - (documents.embedding <=> query_embedding) as similarity
   from documents
   order by documents.embedding <=> query_embedding
