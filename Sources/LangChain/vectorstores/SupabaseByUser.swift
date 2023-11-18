@@ -17,6 +17,7 @@ struct DocModelByUser: Encodable, Decodable {
     let content: String?
     let embedding: [Float]
     let user_id: String?
+    let metadata: [String: String]
 }
 
 public struct SupabaseByUser: VectorStoreByUser {
@@ -43,9 +44,9 @@ public struct SupabaseByUser: VectorStoreByUser {
         
     }
     
-    public func addText(text: String, user_id: String) async {
+    public func addText(text: String, user_id: String, metadata: [String: String]) async {
         let embedding = await embeddings.embedQuery(text: text)
-        let insertData = DocModelByUser(content: text, embedding: embedding, user_id: user_id)
+        let insertData = DocModelByUser(content: text, embedding: embedding, user_id: user_id, metadata: metadata)
         let query = client.database
             .from("documents_by_user")
             .insert(values: insertData,

@@ -8,7 +8,7 @@
 import Foundation
 public struct Document {
     public let page_content: String
-    public let metadata: [String: String]
+    public var metadata: [String: String]
 }
 public class BaseLoader {
     
