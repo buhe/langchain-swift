@@ -14,9 +14,10 @@ public class TextSplitter {
         self._chunk_size = chunk_size
         self._chunk_overlap = chunk_overlap
     }
-    func _split_text_with_regex(text: String) -> [String] {
-        text.components(separatedBy: "\n\n")
+    func _split_text_with_regex(text: String, separater: String) -> [String] {
+        text.components(separatedBy: separater)
     }
+    
     
     func _join_docs(docs: [String]) -> String {
         let text = docs.joined()
@@ -70,14 +71,104 @@ public class CharacterTextSplitter: TextSplitter {
         super.init(chunk_size: chunk_size, chunk_overlap: chunk_overlap)
     }
     public func split_text(text: String) -> [String] {
-        let splits = _split_text_with_regex(text: text)
+        let splits = _split_text_with_regex(text: text, separater: "\n\n")
         //        _separator = "" if self._keep_separator else self._separator
         return self._merge_splits(splits: splits)
     }
 }
 
 public class RecursiveCharacterTextSplitter: TextSplitter {
+    //    def _split_text(self, text: str, separators: List[str]) -> List[str]:
+    //            """Split incoming text and return chunks."""
+    //            final_chunks = []
+    //            # Get appropriate separator to use
+    //            separator = separators[-1]
+    //            new_separators = []
+    //            for i, _s in enumerate(separators):
+    //                _separator = _s if self._is_separator_regex else re.escape(_s)
+    //                if _s == "":
+    //                    separator = _s
+    //                    break
+    //                if re.search(_separator, text):
+    //                    separator = _s
+    //                    new_separators = separators[i + 1 :]
+    //                    break
+    //
+    //            _separator = separator if self._is_separator_regex else re.escape(separator)
+    //            splits = _split_text_with_regex(text, _separator, self._keep_separator)
+    //
+    //            # Now go merging things, recursively splitting longer texts.
+    //            _good_splits = []
+    //            _separator = "" if self._keep_separator else separator
+    //            for s in splits:
+    //                if self._length_function(s) < self._chunk_size:
+    //                    _good_splits.append(s)
+    //                else:
+    //                    if _good_splits:
+    //                        merged_text = self._merge_splits(_good_splits, _separator)
+    //                        final_chunks.extend(merged_text)
+    //                        _good_splits = []
+    //                    if not new_separators:
+    //                        final_chunks.append(s)
+    //                    else:
+    //                        other_info = self._split_text(s, new_separators)
+    //                        final_chunks.extend(other_info)
+    //            if _good_splits:
+    //                merged_text = self._merge_splits(_good_splits, _separator)
+    //                final_chunks.extend(merged_text)
+    //            return final_chunks
     
+    func split_text(text: String) -> [String] {
+        return self._split_text(text: text, separators: ["\n\n", "\n", " ", ""])
+    }
+    
+    func _split_text(text: String, separators: [String]) -> [String] {
+        //Split incoming text and return chunks.
+        var final_chunks: [String] = []
+        // Get appropriate separator to use
+        var separator = separators.last!
+        var new_separators: [String] = []
+        for i in 0...separators.count {
+            let _s = separators[i]
+            if _s == ""{
+                separator = _s
+                break
+            }
+            if text.contains(_s) {
+                separator = _s
+                new_separators = Array(separators[i + 1 ..< separators.count])
+                break
+            }
+        }
+        //            _separator = separator
+        let splits = _split_text_with_regex(text: text, separater: separator)
+        
+        // Now go merging things, recursively splitting longer texts.
+        var _good_splits: [String] = []
+        //            _separator = "" if self._keep_separator else separator
+        for s in splits {
+            if s.count < self._chunk_size {
+                _good_splits.append(s)
+            } else {
+                if !_good_splits.isEmpty {
+                    let merged_text = self._merge_splits(splits: _good_splits)
+                    final_chunks.append(contentsOf: merged_text)
+                    _good_splits = []
+                }
+                if new_separators.isEmpty {
+                    final_chunks.append(s)
+                } else {
+                    let other_info = self._split_text(text: s, separators: new_separators)
+                    final_chunks.append(contentsOf: other_info)
+                }
+            }
+        }
+        if !_good_splits.isEmpty {
+            let merged_text = self._merge_splits(splits: _good_splits)
+            final_chunks.append(contentsOf: merged_text)
+        }
+        return final_chunks
+    }
 }
 //class BaseDocumentTransformer(ABC):
 //    """Base interface for transforming documents."""
