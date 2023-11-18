@@ -89,13 +89,26 @@ public class TextSplitter {
 //             texts.append(doc.page_content)
 //             metadatas.append(doc.metadata)
 //         return self.create_documents(texts, metadatas=metadatas)
+    public func split_text(text: String) -> [String] {
+        []
+    }
+    func split_documents(documents: [Document]) -> [Document] {
+        var new_documents: [Document] = []
+        for doc in documents {
+            for chunk in self.split_text(text: doc.page_content){
+                let new_doc = Document(page_content: chunk, metadata: [:])
+                new_documents.append(new_doc)
+            }
+        }
+        return new_documents
+    }
 }
     
 public class CharacterTextSplitter: TextSplitter {
     public override init(chunk_size: Int, chunk_overlap: Int) {
         super.init(chunk_size: chunk_size, chunk_overlap: chunk_overlap)
     }
-    public func split_text(text: String) -> [String] {
+    public override func split_text(text: String) -> [String] {
         let splits = _split_text_with_regex(text: text, separater: "\n\n")
         //        _separator = "" if self._keep_separator else self._separator
         return self._merge_splits(splits: splits)
@@ -143,7 +156,7 @@ public class RecursiveCharacterTextSplitter: TextSplitter {
     //                final_chunks.extend(merged_text)
     //            return final_chunks
     
-    func split_text(text: String) -> [String] {
+    public override func split_text(text: String) -> [String] {
         return self._split_text(text: text, separators: ["\n\n", "\n", " ", ""])
     }
     

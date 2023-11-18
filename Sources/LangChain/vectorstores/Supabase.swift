@@ -18,7 +18,7 @@ struct DocModel: Encodable, Decodable {
     let metadata: [String: String]
 }
 
-public struct Supabase: VectorStore {
+public class Supabase: VectorStore {
     let client: SupabaseClient
     let embeddings: Embeddings
     public init(embeddings: Embeddings) {
@@ -27,7 +27,7 @@ public struct Supabase: VectorStore {
         client = SupabaseClient(supabaseURL: URL(string: env["SUPABASE_URL"]!)!, supabaseKey: env["SUPABASE_KEY"]!)
     }
     
-    public func similaritySearch(query: String, k: Int) async -> [MatchedModel] {
+    public override func similaritySearch(query: String, k: Int) async -> [MatchedModel] {
         let params = SearchVectorParams(query_embedding: await embeddings.embedQuery(text: query), match_count: k)
         let rpcQuery = client.database.rpc(fn: "match_documents", params: params)
 
@@ -42,7 +42,7 @@ public struct Supabase: VectorStore {
         
     }
     
-    public func addText(text: String, metadata: [String: String]) async {
+    public override func addText(text: String, metadata: [String: String]) async {
         let embedding = await embeddings.embedQuery(text: text)
         let insertData = DocModel(content: text, embedding: embedding, metadata: metadata)
         let query = client.database

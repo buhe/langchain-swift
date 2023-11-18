@@ -19,8 +19,8 @@ public class ParentDocumentRetriever: MultiVectorRetriever {
     let parent_splitter: TextSplitter
     //The text splitter to use to create parent documents.
     //If none, then the parent documents will be the raw documents passed in.
-    func add_documents(documents: [Document]) {
-        let parent_documents = self.parent_splitter.split_documents(documents)
+    func add_documents(documents: [Document]) async {
+        let parent_documents = self.parent_splitter.split_documents(documents: documents)
         let doc_ids = documents.map{_ in UUID().uuidString}
         
         var docs: [Document] = []
@@ -28,15 +28,13 @@ public class ParentDocumentRetriever: MultiVectorRetriever {
         for i in 0..<parent_documents.count {
             let doc = parent_documents[i]
             let _id = doc_ids[i]
-            let sub_docs = self.child_splitter.split_documents([doc])
-            for _doc in sub_docs{
-                _doc.metadata[self.id_key] = _id
-            }
-            docs.append(contentsOf: sub_docs)
+            let sub_docs = self.child_splitter.split_documents(documents: [doc])
+            let sub_docs__with_id = sub_docs.map{Document(page_content: $0.page_content, metadata: [self.id_key: _id])}
+            docs.append(contentsOf: sub_docs__with_id)
             full_docs.append((_id, doc.page_content))
         }
         
-        self.vectorstore.add_documents(docs)
+        await self.vectorstore.add_documents(documents: docs)
         self.docstore.mset(kvpairs: full_docs)
     }
 //    def add_documents(
