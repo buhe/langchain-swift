@@ -15,6 +15,7 @@ struct SearchVectorParams: Codable {
 struct DocModel: Encodable, Decodable {
     let content: String?
     let embedding: [Float]
+    let metadata: [String: String]
 }
 
 public struct Supabase: VectorStore {
@@ -41,9 +42,9 @@ public struct Supabase: VectorStore {
         
     }
     
-    public func addText(text: String) async {
+    public func addText(text: String, metadata: [String: String]) async {
         let embedding = await embeddings.embedQuery(text: text)
-        let insertData = DocModel(content: text, embedding: embedding)
+        let insertData = DocModel(content: text, embedding: embedding, metadata: metadata)
         let query = client.database
             .from("documents")
             .insert(values: insertData,

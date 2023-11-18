@@ -64,6 +64,31 @@ public class TextSplitter {
         docs.append(doc)
         return docs
     }
+//    
+//    def create_documents(
+//         self, texts: List[str], metadatas: Optional[List[dict]] = None
+//     ) -> List[Document]:
+//         """Create documents from a list of texts."""
+//         _metadatas = metadatas or [{}] * len(texts)
+//         documents = []
+//         for i, text in enumerate(texts):
+//             index = -1
+//             for chunk in self.split_text(text):
+//                 metadata = copy.deepcopy(_metadatas[i])
+//                 if self._add_start_index:
+//                     index = text.find(chunk, index + 1)
+//                     metadata["start_index"] = index
+//                 new_doc = Document(page_content=chunk, metadata=metadata)
+//                 documents.append(new_doc)
+//         return documents
+//
+//     def split_documents(self, documents: Iterable[Document]) -> List[Document]:
+//         """Split documents."""
+//         texts, metadatas = [], []
+//         for doc in documents:
+//             texts.append(doc.page_content)
+//             metadatas.append(doc.metadata)
+//         return self.create_documents(texts, metadatas=metadatas)
 }
     
 public class CharacterTextSplitter: TextSplitter {
