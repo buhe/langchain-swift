@@ -12,13 +12,9 @@ on:
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: macos-13
 
-    steps:
-    - name: Setup Xcode version
-      uses: maxim-lobanov/setup-xcode@v1.6.0
-      with:
-        xcode-version: '15.0-beta'           
+    steps:          
     - uses: actions/checkout@v3
     - name: Build
       run: swift build -v
