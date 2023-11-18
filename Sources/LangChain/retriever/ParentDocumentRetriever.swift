@@ -19,9 +19,9 @@ public class ParentDocumentRetriever: MultiVectorRetriever {
     let parent_splitter: TextSplitter
     //The text splitter to use to create parent documents.
     //If none, then the parent documents will be the raw documents passed in.
-    func add_documents(documents: [Document]) async {
+    public func add_documents(documents: [Document]) async {
         let parent_documents = self.parent_splitter.split_documents(documents: documents)
-        let doc_ids = documents.map{_ in UUID().uuidString}
+        let doc_ids = parent_documents.map{_ in UUID().uuidString}
         
         var docs: [Document] = []
         var full_docs:[(String, String)] = []
