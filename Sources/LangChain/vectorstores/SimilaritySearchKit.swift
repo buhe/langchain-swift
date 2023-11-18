@@ -8,13 +8,13 @@
 import Foundation
 import SimilaritySearchKit
 
-struct LangChainEmbeddingBridge: EmbeddingsProtocol {
+private struct LangChainEmbeddingBridge: EmbeddingsProtocol {
     
     var tokenizer: T?
     
-    var model: Model?
+    var model: M?
 
-    class  Model {
+    class  M {
         
     }
     class T: TokenizerProtocol {
