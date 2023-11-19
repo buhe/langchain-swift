@@ -364,6 +364,10 @@ Task(priority: .background)  {
 - Vectorstore
     - [x] Supabase
     - [x] Supabase by user
+    - [x] SimilaritySearchKit
+- Store
+    - [x] BaseStore
+    - [x] InMemoryStore
 - Embedding
     - [x] OpenAI
 - Chain
@@ -395,6 +399,7 @@ Task(priority: .background)  {
     - [x] ReadOnlySharedMemory
 - Text Splitter
     - [x] CharacterTextSplitter
+    - [x] RecursiveCharacterTextSplitter
 - Document Loader
     - [x] TextLoader
     - [x] YoutubeLoader
@@ -423,6 +428,7 @@ Task(priority: .background)  {
 - Retriever
     - [x] WikipediaRetriever
     - [x] PubmedRetriever
+    - [x] ParentDocumentRetriever
 ## 👍 Got Ideas?
 Open an issue, and let's discuss!
 
