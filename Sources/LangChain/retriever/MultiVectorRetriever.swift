@@ -22,7 +22,7 @@ public class MultiVectorRetriever: BaseRetriever {
         for d in sub_docs {
             ids.append(d.metadata[self.id_key]!)
         }
-        let docs = self.docstore.mget(keys: ids)
+        let docs = await self.docstore.mget(keys: ids)
         return docs.map{Document(page_content: $0, metadata: [:])}
     }
     

@@ -35,7 +35,7 @@ public class ParentDocumentRetriever: MultiVectorRetriever {
         }
         print("🚀 Begin add sub document \(docs.count), main document \(full_docs.count)")
         await self.vectorstore.add_documents(documents: docs)
-        self.docstore.mset(kvpairs: full_docs)
+        await self.docstore.mset(kvpairs: full_docs)
         print("🚀 End add sub document \(docs.count), main document \(full_docs.count)")
     }
 //    def add_documents(
