@@ -491,7 +491,7 @@ Action Input: the input to the action
         let parent_splitter = RecursiveCharacterTextSplitter(chunk_size: 2000, chunk_overlap: 200)
         var docs = parent_splitter.split_text(text: bySplit)
         for doc in docs {
-//            print(doc.count)
+//            print(doc)
             XCTAssertTrue(doc.count <= 2000)
         }
         //This text splitter is used to create the child documents
@@ -499,6 +499,7 @@ Action Input: the input to the action
         let child_splitter = RecursiveCharacterTextSplitter(chunk_size: 400, chunk_overlap: 200)
         docs = child_splitter.split_text(text: bySplit)
         for doc in docs {
+//            print(doc)
             XCTAssertTrue(doc.count <= 400)
         }
     }
