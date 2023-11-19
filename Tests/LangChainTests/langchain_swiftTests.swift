@@ -478,10 +478,12 @@ Action Input: the input to the action
     
     func testInMemoryStore() async throws {
         let store = InMemoryStore()
-        store.mset(kvpairs: [("1", "a"), ("2", "b")])
-        XCTAssertEqual(store.mget(keys: ["1", "2"]), ["a", "b"])
-        store.mdelete(keys: ["1"])
-        XCTAssertEqual(store.keys(), ["2"])
+        await store.mset(kvpairs: [("1", "a"), ("2", "b")])
+        var values = await store.mget(keys: ["1", "2"])
+        XCTAssertEqual(values, ["a", "b"])
+        await store.mdelete(keys: ["1"])
+        let keys = await store.keys()
+        XCTAssertEqual(keys, ["2"])
     }
     
     func testRecursiveCharacterTextSplitter() async throws {
@@ -500,6 +502,17 @@ Action Input: the input to the action
             XCTAssertTrue(doc.count <= 400)
         }
     }
+    
+    func testFileStore() async throws {
+        let store = LocalFileStore()
+        await store.mset(kvpairs: [("1", "a"), ("2", "b")])
+        var values = await store.mget(keys: ["1", "2"])
+        XCTAssertEqual(values, ["a", "b"])
+        await store.mdelete(keys: ["1"])
+//        let keys = await store.keys()
+//        XCTAssertEqual(keys, ["2"])
+    }
+    
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = ThreadManager.thread

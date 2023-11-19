@@ -367,6 +367,7 @@ Task(priority: .background)  {
 - Store
     - [x] BaseStore
     - [x] InMemoryStore
+    - [x] FileStore
 - Embedding
     - [x] OpenAI
 - Chain
