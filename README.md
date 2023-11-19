@@ -363,7 +363,6 @@ Task(priority: .background)  {
     - [x] Llama 2
 - Vectorstore
     - [x] Supabase
-    - [x] Supabase by user
     - [x] SimilaritySearchKit
 - Store
     - [x] BaseStore

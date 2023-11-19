@@ -4,13 +4,13 @@
 create table documents (
   id bigserial primary key,
   content text,  -- corresponds to Document.pageContent
-  embedding vector(1536)  -- 1536 works for OpenAI embeddings, change if needed
+  embedding vector(1536),  -- 1536 works for OpenAI embeddings, change if needed
   metadata jsonb
 );
 
 -- Create a function to search for documents
 create function match_documents(query_embedding vector(1536), match_count int)
-returns table(id bigint, content text, similarity float)
+returns table(id bigint, content text, metadata jsonb, similarity float)
 language plpgsql
 as $$
 #variable_conflict use_column
