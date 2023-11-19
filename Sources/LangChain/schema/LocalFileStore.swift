@@ -13,7 +13,7 @@ struct StoreEntry: Codable, JSONDataRepresentable {
 }
 public class LocalFileStore: BaseStore {
     let objectStore: FileObjectStore?
-
+    static let STORE_NS = "store"
     public override init() {
         do {
             self.objectStore = try FileObjectStore.create()
