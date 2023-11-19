@@ -10,7 +10,7 @@ create table documents (
 
 -- Create a function to search for documents
 create function match_documents(query_embedding vector(1536), match_count int)
-returns table(id bigint, content text, similarity float)
+returns table(id bigint, content text, metadata jsonb, similarity float)
 language plpgsql
 as $$
 #variable_conflict use_column
