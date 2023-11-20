@@ -11,7 +11,7 @@ public class InMemoryStore: BaseStore {
     public override init() {
         super.init()
     }
-    override func mget(keys: [String]) async -> [String] {
+    public override func mget(keys: [String]) async -> [String] {
         var values: [String] = []
         for k in keys {
             let v = self.store[k]
@@ -22,19 +22,19 @@ public class InMemoryStore: BaseStore {
         return values
     }
     
-    override func mset(kvpairs: [(String, String)]) async {
+    public override func mset(kvpairs: [(String, String)]) async {
         for kv in kvpairs {
             self.store[kv.0] = kv.1
         }
     }
     
-    override func mdelete(keys: [String]) async {
+    public override func mdelete(keys: [String]) async {
         for k in keys {
             self.store.removeValue(forKey: k)
         }
     }
     
-    override func keys(prefix: String? = nil) async -> [String] {
+    public override func keys(prefix: String? = nil) async -> [String] {
         if prefix == nil {
             return Array(self.store.keys)
         } else {

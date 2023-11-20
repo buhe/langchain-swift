@@ -7,19 +7,19 @@
 
 import Foundation
 public class BaseStore {
-    func mget(keys: [String]) async -> [String] {
+    public func mget(keys: [String]) async -> [String] {
         []
     }
     
-    func mset(kvpairs: [(String, String)]) async {
+    public func mset(kvpairs: [(String, String)]) async {
         
     }
     
-    func mdelete(keys: [String]) async {
+    public func mdelete(keys: [String]) async {
         
     }
     
-    func keys(prefix: String? = nil) async -> [String] {
+    public func keys(prefix: String? = nil) async -> [String] {
         []
     }
 }

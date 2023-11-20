@@ -25,7 +25,7 @@ public class LocalFileStore: BaseStore {
         }
     }
     
-    override func mget(keys: [String]) async -> [String] {
+    public override func mget(keys: [String]) async -> [String] {
         print("🍰 Get \(keys) from \(STORE_NS)")
         var values: [String] = []
         do {
@@ -45,13 +45,15 @@ public class LocalFileStore: BaseStore {
         return values
     }
     
-    override func mset(kvpairs: [(String, String)]) async {
-        print("🍰 Update \(kvpairs) at \(STORE_NS)")
+    public override func mset(kvpairs: [(String, String)]) async {
+        print("🍰 Update \(kvpairs.map{$0.0}) at \(STORE_NS)")
         do {
             for kv in kvpairs {
                 if let data = kv.0.data(using: .utf8) {
                     let base64 = data.base64EncodedString()
-                    let cache = StoreEntry(key: kv.0, value: kv.1)
+                    // TODO workaround
+                    let v = kv.1.replacingOccurrences(of: "\0", with: "")
+                    let cache = StoreEntry(key: kv.0, value: v)
                     try await objectStore!.write(key: base64.sha256(), namespace: STORE_NS, object: cache)
                 }
             }
@@ -60,7 +62,7 @@ public class LocalFileStore: BaseStore {
         }
     }
     
-    override func mdelete(keys: [String]) async {
+    public override func mdelete(keys: [String]) async {
         print("🍰 Delete \(keys) at \(STORE_NS)")
         do {
             for key in keys {
@@ -74,7 +76,7 @@ public class LocalFileStore: BaseStore {
         }
     }
     
-    override func keys(prefix: String? = nil) async -> [String] {
+    public override func keys(prefix: String? = nil) async -> [String] {
         do {
             if prefix == nil {
                 print("🍰 Get all keys from \(STORE_NS)")
@@ -90,7 +92,7 @@ public class LocalFileStore: BaseStore {
                 return matched
             }
         } catch {
-            print("FileStore get keys failed")
+            print("FileStore get keys failed \(error.localizedDescription)")
             return []
         }
         
@@ -100,6 +102,10 @@ public class LocalFileStore: BaseStore {
         var allKeys: [String] = []
         let allSHA = try await objectStore!.readAll(namespace: STORE_NS)
         for sha in allSHA {
+            print("sha: \(sha)")
+            if sha == ".DS_Store" {
+                continue
+            }
             let cache = try await objectStore!.read(key: sha, namespace: STORE_NS, objectType: StoreEntry.self)
             allKeys.append(cache!.key)
         }
