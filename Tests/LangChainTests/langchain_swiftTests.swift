@@ -479,7 +479,7 @@ Action Input: the input to the action
     func testInMemoryStore() async throws {
         let store = InMemoryStore()
         await store.mset(kvpairs: [("1", "a"), ("2", "b")])
-        var values = await store.mget(keys: ["1", "2"])
+        let values = await store.mget(keys: ["1", "2"])
         XCTAssertEqual(values, ["a", "b"])
         await store.mdelete(keys: ["1"])
         let keys = await store.keys()
@@ -507,7 +507,7 @@ Action Input: the input to the action
     func testFileStore() async throws {
         let store = LocalFileStore()
         await store.mset(kvpairs: [("1", "a"), ("2", "b")])
-        var values = await store.mget(keys: ["1", "2"])
+        let values = await store.mget(keys: ["1", "2"])
         XCTAssertEqual(values, ["a", "b"])
         await store.mdelete(keys: ["1"])
 //        let keys = await store.keys()
