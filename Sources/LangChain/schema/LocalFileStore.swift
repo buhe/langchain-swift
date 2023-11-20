@@ -13,8 +13,11 @@ struct StoreEntry: Codable, JSONDataRepresentable {
 }
 public class LocalFileStore: BaseStore {
     let objectStore: FileObjectStore?
-    static let STORE_NS = "store"
-    public override init() {
+    var STORE_NS = "store"
+    public init(prefix: String? = nil) {
+        if let p = prefix {
+            STORE_NS = STORE_NS + p
+        }
         do {
             self.objectStore = try FileObjectStore.create()
         } catch {
@@ -23,14 +26,14 @@ public class LocalFileStore: BaseStore {
     }
     
     override func mget(keys: [String]) async -> [String] {
-        print("🍰 Get \(keys) from file")
+        print("🍰 Get \(keys) from \(STORE_NS)")
         var values: [String] = []
         do {
             for key in keys {
                 if let data = key.data(using: .utf8) {
                     let base64 = data.base64EncodedString()
                     
-                    let cache = try await objectStore!.read(key: base64.sha256(), namespace: LocalFileStore.STORE_NS, objectType: StoreEntry.self)
+                    let cache = try await objectStore!.read(key: base64.sha256(), namespace: STORE_NS, objectType: StoreEntry.self)
                     if let c = cache {
                         values.append(c.value)
                     }
@@ -43,13 +46,13 @@ public class LocalFileStore: BaseStore {
     }
     
     override func mset(kvpairs: [(String, String)]) async {
-        print("🍰 Update \(kvpairs) at file")
+        print("🍰 Update \(kvpairs) at \(STORE_NS)")
         do {
             for kv in kvpairs {
                 if let data = kv.0.data(using: .utf8) {
                     let base64 = data.base64EncodedString()
                     let cache = StoreEntry(key: kv.0, value: kv.1)
-                    try await objectStore!.write(key: base64.sha256(), namespace: LocalFileStore.STORE_NS, object: cache)
+                    try await objectStore!.write(key: base64.sha256(), namespace: STORE_NS, object: cache)
                 }
             }
         } catch {
@@ -58,12 +61,12 @@ public class LocalFileStore: BaseStore {
     }
     
     override func mdelete(keys: [String]) async {
-        print("🍰 Delete \(keys) at file")
+        print("🍰 Delete \(keys) at \(STORE_NS)")
         do {
             for key in keys {
                 if let data = key.data(using: .utf8) {
                     let base64 = data.base64EncodedString()
-                    try await objectStore!.remove(key: base64.sha256(), namespace: LocalFileStore.STORE_NS)
+                    try await objectStore!.remove(key: base64.sha256(), namespace: STORE_NS)
                 }
             }
         } catch {
@@ -74,10 +77,10 @@ public class LocalFileStore: BaseStore {
     override func keys(prefix: String? = nil) async -> [String] {
         do {
             if prefix == nil {
-                print("🍰 Get all keys from file")
+                print("🍰 Get all keys from \(STORE_NS)")
                 return Array(try await self.allKeys())
             } else {
-                print("🍰 Get keys \(prefix!) from file")
+                print("🍰 Get keys \(prefix!) from \(STORE_NS)")
                 var matched: [String] = []
                 for k in try await self.allKeys() {
                     if k.hasPrefix(prefix!) {
@@ -95,9 +98,9 @@ public class LocalFileStore: BaseStore {
     
     func allKeys() async throws -> [String] {
         var allKeys: [String] = []
-        let allSHA = try await objectStore!.readAll(namespace: LocalFileStore.STORE_NS)
+        let allSHA = try await objectStore!.readAll(namespace: STORE_NS)
         for sha in allSHA {
-            let cache = try await objectStore!.read(key: sha, namespace: LocalFileStore.STORE_NS, objectType: StoreEntry.self)
+            let cache = try await objectStore!.read(key: sha, namespace: STORE_NS, objectType: StoreEntry.self)
             allKeys.append(cache!.key)
         }
         return allKeys

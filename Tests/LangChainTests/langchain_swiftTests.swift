@@ -505,7 +505,7 @@ Action Input: the input to the action
     }
     
     func testFileStore() async throws {
-        let store = LocalFileStore()
+        let store = LocalFileStore(prefix: "+abc")
         await store.mset(kvpairs: [("1", "a"), ("2", "b")])
         let values = await store.mget(keys: ["1", "2"])
         XCTAssertEqual(values, ["a", "b"])
