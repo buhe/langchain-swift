@@ -510,8 +510,8 @@ Action Input: the input to the action
         let values = await store.mget(keys: ["1", "2"])
         XCTAssertEqual(values, ["a", "b"])
         await store.mdelete(keys: ["1"])
-//        let keys = await store.keys()
-//        XCTAssertEqual(keys, ["2"])
+        let keys = await store.keys()
+        XCTAssertEqual(keys, ["2"])
     }
     
 //

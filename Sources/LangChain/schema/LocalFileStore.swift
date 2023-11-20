@@ -72,23 +72,59 @@ public class LocalFileStore: BaseStore {
     }
     
     override func keys(prefix: String? = nil) async -> [String] {
-        if prefix == nil {
-            print("🍰 Get all keys from file")
-            return Array(await self.allKeys())
-        } else {
-            print("🍰 Get keys \(prefix!) from file")
-            var matched: [String] = []
-            for k in await self.allKeys() {
-                if k.hasPrefix(prefix!) {
-                    matched.append(k)
+        do {
+            if prefix == nil {
+                print("🍰 Get all keys from file")
+                return Array(try await self.allKeys())
+            } else {
+                print("🍰 Get keys \(prefix!) from file")
+                var matched: [String] = []
+                for k in try await self.allKeys() {
+                    if k.hasPrefix(prefix!) {
+                        matched.append(k)
+                    }
                 }
+                return matched
             }
-            return matched
+        } catch {
+            print("FileStore get keys failed")
+            return []
         }
         
     }
     
-    func allKeys() async -> [String] {
-        [] // TODO
+    func allKeys() async throws -> [String] {
+        var allKeys: [String] = []
+        let allSHA = try await objectStore!.readAll(namespace: LocalFileStore.STORE_NS)
+        for sha in allSHA {
+            let cache = try await objectStore!.read(key: sha, namespace: LocalFileStore.STORE_NS, objectType: StoreEntry.self)
+            allKeys.append(cache!.key)
+        }
+        return allKeys
+    }
+}
+
+extension FileObjectStore {
+    // Hack first, create pr later
+    public func readAll(namespace: String) async throws -> [String] {
+        let readAllTask = Task {() -> [String] in
+            var allKeys: [String] = []
+            
+            let applicationSupportDir = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            let rootDir = applicationSupportDir.appendingPathComponent("file-object-store", isDirectory: true)
+            
+            let dirURL = rootDir.appendingPathComponent(namespace)
+            do {
+                let items = try FileManager.default.contentsOfDirectory(atPath: dirURL.path)
+                for item in items {
+                    allKeys.append(item)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+
+            return allKeys
+        }
+        return try await readAllTask.value
     }
 }
