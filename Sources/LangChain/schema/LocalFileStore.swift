@@ -51,7 +51,7 @@ public class LocalFileStore: BaseStore {
             for kv in kvpairs {
                 if let data = kv.0.data(using: .utf8) {
                     let base64 = data.base64EncodedString()
-                    // TODO workaround
+                    // TODO workaround https://developer.apple.com/forums/thread/739394
                     let v = kv.1.replacingOccurrences(of: "\0", with: "")
                     let cache = StoreEntry(key: kv.0, value: v)
                     try await objectStore!.write(key: base64.sha256(), namespace: STORE_NS, object: cache)
