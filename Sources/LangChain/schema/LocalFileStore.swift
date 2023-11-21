@@ -114,7 +114,7 @@ public class LocalFileStore: BaseStore {
 }
 
 extension FileObjectStore {
-    // Hack first, create pr later
+    // Hack first, wait merge pr
     public func readAll(namespace: String) async throws -> [String] {
         let readAllTask = Task {() -> [String] in
             var allKeys: [String] = []
