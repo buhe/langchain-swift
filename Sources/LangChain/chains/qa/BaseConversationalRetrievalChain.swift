@@ -26,7 +26,7 @@ public class BaseConversationalRetrievalChain: DefaultChain {
         self.condense_question_chain = LLMChain(llm: llm, prompt: BaseConversationalRetrievalChain.CONDENSE_QUESTION_PROMPT)
         super.init(outputKey: "", inputKey: "")
     }
-    func get_docs(question: String) async -> String {
+    public func get_docs(question: String) async -> String {
         ""
     }
     
