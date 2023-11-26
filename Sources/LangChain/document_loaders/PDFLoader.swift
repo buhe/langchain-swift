@@ -28,7 +28,7 @@ public class PDFLoader: BaseLoader {
                 for pageIndex in 0 ..< pdfDocument.pageCount {
                     if let pdfPage = pdfDocument.page(at: pageIndex) {
                         if let pageInfo = pdfPage.string {
-                            extractedText += pageInfo
+                            extractedText += " \(pageInfo)"
                         }
                      
                     }
