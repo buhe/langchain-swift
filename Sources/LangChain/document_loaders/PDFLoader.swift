@@ -27,10 +27,12 @@ public class PDFLoader: BaseLoader {
             let metadata = ["source": file_path.absoluteString]
                 for pageIndex in 0 ..< pdfDocument.pageCount {
                     if let pdfPage = pdfDocument.page(at: pageIndex) {
-                        if let pageInfo = pdfPage.string {
-                            extractedText += " \(pageInfo)"
+                        if let pageContent = pdfPage.attributedString {
+                            let pageString = pageContent.string
+                            extractedText += "\n\(pageString)"
+//                            print("💼\(pageContent)")
+//                            print("🖥️\(pageString)")
                         }
-                     
                     }
                 }
                 

@@ -52,7 +52,7 @@ public class FileCache: BaseCache {
         }
     }
     public override func lookup(prompt: String) async -> LLMResult? {
-        print("🍰 Get \(prompt) from file")
+//        print("🍰 Get \(prompt) from file")
         do {
             if let data = prompt.data(using: .utf8) {
                 let base64 = data.base64EncodedString()
@@ -71,7 +71,7 @@ public class FileCache: BaseCache {
         
     }
     public override func update(prompt: String, return_val: LLMResult) async {
-        print("🍰 Update \(prompt) at file")
+//        print("🍰 Update \(prompt) at file")
         do {
             if let data = prompt.data(using: .utf8) {
                 let base64 = data.base64EncodedString()

@@ -7,7 +7,7 @@
 
 import Foundation
 public class ParentDocumentRetriever: MultiVectorRetriever {
-    public init(child_splitter: TextSplitter, parent_splitter: TextSplitter, vectorstore: VectorStore, docstore: BaseStore) {
+    public init(child_splitter: TextSplitter, parent_splitter: TextSplitter? = nil, vectorstore: VectorStore, docstore: BaseStore) {
         self.child_splitter = child_splitter
         self.parent_splitter = parent_splitter
         super.init(vectorstore: vectorstore, docstore: docstore)
@@ -16,11 +16,16 @@ public class ParentDocumentRetriever: MultiVectorRetriever {
     // The text splitter to use to create child documents."""
 
     
-    let parent_splitter: TextSplitter
+    let parent_splitter: TextSplitter?
     //The text splitter to use to create parent documents.
     //If none, then the parent documents will be the raw documents passed in.
     public func add_documents(documents: [Document]) async {
-        let parent_documents = self.parent_splitter.split_documents(documents: documents)
+        var parent_documents: [Document]
+        if let p = self.parent_splitter {
+            parent_documents = p.split_documents(documents: documents)
+        } else {
+            parent_documents = documents
+        }
         let doc_ids = parent_documents.map{_ in UUID().uuidString}
         
         var docs: [Document] = []

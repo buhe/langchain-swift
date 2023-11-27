@@ -26,7 +26,7 @@ public class LocalFileStore: BaseStore {
     }
     
     public override func mget(keys: [String]) async -> [String] {
-        print("🍰 Get \(keys) from \(STORE_NS)")
+//        print("🍰 Get \(keys) from \(STORE_NS)")
         var values: [String] = []
         do {
             for key in keys {
@@ -46,7 +46,7 @@ public class LocalFileStore: BaseStore {
     }
     
     public override func mset(kvpairs: [(String, String)]) async {
-        print("🍰 Update \(kvpairs.map{$0.0}) at \(STORE_NS)")
+//        print("🍰 Update \(kvpairs.map{$0.0}) at \(STORE_NS)")
         do {
             for kv in kvpairs {
                 if let data = kv.0.data(using: .utf8) {
@@ -63,7 +63,7 @@ public class LocalFileStore: BaseStore {
     }
     
     public override func mdelete(keys: [String]) async {
-        print("🍰 Delete \(keys) at \(STORE_NS)")
+//        print("🍰 Delete \(keys) at \(STORE_NS)")
         do {
             for key in keys {
                 if let data = key.data(using: .utf8) {
@@ -79,10 +79,10 @@ public class LocalFileStore: BaseStore {
     public override func keys(prefix: String? = nil) async -> [String] {
         do {
             if prefix == nil {
-                print("🍰 Get all keys from \(STORE_NS)")
+//                print("🍰 Get all keys from \(STORE_NS)")
                 return Array(try await self.allKeys())
             } else {
-                print("🍰 Get keys \(prefix!) from \(STORE_NS)")
+//                print("🍰 Get keys \(prefix!) from \(STORE_NS)")
                 var matched: [String] = []
                 for k in try await self.allKeys() {
                     if k.hasPrefix(prefix!) {
