@@ -22,8 +22,10 @@ public class VectorStore {
     }
     
     func add_documents(documents: [Document]) async {
-        for doc in documents {
-            await self.addText(text: doc.page_content, metadata: doc.metadata)
+        await withTaskGroup(of: Void.self) { [self] group in
+            for document in documents {
+                group.addTask { await self.addText(text: document.page_content, metadata: document.metadata)}
+            }
         }
     }
     
