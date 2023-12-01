@@ -100,7 +100,7 @@ public class LocalFileStore: BaseStore {
     
     func allKeys() async throws -> [String] {
         var allKeys: [String] = []
-        let allSHA = try await objectStore!.readAll(namespace: STORE_NS)
+        let allSHA = try await objectStore!.readAllKeys(namespace: STORE_NS)
         for sha in allSHA {
             print("sha: \(sha)")
             if sha == ".DS_Store" {
@@ -110,30 +110,5 @@ public class LocalFileStore: BaseStore {
             allKeys.append(cache!.key)
         }
         return allKeys
-    }
-}
-
-extension FileObjectStore {
-    // Hack first, wait merge pr
-    public func readAll(namespace: String) async throws -> [String] {
-        let readAllTask = Task {() -> [String] in
-            var allKeys: [String] = []
-            
-            let applicationSupportDir = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-            let rootDir = applicationSupportDir.appendingPathComponent("file-object-store", isDirectory: true)
-            
-            let dirURL = rootDir.appendingPathComponent(namespace)
-            do {
-                let items = try FileManager.default.contentsOfDirectory(atPath: dirURL.path)
-                for item in items {
-                    allKeys.append(item)
-                }
-            } catch {
-                print(error.localizedDescription)
-            }
-
-            return allKeys
-        }
-        return try await readAllTask.value
     }
 }

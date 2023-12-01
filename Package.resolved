@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/juyan/swift-filestore",
       "state" : {
-        "revision" : "878a896cc2fef836bd70a46bbb873b495155e2d0",
-        "version" : "0.2.0"
+        "revision" : "4bd79305e1839d58c2cfbe99567e9b13d2a1f9a4",
+        "version" : "0.5.0"
       }
     },
     {
