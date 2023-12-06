@@ -21,14 +21,13 @@ public struct OpenAIEmbeddings: Embeddings {
     
     public func embedQuery(text: String) async -> [Float] {
         let eventLoopGroup = ThreadManager.thread
-
-        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
        
         let env = Env.loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
             let baseUrl = env["OPENAI_API_BASE"] ?? "api.openai.com"
-
+            
+            let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
             let configuration = Configuration(apiKey: apiKey, api: API(scheme: .https, host: baseUrl))
 
             let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
