@@ -1,7 +1,7 @@
 repo_name: buhe/langchain-swift
-report_id: 3e3a8070f621ca964b2967f0ce0e6de8
+report_id: 64713165d26cff75e4a785647213e3da
 repo_type: Public
-timestamp: '2023-11-09T13:00:12+00:00'
+timestamp: '2023-12-14T09:27:20+00:00'
 requested_by: buhe
 provider: github
 branch: main
@@ -15,7 +15,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/2271/default_068d33483bba6b81ee13fbd4dc7aab9780896a54.png
-  detection_source: Sources/LangChain/vectorstores/supabase/supabase_by_user.sql
+  detection_source: Sources/LangChain/vectorstores/supabase/supabase.sql
   last_updated_by: buhe
   last_updated_on: 2023-06-14 09:04:42.000000000 Z
 - name: Swift
@@ -47,4 +47,4 @@ tools:
   image_url: https://img.stackshare.io/service/11563/actions.png
   detection_source: ".github/workflows/swift.yml"
   last_updated_by: buhe
-  last_updated_on: 2023-06-21 08:28:35.000000000 Z
+  last_updated_on: 2023-11-18 07:17:21.000000000 Z
