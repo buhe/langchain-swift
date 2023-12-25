@@ -25,6 +25,7 @@ BAIDU_LLM_SK=xxx
 CHATGLM_API_KEY=xxx
 OPENWEATHER_API_KEY=xxx
 LLAMA2_API_KEY=xxx
+GOOGLEAI_API_KEY=xxx
 ```
 
 ## Get stated
@@ -361,6 +362,7 @@ Task(priority: .background)  {
     - [x] ChatOpenAI
     - [x] Baidu
     - [x] Llama 2
+    - [x] Gemini
 - Vectorstore
     - [x] Supabase
     - [x] SimilaritySearchKit
