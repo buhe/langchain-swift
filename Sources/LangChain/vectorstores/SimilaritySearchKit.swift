@@ -6,6 +6,7 @@
 //
 
 import Foundation
+#if os(macOS)
 import SimilaritySearchKit
 
 private struct LangChainEmbeddingBridge: EmbeddingsProtocol {
@@ -53,3 +54,4 @@ public class SimilaritySearchKit: VectorStore {
         await vs.addItem(id: UUID().uuidString, text: text, metadata: metadata)
     }
 }
+#endif

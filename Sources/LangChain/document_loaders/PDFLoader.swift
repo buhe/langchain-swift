@@ -6,6 +6,7 @@
 //
 
 import Foundation
+#if os(macOS)
 import PDFKit
 
 
@@ -50,3 +51,4 @@ public class PDFLoader: BaseLoader {
         "PDF"
     }
 }
+#endif
