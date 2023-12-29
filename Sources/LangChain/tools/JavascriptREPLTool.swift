@@ -6,6 +6,8 @@
 //
 
 import Foundation
+
+#if os(macOS) || os(iOS) || os(visionOS) || os(iPadOS)
 import JavaScriptCore
 
 
@@ -38,3 +40,4 @@ public class JavascriptREPLTool: BaseTool {
     
     
 }
+#endif

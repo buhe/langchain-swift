@@ -7,7 +7,9 @@ let package = Package(
     name: "langchain-swift",
     platforms: [
         .iOS(.v15),
-        .macOS(.v12)
+        .macOS(.v12),
+        .watchOS(.v8),
+        .visionOS(.v1)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
@@ -37,7 +39,7 @@ let package = Package(
                 .product(name: "SWXMLHash", package: "SWXMLHash"),
                 .product(name: "SwiftSoup", package: "SwiftSoup"),
                 .product(name: "SwiftFileStore", package: "swift-filestore"),
-                .product(name: "SimilaritySearchKit", package: "similarity-search-kit"),
+                .product(name: "SimilaritySearchKit", package: "similarity-search-kit", condition: .when(platforms: [.macOS, .iOS, .visionOS])),
                 .product(name: "GoogleGenerativeAI", package: "generative-ai-swift"),
             ]
         

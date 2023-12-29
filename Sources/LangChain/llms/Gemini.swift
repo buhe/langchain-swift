@@ -17,8 +17,8 @@ public class Gemini: LLM {
             let response = try await model.generateContent(text)
             return LLMResult(llm_output: response.text)
         } else {
-            print("Please set openai api key.")
-            return LLMResult(llm_output: "Please set openai api key.")
+            print("Please set googleai api key.")
+            return LLMResult(llm_output: "Please set googleai api key.")
         }
     }
 }
