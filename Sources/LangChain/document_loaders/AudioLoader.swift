@@ -5,7 +5,7 @@
 //  Created by 顾艳华 on 2023/9/3.
 //
 
-#if os(macOS)
+#if os(macOS) || os(iOS) || os(visionOS) || os(iPadOS)
 import Foundation
 import NIOPosix
 import AsyncHTTPClient

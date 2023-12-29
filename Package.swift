@@ -38,7 +38,7 @@ let package = Package(
                 .product(name: "SWXMLHash", package: "SWXMLHash"),
                 .product(name: "SwiftSoup", package: "SwiftSoup"),
                 .product(name: "SwiftFileStore", package: "swift-filestore"),
-                .product(name: "SimilaritySearchKit", package: "similarity-search-kit", condition: .when(platforms: [.macOS])),
+                .product(name: "SimilaritySearchKit", package: "similarity-search-kit", condition: .when(platforms: [.macOS, .iOS, .visionOS])),
                 .product(name: "GoogleGenerativeAI", package: "generative-ai-swift"),
             ]
         

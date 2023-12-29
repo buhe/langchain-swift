@@ -6,7 +6,8 @@
 //
 
 import Foundation
-#if os(macOS)
+
+#if os(macOS) || os(iOS) || os(visionOS) || os(iPadOS)
 import JavaScriptCore
 
 
