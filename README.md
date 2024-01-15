@@ -434,7 +434,7 @@ Task(priority: .background)  {
 ## 👍 Got Ideas?
 Open an issue, and let's discuss!
 
-Join Slack: https://join.slack.com/t/langchain-mobile/shared_invite/zt-26tzdzb2u-8RnP7hDQz~MWMg8EeIu0lQ
-
+Join Slack: [https://join.slack.com/t/langchain-mobile/shared_invite/zt-26tzdzb2u-8RnP7hDQz~MWMg8EeIu0lQ
+](https://join.slack.com/t/langchain-mobile/shared_invite/zt-2ajo39zxx-db9e_nbJcADTkGeB33PF7g)
 ## 💁 Contributing
 As an open-source project in a rapidly developing field, we are extremely open to contributions, whether it be in the form of a new feature, improved infrastructure, or better documentation.
