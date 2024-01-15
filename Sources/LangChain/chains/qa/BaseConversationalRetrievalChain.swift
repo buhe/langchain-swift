@@ -30,7 +30,7 @@ public class BaseConversationalRetrievalChain: DefaultChain {
         ""
     }
     
-    public func predict(args: [String: String] ) async -> (String, String)? {
+    public func predict(args: [String: String] ) async -> (String, String?)? {
         let new_question = await self.condense_question_chain.predict(args: args)
         if let new_question = new_question {
             let output = await combineChain.predict(args: ["docs": await self.get_docs(question: new_question), "question": new_question])
@@ -46,6 +46,8 @@ public class BaseConversationalRetrievalChain: DefaultChain {
                     
                     let secondCaptureGroup = Range(match.range(at: 2), in: text).map { String(text[$0]) }
                     return (firstCaptureGroup!, secondCaptureGroup!)
+                } else {
+                    return (text.replacingOccurrences(of: "Helpful Answer:", with: ""), nil)
                 }
             }
         }
