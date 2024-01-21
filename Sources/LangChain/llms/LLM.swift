@@ -36,7 +36,9 @@ public class LLM {
             }
             let llmResult = try await _send(text: text, stops: stops)
             if let cache = self.cache {
-                await cache.update(prompt: text, return_val: llmResult)
+                if llmResult.llm_output != nil {
+                    await cache.update(prompt: text, return_val: llmResult)
+                }
             }
             cost = Date.now.timeIntervalSince1970 - now
             if !llmResult.stream {
