@@ -25,7 +25,7 @@ public class Local: LLM {
         try? ai.loadModel(ModelInference.LLama_gguf,contextParams: params)
 
         let output = try? ai.model.predict(text, mainCallback)
-        print("🚗\(output)")
+//        print("🚗\(output)")
         total_output = 0
         return LLMResult(llm_output: output)
     }
