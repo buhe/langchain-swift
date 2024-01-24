@@ -26,7 +26,7 @@ let package = Package(
         .package(url: "https://github.com/juyan/swift-filestore", .upToNextMajor(from: "0.5.0")),
         .package(url: "https://github.com/ZachNagengast/similarity-search-kit.git", from: "0.0.11"),
         .package(url: "https://github.com/google/generative-ai-swift", .upToNextMajor(from: "0.4.4")),
-        .package(url: "https://github.com/guinmoon/llmfarm_core.swift", .upToNextMajor(from: "0.8.1")),
+        .package(url: "https://github.com/guinmoon/llmfarm_core.swift", .revision("3c5720e45d17198a434f766da5c3a7fd150eddab")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -42,7 +42,7 @@ let package = Package(
                 .product(name: "SwiftFileStore", package: "swift-filestore"),
                 .product(name: "SimilaritySearchKit", package: "similarity-search-kit", condition: .when(platforms: [.macOS, .iOS, .visionOS])),
                 .product(name: "GoogleGenerativeAI", package: "generative-ai-swift"),
-                .product(name: "llmfarm_core", package: "llmfarm_core.swift")
+                .product(name: "llmfarm_core", package: "llmfarm_core.swift"),
             ]
         
         ),
