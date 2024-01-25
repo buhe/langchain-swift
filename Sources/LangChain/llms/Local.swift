@@ -10,7 +10,10 @@ import Foundation
 public class Local: LLM {
     let modelPath: String
     let useMetal: Bool
-    public init(modelPath: String, useMetal: Bool = false, callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
+    let inference: ModelInference
+    
+    public init(inference: ModelInference, modelPath: String, useMetal: Bool = false, callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
+        self.inference = inference
         self.modelPath = modelPath
         self.useMetal = useMetal
         super.init(callbacks: callbacks, cache: cache)
@@ -20,10 +23,8 @@ public class Local: LLM {
         var params:ModelAndContextParams = .default
         params.use_metal = useMetal
         params.promptFormat = .Custom
-        params.custom_prompt_format = "### Instruction:{{prompt}}### Response:"
-
-        try? ai.loadModel(ModelInference.LLama_gguf,contextParams: params)
-
+        params.custom_prompt_format = "{{prompt}}"
+        try? ai.loadModel(inference, contextParams: params)
         let output = try? ai.model.predict(text, mainCallback)
 //        print("🚗\(output)")
         total_output = 0
