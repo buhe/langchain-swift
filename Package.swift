@@ -26,7 +26,7 @@ let package = Package(
         .package(url: "https://github.com/juyan/swift-filestore", .upToNextMajor(from: "0.5.0")),
         .package(url: "https://github.com/ZachNagengast/similarity-search-kit.git", from: "0.0.11"),
         .package(url: "https://github.com/google/generative-ai-swift", .upToNextMajor(from: "0.4.4")),
-        .package(url: "https://github.com/guinmoon/llmfarm_core.swift", .revision("7226a84a69361c312c997453827c609e613585fd")),
+        .package(url: "https://github.com/buhe/llmfarm_core.swift", .branch("langchain")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.

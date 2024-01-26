@@ -66,9 +66,10 @@
     {
       "identity" : "llmfarm_core.swift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/guinmoon/llmfarm_core.swift",
+      "location" : "https://github.com/buhe/llmfarm_core.swift",
       "state" : {
-        "revision" : "7226a84a69361c312c997453827c609e613585fd"
+        "branch" : "langchain",
+        "revision" : "927d670751bc8aebbc5eb845afd36fe1eeef4f5a"
       }
     },
     {
