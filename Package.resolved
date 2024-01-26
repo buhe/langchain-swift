@@ -64,6 +64,15 @@
       }
     },
     {
+      "identity" : "llmfarm_core.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/buhe/llmfarm_core.swift",
+      "state" : {
+        "branch" : "langchain",
+        "revision" : "927d670751bc8aebbc5eb845afd36fe1eeef4f5a"
+      }
+    },
+    {
       "identity" : "openai-kit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dylanshine/openai-kit",

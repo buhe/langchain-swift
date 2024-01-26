@@ -30,6 +30,25 @@ LMSTUDIO_URL=xxx
 ```
 
 ## Get stated
+
+<details>
+<summary>🔥 Local Model</summary>
+ 
+Code
+
+```swift
+ Task {
+            if let envPath = Bundle.main.path(forResource: "stablelm-3b-4e1t-Q4_K_M", ofType: "txt") {
+                let local = Local(inference: .GPTNeox_gguf, modelPath: envPath, useMetal: true)
+                let r = await local.generate(text: "hi")
+                print("🥰\(r!.llm_output!)")
+            } else {
+                print("⚠️ loss model")
+            }
+
+        }
+```
+</details>
 <details>
 <summary>💬 Chatbots</summary>
     
@@ -364,7 +383,8 @@ Task(priority: .background)  {
     - [x] Baidu
     - [x] Llama 2
     - [x] Gemini
-    - [x] LMStudio API 
+    - [x] LMStudio API
+    - [x] Local Model
 - Vectorstore
     - [x] Supabase
     - [x] SimilaritySearchKit
