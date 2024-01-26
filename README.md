@@ -383,7 +383,8 @@ Task(priority: .background)  {
     - [x] Baidu
     - [x] Llama 2
     - [x] Gemini
-    - [x] LMStudio API 
+    - [x] LMStudio API
+    - [x] Local Model
 - Vectorstore
     - [x] Supabase
     - [x] SimilaritySearchKit
