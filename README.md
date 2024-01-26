@@ -32,7 +32,7 @@ LMSTUDIO_URL=xxx
 ## Get stated
 
 <details>
-<summary>💬 Local Model</summary>
+<summary>🔥 Local Model</summary>
  
 Code
 
