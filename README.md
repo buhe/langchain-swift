@@ -38,8 +38,8 @@ Code
 
 ```swift
  Task {
-            if let envPath = Bundle.main.path(forResource: "stablelm-3b-4e1t-Q4_K_M", ofType: "txt") {
-                let local = Local(inference: .GPTNeox_gguf, modelPath: envPath, useMetal: true)
+            if let modelPath = Bundle.main.path(forResource: "stablelm-3b-4e1t-Q4_K_M", ofType: "txt") {
+                let local = Local(inference: .GPTNeox_gguf, modelPath: modelPath, useMetal: true)
                 let r = await local.generate(text: "hi")
                 print("🥰\(r!.llm_output!)")
             } else {
