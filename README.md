@@ -30,6 +30,23 @@ LMSTUDIO_URL=xxx
 ```
 
 ## Get stated
+
+<details>
+<summary>💬 Local Model</summary>
+Code
+```
+ Task {
+            if let envPath = Bundle.main.path(forResource: "stablelm-3b-4e1t-Q4_K_M", ofType: "txt") {
+                let local = Local(inference: .GPTNeox_gguf, modelPath: envPath, useMetal: true)
+                let r = await local.generate(text: "hi")
+                print("🥰\(r!.llm_output!)")
+            } else {
+                print("⚠️ loss model")
+            }
+
+        }
+```
+</details>
 <details>
 <summary>💬 Chatbots</summary>
     
