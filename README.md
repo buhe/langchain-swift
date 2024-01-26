@@ -429,7 +429,7 @@ Task(priority: .background)  {
     - [x] YoutubeLoader
     - [x] HtmlLoader
     - [x] PDFLoader
-    - [x] BilibilLoader
+    - [x] BilibilLoader https://nemo2011.github.io/bilibili-api/#/get-credential
     - [x] ImageOCRLoader
     - [x] AudioLoader
 - OutputParser
