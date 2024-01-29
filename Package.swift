@@ -18,7 +18,7 @@ let package = Package(
             targets: ["LangChain"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/dylanshine/openai-kit", .upToNextMajor(from: "1.8.2")),
+        .package(url: "https://github.com/buhe/openai-kit", .upToNextMajor(from: "1.8.3")),
         .package(url: "https://github.com/supabase-community/supabase-swift", .upToNextMajor(from: "0.2.1")),
         .package(url: "https://github.com/SwiftyJSON/SwiftyJSON", .upToNextMajor(from: "5.0.1")),
         .package(url: "https://github.com/drmohundro/SWXMLHash", .upToNextMajor(from: "7.0.2")),
