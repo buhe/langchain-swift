@@ -413,6 +413,11 @@ Thought: dog
         XCTAssertTrue(docs.isEmpty)
     }
     
+    func testAddCallback() async throws {
+        let llm = OpenAI(callbacks: [StdOutCallbackHandler()])
+        let agent = initialize_agent(llm: llm, tools: [], callbacks: [StdOutCallbackHandler()])
+    }
+    
     func testMRKLOutputParser() async throws {
         let p = MRKLOutputParser()
         let inputString = """
