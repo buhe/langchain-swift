@@ -35,6 +35,7 @@ LMSTUDIO_URL=xxx
 <summary>🔥 Local Model</summary>
  
 Please use 'local' branch, because of dependency on projects.
+[Model here](https://github.com/guinmoon/LLMFarm/blob/main/models.md)
  
  ```
   .package(url: "https://github.com/buhe/langchain-swift", .branch("local"))
