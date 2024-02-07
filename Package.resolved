@@ -64,6 +64,15 @@
       }
     },
     {
+      "identity" : "notionswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/chojnac/NotionSwift",
+      "state" : {
+        "revision" : "56c0c3a0dca35583aab0ef26fe2694e4c303bb72",
+        "version" : "0.8.0"
+      }
+    },
+    {
       "identity" : "openai-kit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/buhe/openai-kit",
