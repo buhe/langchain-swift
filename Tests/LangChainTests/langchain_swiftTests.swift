@@ -74,7 +74,7 @@ Thought: dog
     }
     
     func testBilibilClient() async throws {
-        let client = BilibiliClient(credential: BilibiliCredential(sessin: "f3fd16e8%2C1721810527%2C531af%2A12CjAJT4BNVd9Zbd9uAhx99W1XsX6gbi1Js0uHqHKZPGWzS8xLuGdX7kE5x2-DQUFacJYSVnJlYXVwbm9KY2dfS1BENHN5SzZ2NE1wQ2dKLWxqUEMwQVBVN1JiQnh3NjltTDVoM3FURjUwRWt5TDNkdXVQUzFraWVLSnJUdVdMMVhyc25ZcXhFZW53IIEC", jct: "20601a72b51f0448ada0babc5740dc90"))
+        let client = BilibiliClient(credential: BilibiliCredential(sessin: "7c987c09%2C1722322455%2Cd8f13%2A21CjB8GNfrlOnsm4mTTEv4_hK764LWdNRZprUKH0iHdXdULinmCU-Bs7Y4YDUX3iKVG7YSVllzWFI5Nm5Za19NbDZsUHhqM0N6aEVEd3V6WFlZejJiM1lQS0UwQ3hpSjVleHlPZ0xwRTg4QkE3RDdiT3ZEeU1CcDlFRTVWal9YUXFaVHRrWFNPQ3pnIIEC", jct: "8b783b43d496a9f215405b4a65eecd6a"))
         let info = await client.fetchVideoInfo(bvid: "BV1iP411y7Vs")
         XCTAssertNotNil(info)
         XCTAssertNotEqual(info?.subtitle, "")
