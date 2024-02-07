@@ -64,15 +64,6 @@
       }
     },
     {
-      "identity" : "notionswift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/chojnac/NotionSwift",
-      "state" : {
-        "revision" : "56c0c3a0dca35583aab0ef26fe2694e4c303bb72",
-        "version" : "0.8.0"
-      }
-    },
-    {
       "identity" : "openai-kit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/buhe/openai-kit",
@@ -259,6 +250,15 @@
       "state" : {
         "revision" : "b3dcd7dbd0d488e1a7077cb33b00f2083e382f07",
         "version" : "5.0.1"
+      }
+    },
+    {
+      "identity" : "swiftynotion",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/buhe/SwiftyNotion",
+      "state" : {
+        "branch" : "main",
+        "revision" : "6eba9afb92086216db1cf1ec0a18f051d8955fa8"
       }
     },
     {
