@@ -10,19 +10,35 @@ import SwiftyNotion
 
 public class NotionLoader: BaseLoader {
     
-    fileprivate func buildBlocks(_ notion: NotionAPIGateway, withId: String) async throws {
-        let content = try await notion.retrieveBlockChildren(withId: withId)
+    fileprivate func buildBlocks(_ notion: NotionAPIGateway, withId: String, title: String) async throws -> [Document]{
+        let blocks = try await notion.retrieveBlockChildren(withId: withId)
         //        print(content.properties["title"]?.title![0].plainText)
-        print("blocks: \(content)")
-        for block in content {
-            if block.hasChildren {
+//        print("blocks: \(content)")
+        var foundDoc = false
+        var content = ""
+        var docs = [Document]()
+        for block in blocks {
+            if block.type == .childPage {
                 let blockId = block.id.replacingOccurrences(of: "-", with: "")
-                print("blockId: \(blockId)")
-                try await buildBlocks(notion, withId: blockId)
+//                print("blockId: \(blockId)")
+                let title = block.childPage!.title
+                let children = try await buildBlocks(notion, withId: blockId, title: title)
+                docs.append(contentsOf: children)
             } else {
-                //add document
+                //child
+                foundDoc = true
+                if let c = block.paragraph {
+                    for t in c.text {
+                        content.append(t.plainText)
+                    }
+                }
+//                todo
             }
         }
+        if foundDoc {
+            docs.append(Document(page_content: content, metadata: ["title": title]))
+        }
+        return docs
     }
     
     public override func _load() async throws -> [Document] {
@@ -33,9 +49,12 @@ public class NotionLoader: BaseLoader {
 //        notion.page(pageId: pageId) {
 //            print("page: \($0)")
 //        }
-        var docs = [Document]()
         let notion = NotionAPIGateway(secretKey: "secret_ODO49SlZawEpwsT3Gzfn401iemthmiaeqKIWL1qf6Th")
-        try await buildBlocks(notion, withId: "dbdaeff6b2954534ae8323d65053df58")
-        return []
+        let title = ""
+        let docs = try await buildBlocks(notion, withId: "dbdaeff6b2954534ae8323d65053df58", title: title)
+        
+        print("🥰\(docs)")
+        print("🍰\(docs.count)")
+        return docs
     }
 }
