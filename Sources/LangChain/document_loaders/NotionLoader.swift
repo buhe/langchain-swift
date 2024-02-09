@@ -30,6 +30,7 @@ public class NotionLoader: BaseLoader {
                 if let c = block.paragraph {
                     for t in c.text {
                         content.append(t.plainText)
+                        content.append("\n")
                     }
                 }
 //                todo
@@ -50,8 +51,9 @@ public class NotionLoader: BaseLoader {
 //            print("page: \($0)")
 //        }
         let notion = NotionAPIGateway(secretKey: "secret_ODO49SlZawEpwsT3Gzfn401iemthmiaeqKIWL1qf6Th")
-        let title = ""
-        let docs = try await buildBlocks(notion, withId: "dbdaeff6b2954534ae8323d65053df58", title: title)
+        let pageId = "dbdaeff6b2954534ae8323d65053df58"
+        let title = try await notion.retrievePage(withId: pageId)
+        let docs = try await buildBlocks(notion, withId: pageId, title: title.properties["title"]?.title?.first?.plainText ?? "")
         
         print("🥰\(docs)")
         print("🍰\(docs.count)")
