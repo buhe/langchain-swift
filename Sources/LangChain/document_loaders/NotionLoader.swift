@@ -10,17 +10,25 @@ import SwiftyNotion
 
 public class NotionLoader: BaseLoader {
     
+    fileprivate func appendText(prefix: String, _ content: inout String, _ t: NotionRichText) {
+        content.append(prefix + t.plainText)
+        content.append("\n")
+    }
+    
+    fileprivate func forText(prefix: String, _ text: [NotionRichText], _ content: inout String) {
+        for t in text {
+            appendText(prefix: prefix, &content, t)
+        }
+    }
+    
     fileprivate func buildBlocks(_ notion: NotionAPIGateway, withId: String, title: String) async throws -> [Document]{
         let blocks = try await notion.retrieveBlockChildren(withId: withId)
-        //        print(content.properties["title"]?.title![0].plainText)
-//        print("blocks: \(content)")
         var foundDoc = false
         var content = ""
         var docs = [Document]()
         for block in blocks {
             if block.type == .childPage {
                 let blockId = block.id.replacingOccurrences(of: "-", with: "")
-//                print("blockId: \(blockId)")
                 let title = block.childPage!.title
                 let children = try await buildBlocks(notion, withId: blockId, title: title)
                 docs.append(contentsOf: children)
@@ -28,18 +36,32 @@ public class NotionLoader: BaseLoader {
                 //child
                 foundDoc = true
                 if let c = block.paragraph {
-                    for t in c.text {
-                        content.append(t.plainText)
-                        content.append("\n")
-                    }
+                    forText(prefix: "", c.text, &content)
                 }
-                if let code = block.code {
-                    for t in code.text {
-                        content.append(t.plainText)
-                        content.append("\n")
-                    }
+                if let c = block.code {
+                    forText(prefix: "\(c.language) Code: " ,c.text, &content)
                 }
-//                todo
+                if let c = block.heading1 {
+                    forText(prefix: "# ",c.text, &content)
+                }
+                if let c = block.heading2 {
+                    forText(prefix: "## ",c.text, &content)
+                }
+                if let c = block.heading3 {
+                    forText(prefix: "### ",c.text, &content)
+                }
+                if let c = block.toggle {
+                    forText(prefix: "> ",c.text, &content)
+                }
+                if let c = block.toDo {
+                    forText(prefix: "[ ] ",c.text, &content)
+                }
+                if let c = block.numberedListItem {
+                    forText(prefix: "- ",c.text, &content)
+                }
+                if let c = block.bulletedListItem {
+                    forText(prefix: "- ",c.text, &content)
+                }
             }
         }
         if foundDoc {
@@ -49,15 +71,8 @@ public class NotionLoader: BaseLoader {
     }
     
     public override func _load() async throws -> [Document] {
-        
-//        let notion = NotionClient(accessKeyProvider: StringAccessKeyProvider(accessKey: "secret_ODO49SlZawEpwsT3Gzfn401iemthmiaeqKIWL1qf6Th"))
-//        let pageId = Page.Identifier("dbdaeff6b2954534ae8323d65053df58")
-//
-//        notion.page(pageId: pageId) {
-//            print("page: \($0)")
-//        }
         let notion = NotionAPIGateway(secretKey: "secret_ODO49SlZawEpwsT3Gzfn401iemthmiaeqKIWL1qf6Th")
-        let pageId = "5188a5dee540412ea2b77ec87f561217"
+        let pageId = "dbdaeff6b2954534ae8323d65053df58"
         let title = try await notion.retrievePage(withId: pageId)
         let docs = try await buildBlocks(notion, withId: pageId, title: title.properties["title"]?.title?.first?.plainText ?? "")
         
