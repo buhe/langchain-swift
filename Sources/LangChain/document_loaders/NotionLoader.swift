@@ -33,6 +33,12 @@ public class NotionLoader: BaseLoader {
                         content.append("\n")
                     }
                 }
+                if let code = block.code {
+                    for t in code.text {
+                        content.append(t.plainText)
+                        content.append("\n")
+                    }
+                }
 //                todo
             }
         }
@@ -51,7 +57,7 @@ public class NotionLoader: BaseLoader {
 //            print("page: \($0)")
 //        }
         let notion = NotionAPIGateway(secretKey: "secret_ODO49SlZawEpwsT3Gzfn401iemthmiaeqKIWL1qf6Th")
-        let pageId = "dbdaeff6b2954534ae8323d65053df58"
+        let pageId = "5188a5dee540412ea2b77ec87f561217"
         let title = try await notion.retrievePage(withId: pageId)
         let docs = try await buildBlocks(notion, withId: pageId, title: title.properties["title"]?.title?.first?.plainText ?? "")
         
