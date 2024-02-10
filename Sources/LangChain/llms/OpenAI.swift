@@ -26,6 +26,8 @@ public class OpenAI: LLM {
         
         if let apiKey = env["OPENAI_API_KEY"] {
             let baseUrl = env["OPENAI_API_BASE"] ?? "api.openai.com"
+            let configuration = Configuration(apiKey: apiKey, api: API(scheme: .https, host: baseUrl))
+#if os(macOS) || os(iOS) || os(visionOS)
             let eventLoopGroup = ThreadManager.thread
 
             let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
@@ -33,10 +35,12 @@ public class OpenAI: LLM {
                 // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
                 try? httpClient.syncShutdown()
             }
-            let configuration = Configuration(apiKey: apiKey, api: API(scheme: .https, host: baseUrl))
 
             let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
-            
+#else
+            let urlSession = URLSession(configuration: .default)
+            let openAIClient = OpenAIKit.Client(session: urlSession, configuration: configuration)
+#endif
             let completion = try await openAIClient.chats.create(model: model, messages: [.user(content: text)], temperature: temperature, stops: stops)
             return LLMResult(llm_output: completion.choices.first!.message.content)
         } else {

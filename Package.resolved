@@ -64,15 +64,6 @@
       }
     },
     {
-      "identity" : "llmfarm_core.swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/buhe/llmfarm_core.swift",
-      "state" : {
-        "branch" : "langchain",
-        "revision" : "927d670751bc8aebbc5eb845afd36fe1eeef4f5a"
-      }
-    },
-    {
       "identity" : "openai-kit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/buhe/openai-kit",
@@ -259,6 +250,15 @@
       "state" : {
         "revision" : "b3dcd7dbd0d488e1a7077cb33b00f2083e382f07",
         "version" : "5.0.1"
+      }
+    },
+    {
+      "identity" : "swiftynotion",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/buhe/SwiftyNotion",
+      "state" : {
+        "revision" : "8ff884579370c0ebbc81ae1d6b8e9b62076d25b7",
+        "version" : "0.1.2"
       }
     },
     {

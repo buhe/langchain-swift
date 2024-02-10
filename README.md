@@ -27,6 +27,8 @@ OPENWEATHER_API_KEY=xxx
 LLAMA2_API_KEY=xxx
 GOOGLEAI_API_KEY=xxx
 LMSTUDIO_URL=xxx
+NOTION_API_KEY=xxx
+NOTION_ROOT_NODE_ID=xxx
 ```
 
 ## Get stated
@@ -35,6 +37,7 @@ LMSTUDIO_URL=xxx
 <summary>🔥 Local Model</summary>
  
 Please use 'local' branch, because of dependency on projects.
+[Model here](https://github.com/guinmoon/LLMFarm/blob/main/models.md)
  
  ```
   .package(url: "https://github.com/buhe/langchain-swift", .branch("local"))
@@ -437,6 +440,7 @@ Task(priority: .background)  {
     - [x] BilibilLoader https://nemo2011.github.io/bilibili-api/#/get-credential
     - [x] ImageOCRLoader
     - [x] AudioLoader
+    - [x] NotionLoader
 - OutputParser
     - [x] MRKLOutputParser
     - [x] ListOutputParser
