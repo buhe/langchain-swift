@@ -27,6 +27,8 @@ OPENWEATHER_API_KEY=xxx
 LLAMA2_API_KEY=xxx
 GOOGLEAI_API_KEY=xxx
 LMSTUDIO_URL=xxx
+NOTION_API_KEY=xxx
+NOTION_ROOT_NODE_ID=xxx
 ```
 
 ## Get stated
@@ -438,6 +440,7 @@ Task(priority: .background)  {
     - [x] BilibilLoader https://nemo2011.github.io/bilibili-api/#/get-credential
     - [x] ImageOCRLoader
     - [x] AudioLoader
+    - [x] NotionLoader
 - OutputParser
     - [x] MRKLOutputParser
     - [x] ListOutputParser

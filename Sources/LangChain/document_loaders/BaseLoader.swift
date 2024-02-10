@@ -71,6 +71,7 @@ public class BaseLoader {
             callError(type: type, reqId: reqId, cause: cause)
             return []
         } catch {
+            print("Catch other error \(error)")
             return []
         }
     }
