@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "feedkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nmdias/FeedKit",
+      "state" : {
+        "revision" : "68493a33d862c33c9a9f67ec729b3b7df1b20ade",
+        "version" : "9.1.2"
+      }
+    },
+    {
       "identity" : "functions-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/supabase-community/functions-swift",
