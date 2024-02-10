@@ -80,9 +80,9 @@ public class NotionLoader: BaseLoader {
             let pageId = rootId
             let title = try await notion.retrievePage(withId: pageId)
             let docs = try await buildBlocks(notion, withId: pageId, title: title.properties["title"]?.title?.first?.plainText ?? "")
-            
-            print("🥰\(docs)")
-            print("🍰\(docs.count)")
+//            
+//            print("🥰\(docs)")
+//            print("🍰\(docs.count)")
             return docs
         } else {
             return []
