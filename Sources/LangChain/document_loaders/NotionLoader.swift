@@ -9,7 +9,9 @@ import Foundation
 import SwiftyNotion
 
 public class NotionLoader: BaseLoader {
-    
+    public override init(callbacks: [BaseCallbackHandler] = []) {
+        super.init(callbacks: callbacks)
+    }
     fileprivate func appendText(prefix: String, _ content: inout String, _ t: NotionRichText) {
         content.append(prefix + t.plainText)
         content.append("\n")
