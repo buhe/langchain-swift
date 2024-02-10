@@ -13,10 +13,11 @@ import OpenAIKit
 public class ChatOpenAI: LLM {
     let temperature: Double
     let model: ModelID
-    let httpClient: HTTPClient
-    
-    public init(httpClient: HTTPClient, temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo16K, callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
+    let httpClient: HTTPClient?
+    let urlSession: URLSession?
+    public init(httpClient: HTTPClient? = nil, urlSession: URLSession? = nil, temperature: Double = 0.0, model: ModelID = Model.GPT3.gpt3_5Turbo16K, callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
         self.httpClient = httpClient
+        self.urlSession = urlSession
         self.temperature = temperature
         self.model = model
         super.init(callbacks: callbacks, cache: cache)
@@ -29,7 +30,13 @@ public class ChatOpenAI: LLM {
 
             let configuration = Configuration(apiKey: apiKey, api: API(scheme: .https, host: baseUrl))
 
-            let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
+#if os(macOS) || os(iOS) || os(visionOS)
+            assert(httpClient != nil, "Http client is not nil")
+            let openAIClient = OpenAIKit.Client(httpClient: httpClient!, configuration: configuration)
+#else
+            assert(urlSession != nil, "URL Session is not nil")
+            let openAIClient = OpenAIKit.Client(session: urlSession!, configuration: configuration)
+#endif
             let buffer = try await openAIClient.chats.stream(model: model, messages: [.user(content: text)], temperature: temperature)
             return OpenAIResult(generation: buffer)
         } else {

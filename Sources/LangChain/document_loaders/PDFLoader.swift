@@ -7,7 +7,7 @@
 
 import Foundation
 
-#if os(macOS) || os(iOS) || os(visionOS) || os(iPadOS)
+#if os(macOS) || os(iOS) || os(visionOS)
 import PDFKit
 
 
