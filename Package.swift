@@ -26,7 +26,7 @@ let package = Package(
         .package(url: "https://github.com/juyan/swift-filestore", .upToNextMajor(from: "0.5.0")),
         .package(url: "https://github.com/ZachNagengast/similarity-search-kit.git", from: "0.0.11"),
         .package(url: "https://github.com/google/generative-ai-swift", .upToNextMajor(from: "0.4.4")),
-        .package(path: "../SwiftyNotion"),
+        .package(url: "https://github.com/buhe/SwiftyNotion", .upToNextMajor(from: "0.1.2")),
 //        .package(url: "https://github.com/chojnac/NotionSwift", .upToNextMajor(from: "0.8.0")),
 //        .package(url: "https://github.com/buhe/llmfarm_core.swift", .branch("langchain")),
     ],

@@ -253,6 +253,15 @@
       }
     },
     {
+      "identity" : "swiftynotion",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/buhe/SwiftyNotion",
+      "state" : {
+        "revision" : "8ff884579370c0ebbc81ae1d6b8e9b62076d25b7",
+        "version" : "0.1.2"
+      }
+    },
+    {
       "identity" : "swxmlhash",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/drmohundro/SWXMLHash",

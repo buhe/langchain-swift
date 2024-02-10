@@ -71,13 +71,19 @@ public class NotionLoader: BaseLoader {
     }
     
     public override func _load() async throws -> [Document] {
-        let notion = NotionAPIGateway(secretKey: "secret_ODO49SlZawEpwsT3Gzfn401iemthmiaeqKIWL1qf6Th")
-        let pageId = "dbdaeff6b2954534ae8323d65053df58"
-        let title = try await notion.retrievePage(withId: pageId)
-        let docs = try await buildBlocks(notion, withId: pageId, title: title.properties["title"]?.title?.first?.plainText ?? "")
+        let env = Env.loadEnv()
         
-        print("🥰\(docs)")
-        print("🍰\(docs.count)")
-        return docs
+        if let apiKey = env["NOTION_API_KEY"], let rootId = env["NOTION_ROOT_NODE_ID"] {
+            let notion = NotionAPIGateway(secretKey: apiKey)
+            let pageId = rootId
+            let title = try await notion.retrievePage(withId: pageId)
+            let docs = try await buildBlocks(notion, withId: pageId, title: title.properties["title"]?.title?.first?.plainText ?? "")
+            
+            print("🥰\(docs)")
+            print("🍰\(docs.count)")
+            return docs
+        } else {
+            return []
+        }
     }
 }
