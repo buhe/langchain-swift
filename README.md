@@ -440,7 +440,7 @@ Task(priority: .background)  {
     - [x] BilibilLoader https://nemo2011.github.io/bilibili-api/#/get-credential
     - [x] ImageOCRLoader
     - [x] AudioLoader
-    - [ ] NotionLoader
+    - [x] NotionLoader
 - OutputParser
     - [x] MRKLOutputParser
     - [x] ListOutputParser
