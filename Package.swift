@@ -6,8 +6,8 @@ import PackageDescription
 let package = Package(
     name: "langchain-swift",
     platforms: [
-        .iOS(.v16),
-        .macOS(.v13),
+        .iOS(.v15),
+        .macOS(.v12),
         .watchOS(.v8),
         .visionOS(.v1)
     ],
