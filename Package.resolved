@@ -73,6 +73,15 @@
       }
     },
     {
+      "identity" : "openai-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/buhe/openai-kit",
+      "state" : {
+        "revision" : "f0c785d22dd14f71a42ad83cedbbddc02591aadb",
+        "version" : "1.8.5"
+      }
+    },
+    {
       "identity" : "postgrest-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/supabase-community/postgrest-swift",
