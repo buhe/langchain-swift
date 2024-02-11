@@ -27,7 +27,7 @@ let package = Package(
         .package(url: "https://github.com/ZachNagengast/similarity-search-kit.git", from: "0.0.11"),
         .package(url: "https://github.com/google/generative-ai-swift", .upToNextMajor(from: "0.4.4")),
         .package(url: "https://github.com/buhe/SwiftyNotion", .upToNextMajor(from: "0.1.2")),
-//        .package(url: "https://github.com/nmdias/FeedKit", .upToNextMajor(from: "9.1.2")),
+        .package(url: "https://github.com/nmdias/FeedKit", .upToNextMajor(from: "9.1.2")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -45,7 +45,7 @@ let package = Package(
 //                .product(name: "SimilaritySearchKitDistilbert", package: "similarity-search-kit", condition: .when(platforms: [.macOS, .iOS, .visionOS])),
                 .product(name: "GoogleGenerativeAI", package: "generative-ai-swift"),
                 .product(name: "SwiftyNotion", package: "SwiftyNotion"),
-//                .product(name: "FeedKit", package: "FeedKit"),
+                .product(name: "FeedKit", package: "FeedKit"),
             ]
         
         ),
