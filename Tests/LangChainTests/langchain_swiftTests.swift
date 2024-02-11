@@ -519,11 +519,6 @@ Action Input: the input to the action
         XCTAssertEqual(keys, ["2"])
     }
     
-    func testNotionLoader() async throws {
-        let l = NotionLoader()
-        let d = await l.load()
-        print("hello")
-    }
     
 //
 //    func testYoutubeHackClientList() async throws {
