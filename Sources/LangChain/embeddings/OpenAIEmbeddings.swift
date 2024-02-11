@@ -12,7 +12,7 @@ import OpenAIKit
 
 public struct OpenAIEmbeddings: Embeddings {
     let session: URLSession
-    public init(session: URLSession) {
+    public init(session: URLSession = URLSession(configuration: .default)) {
         self.session = session
     }
     
