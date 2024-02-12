@@ -42,7 +42,7 @@ let package = Package(
                 .product(name: "SwiftSoup", package: "SwiftSoup"),
                 .product(name: "SwiftFileStore", package: "swift-filestore"),
                 .product(name: "SimilaritySearchKit", package: "similarity-search-kit", condition: .when(platforms: [.macOS, .iOS, .visionOS])),
-                .product(name: "SimilaritySearchKitDistilbert", package: "similarity-search-kit", condition: .when(platforms: [.macOS, .iOS, .visionOS])),
+//                .product(name: "SimilaritySearchKitDistilbert", package: "similarity-search-kit", condition: .when(platforms: [.macOS, .iOS, .visionOS])),
                 .product(name: "GoogleGenerativeAI", package: "generative-ai-swift"),
                 .product(name: "SwiftyNotion", package: "SwiftyNotion"),
                 .product(name: "FeedKit", package: "FeedKit"),
