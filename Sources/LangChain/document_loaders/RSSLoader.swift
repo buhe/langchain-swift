@@ -25,17 +25,23 @@ public class RSSLoader: BaseLoader {
             // Grab the parsed feed directly as an optional rss, atom or json feed object
             switch feed {
             case let .atom(feed):
-                print("🌈atom:\(feed)")
-                return []// Atom Syndication Format Feed Model
+                var content = [Document]()
+                for f in feed.entries ?? [] {
+                    content.append(Document(page_content: f.title ?? "", metadata: [:]))
+                }
+                return content
             case let .rss(feed):
                 var content = [Document]()
                 for f in feed.items ?? [] {
                     content.append(Document(page_content: f.title ?? "", metadata: [:]))
                 }
-                return content// Really Simple Syndication Feed Model
+                return content
             case let .json(feed):
-                print("🌈json:\(feed)")
-                return []// JSON Feed Model
+                var content = [Document]()
+                for f in feed.items ?? [] {
+                    content.append(Document(page_content: f.title ?? "", metadata: [:]))
+                }
+                return content
             }
             
             
