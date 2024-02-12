@@ -402,6 +402,7 @@ Task(priority: .background)  {
     - [x] FileStore
 - Embedding
     - [x] OpenAI
+    - [ ] Distilbert
 - Chain
     - [x] Base
     - [x] LLM
@@ -441,6 +442,7 @@ Task(priority: .background)  {
     - [x] ImageOCRLoader
     - [x] AudioLoader
     - [x] NotionLoader
+    - [x] RSSLoader
 - OutputParser
     - [x] MRKLOutputParser
     - [x] ListOutputParser
