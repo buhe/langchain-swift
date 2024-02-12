@@ -402,7 +402,7 @@ Task(priority: .background)  {
     - [x] FileStore
 - Embedding
     - [x] OpenAI
-    - [ ] Distilbert
+    - [x] Distilbert
 - Chain
     - [x] Base
     - [x] LLM

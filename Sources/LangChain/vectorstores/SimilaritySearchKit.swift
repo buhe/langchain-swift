@@ -47,7 +47,7 @@ public class SimilaritySearchKit: VectorStore {
         )
         if #available(macOS 13.0, *) {
             if autoLoad {
-                try? vs.loadIndex()
+                let _ = try? vs.loadIndex()
             }
         } else {
             // Fallback on earlier versions
@@ -64,7 +64,7 @@ public class SimilaritySearchKit: VectorStore {
     
     @available(macOS 13.0, *)
     public func writeToFile() {
-        try? vs.saveIndex()
+        let _ = try? vs.saveIndex()
     }
 }
 #endif
