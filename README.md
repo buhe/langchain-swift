@@ -442,7 +442,7 @@ Task(priority: .background)  {
     - [x] ImageOCRLoader
     - [x] AudioLoader
     - [x] NotionLoader
-    - [ ] RSSLoader
+    - [x] RSSLoader
 - OutputParser
     - [x] MRKLOutputParser
     - [x] ListOutputParser
