@@ -32,7 +32,11 @@ private struct LangChainEmbeddingBridge: EmbeddingsProtocol {
     }
     let embeddings: Embeddings
     func encode(sentence: String) async -> [Float]? {
-        await embeddings.embedQuery(text: sentence)
+        let e = await embeddings.embedQuery(text: sentence)
+        if e.isEmpty {
+            print("⚠️\(sentence.prefix(100))")
+        }
+        return e
     }
     
     
@@ -43,7 +47,7 @@ public class SimilaritySearchKit: VectorStore {
     public init(embeddings: Embeddings, autoLoad: Bool = false) {
         self.vs = SimilarityIndex(
             model: LangChainEmbeddingBridge(embeddings: embeddings),
-            metric: CosineSimilarity()
+            metric: DotProduct()
         )
         if #available(macOS 13.0, *) {
             if autoLoad {
