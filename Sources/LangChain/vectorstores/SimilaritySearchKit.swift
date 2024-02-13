@@ -45,6 +45,13 @@ public class SimilaritySearchKit: VectorStore {
             model: LangChainEmbeddingBridge(embeddings: embeddings),
             metric: CosineSimilarity()
         )
+        if #available(macOS 13.0, *) {
+            if autoLoad {
+                let _ = try? vs.loadIndex()
+            }
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     override func similaritySearch(query: String, k: Int) async -> [MatchedModel] {
@@ -53,6 +60,11 @@ public class SimilaritySearchKit: VectorStore {
     
     override func addText(text: String, metadata: [String: String]) async {
         await vs.addItem(id: UUID().uuidString, text: text, metadata: metadata)
+    }
+    
+    @available(macOS 13.0, *)
+    public func writeToFile() {
+        let _ = try? vs.saveIndex()
     }
 }
 #endif
