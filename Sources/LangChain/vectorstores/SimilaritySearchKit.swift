@@ -50,9 +50,13 @@ public class SimilaritySearchKit: VectorStore {
             metric: DotProduct()
         )
         if #available(macOS 13.0, *) {
-            if autoLoad {
-                let _ = try? vs.loadIndex()
-            }
+            if #available(iOS 16.0, *) {
+                if autoLoad {
+                        let _ = try? vs.loadIndex()
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                }
         } else {
             // Fallback on earlier versions
         }
@@ -66,6 +70,7 @@ public class SimilaritySearchKit: VectorStore {
         await vs.addItem(id: UUID().uuidString, text: text, metadata: metadata)
     }
     
+    @available(iOS 16.0, *)
     @available(macOS 13.0, *)
     public func writeToFile() {
         let _ = try? vs.saveIndex()

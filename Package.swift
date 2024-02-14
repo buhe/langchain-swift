@@ -24,7 +24,7 @@ let package = Package(
         .package(url: "https://github.com/drmohundro/SWXMLHash", .upToNextMajor(from: "7.0.2")),
         .package(url: "https://github.com/scinfu/SwiftSoup", .upToNextMajor(from: "2.6.1")),
         .package(url: "https://github.com/juyan/swift-filestore", .upToNextMajor(from: "0.5.0")),
-        .package(url: "https://github.com/buhe/similarity-search-kit", from: "0.0.14"),
+        .package(url: "https://github.com/buhe/similarity-search-kit", from: "0.0.16"),
         .package(url: "https://github.com/google/generative-ai-swift", .upToNextMajor(from: "0.4.4")),
         .package(url: "https://github.com/buhe/SwiftyNotion", .upToNextMajor(from: "0.1.2")),
         .package(url: "https://github.com/nmdias/FeedKit", .upToNextMajor(from: "9.1.2")),
