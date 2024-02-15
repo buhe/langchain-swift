@@ -6,9 +6,16 @@
 //
 
 import Foundation
-public struct Document {
+public struct Document: Equatable {
+    public init(page_content: String, metadata: [String : String]) {
+        self.page_content = page_content
+        self.metadata = metadata
+    }
     public let page_content: String
     public var metadata: [String: String]
+    public static func == (lhs: Document, rhs: Document) -> Bool {
+        return lhs.page_content == rhs.page_content
+    }
 }
 public class BaseLoader {
     

@@ -92,7 +92,7 @@ public class TextSplitter {
     public func split_text(text: String) -> [String] {
         []
     }
-    func split_documents(documents: [Document]) -> [Document] {
+    public func split_documents(documents: [Document]) -> [Document] {
         var new_documents: [Document] = []
         for doc in documents {
             for chunk in self.split_text(text: doc.page_content){
