@@ -519,6 +519,14 @@ Action Input: the input to the action
         XCTAssertEqual(keys, ["2"])
     }
     
+    func testSimilaritySearchKitSHA256() throws {
+        let vs = SimilaritySearchKit(embeddings: OpenAIEmbeddings())
+        let originalString = "Hello, World!"
+        let hashedString = vs.sha256(str: originalString)
+        print("🚗\(hashedString)")
+        XCTAssertNotNil(hashedString)
+    }
+    
     
 //
 //    func testYoutubeHackClientList() async throws {

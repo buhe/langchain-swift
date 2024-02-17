@@ -9,6 +9,7 @@ import Foundation
 
 #if os(macOS) || os(iOS) || os(visionOS)
 import SimilaritySearchKit
+import CryptoKit
 
 private struct LangChainEmbeddingBridge: EmbeddingsProtocol {
     
@@ -67,13 +68,23 @@ public class SimilaritySearchKit: VectorStore {
     }
     
     override func addText(text: String, metadata: [String: String]) async {
-        await vs.addItem(id: UUID().uuidString, text: text, metadata: metadata)
+        await vs.addItem(id: sha256(str: text), text: text, metadata: metadata)
     }
     
     @available(iOS 16.0, *)
     @available(macOS 13.0, *)
     public func writeToFile() {
         let _ = try? vs.saveIndex()
+    }
+    
+    override func removeText(sha256: String) async {
+        vs.removeItem(id: sha256)
+    }
+    
+    func sha256(str: String) -> String {
+        let data = Data(str.utf8)
+        let hash = SHA256.hash(data: data)
+        return hash.compactMap { String(format: "%02x", $0) }.joined()
     }
 }
 #endif

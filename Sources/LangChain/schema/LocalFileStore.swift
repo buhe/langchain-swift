@@ -102,7 +102,7 @@ public class LocalFileStore: BaseStore {
         var allKeys: [String] = []
         let allSHA = try await objectStore!.readAllKeys(namespace: STORE_NS)
         for sha in allSHA {
-            print("sha: \(sha)")
+//            print("sha: \(sha)")
             if sha == ".DS_Store" {
                 continue
             }

@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/buhe/similarity-search-kit",
       "state" : {
-        "revision" : "7bf84238c1d98d159063385a7be34620b8c640d2",
-        "version" : "0.0.14"
+        "revision" : "39bbd0b5c2662728792ee9be132212e5fd4a49e2",
+        "version" : "0.0.16"
       }
     },
     {
@@ -266,8 +266,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/buhe/SwiftyNotion",
       "state" : {
-        "revision" : "8ff884579370c0ebbc81ae1d6b8e9b62076d25b7",
-        "version" : "0.1.2"
+        "revision" : "61af40905bfd5eb8cad454e02095dfbdea0498cb",
+        "version" : "0.1.3"
       }
     },
     {
