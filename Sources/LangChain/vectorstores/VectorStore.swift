@@ -16,7 +16,9 @@ public class VectorStore {
     func addText(text: String, metadata: [String: String]) async {
         
     }
-    
+    func removeText(sha256: String) async {
+        
+    }
     func similaritySearch(query: String, k: Int) async -> [MatchedModel] {
         []
     }
@@ -29,6 +31,13 @@ public class VectorStore {
         }
     }
     
+    func remove_documents(sha256s: [String]) async {
+        await withTaskGroup(of: Void.self) { [self] group in
+            for sha256 in sha256s {
+                group.addTask { await self.removeText(sha256: sha256)}
+            }
+        }
+    }
 //    def add_documents(self, documents: List[Document], **kwargs: Any) -> List[str]:
 //          """Run more documents through the embeddings and add to the vectorstore.
 //
@@ -42,10 +51,4 @@ public class VectorStore {
 //          texts = [doc.page_content for doc in documents]
 //          metadatas = [doc.metadata for doc in documents]
 //          return self.add_texts(texts, metadatas, **kwargs)
-}
-
-public protocol VectorStoreByUser {
-    func addText(text: String, user_id: String, metadata: [String: String]) async
-    
-    func similaritySearch(query: String, k: Int, user_id: String) async -> [MatchedModel]
 }

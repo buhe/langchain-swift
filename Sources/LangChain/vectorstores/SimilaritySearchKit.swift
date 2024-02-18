@@ -9,6 +9,7 @@ import Foundation
 
 #if os(macOS) || os(iOS) || os(visionOS)
 import SimilaritySearchKit
+import CryptoKit
 
 private struct LangChainEmbeddingBridge: EmbeddingsProtocol {
     
@@ -32,7 +33,11 @@ private struct LangChainEmbeddingBridge: EmbeddingsProtocol {
     }
     let embeddings: Embeddings
     func encode(sentence: String) async -> [Float]? {
-        await embeddings.embedQuery(text: sentence)
+        let e = await embeddings.embedQuery(text: sentence)
+        if e.isEmpty {
+            print("⚠️\(sentence.prefix(100))")
+        }
+        return e
     }
     
     
@@ -40,11 +45,22 @@ private struct LangChainEmbeddingBridge: EmbeddingsProtocol {
 public class SimilaritySearchKit: VectorStore {
     let vs: SimilarityIndex
     
-    public init(embeddings: Embeddings) async {
-        self.vs =  await SimilarityIndex(
+    public init(embeddings: Embeddings, autoLoad: Bool = false) {
+        self.vs = SimilarityIndex(
             model: LangChainEmbeddingBridge(embeddings: embeddings),
-            metric: CosineSimilarity()
+            metric: DotProduct()
         )
+        if #available(macOS 13.0, *) {
+            if #available(iOS 16.0, *) {
+                if autoLoad {
+                        let _ = try? vs.loadIndex()
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                }
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     override func similaritySearch(query: String, k: Int) async -> [MatchedModel] {
@@ -52,7 +68,23 @@ public class SimilaritySearchKit: VectorStore {
     }
     
     override func addText(text: String, metadata: [String: String]) async {
-        await vs.addItem(id: UUID().uuidString, text: text, metadata: metadata)
+        await vs.addItem(id: sha256(str: text), text: text, metadata: metadata)
+    }
+    
+    @available(iOS 16.0, *)
+    @available(macOS 13.0, *)
+    public func writeToFile() {
+        let _ = try? vs.saveIndex()
+    }
+    
+    override func removeText(sha256: String) async {
+        vs.removeItem(id: sha256)
+    }
+    
+    func sha256(str: String) -> String {
+        let data = Data(str.utf8)
+        let hash = SHA256.hash(data: data)
+        return hash.compactMap { String(format: "%02x", $0) }.joined()
     }
 }
 #endif

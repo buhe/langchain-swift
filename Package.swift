@@ -18,16 +18,17 @@ let package = Package(
             targets: ["LangChain"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/buhe/openai-kit", .upToNextMajor(from: "1.8.3")),
+        .package(url: "https://github.com/buhe/openai-kit", .upToNextMajor(from: "1.8.5")),
         .package(url: "https://github.com/supabase-community/supabase-swift", .upToNextMajor(from: "0.2.1")),
         .package(url: "https://github.com/SwiftyJSON/SwiftyJSON", .upToNextMajor(from: "5.0.1")),
         .package(url: "https://github.com/drmohundro/SWXMLHash", .upToNextMajor(from: "7.0.2")),
         .package(url: "https://github.com/scinfu/SwiftSoup", .upToNextMajor(from: "2.6.1")),
         .package(url: "https://github.com/juyan/swift-filestore", .upToNextMajor(from: "0.5.0")),
-        .package(url: "https://github.com/ZachNagengast/similarity-search-kit.git", from: "0.0.11"),
+        .package(url: "https://github.com/buhe/similarity-search-kit", from: "0.0.16"),
         .package(url: "https://github.com/google/generative-ai-swift", .upToNextMajor(from: "0.4.4")),
-        .package(url: "https://github.com/buhe/SwiftyNotion", .upToNextMajor(from: "0.1.2")),
         .package(url: "https://github.com/buhe/llmfarm_core.swift", .branch("langchain")),
+        .package(url: "https://github.com/buhe/SwiftyNotion", .upToNextMajor(from: "0.1.3")),
+        .package(url: "https://github.com/nmdias/FeedKit", .upToNextMajor(from: "9.1.2")),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -42,9 +43,11 @@ let package = Package(
                 .product(name: "SwiftSoup", package: "SwiftSoup"),
                 .product(name: "SwiftFileStore", package: "swift-filestore"),
                 .product(name: "SimilaritySearchKit", package: "similarity-search-kit", condition: .when(platforms: [.macOS, .iOS, .visionOS])),
+//                .product(name: "SimilaritySearchKitDistilbert", package: "similarity-search-kit", condition: .when(platforms: [.macOS, .iOS, .visionOS])),
                 .product(name: "GoogleGenerativeAI", package: "generative-ai-swift"),
                 .product(name: "SwiftyNotion", package: "SwiftyNotion"),
                 .product(name: "llmfarm_core", package: "llmfarm_core.swift"),
+                .product(name: "FeedKit", package: "FeedKit"),
             ]
         
         ),

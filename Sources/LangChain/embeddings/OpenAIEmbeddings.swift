@@ -11,8 +11,9 @@ import AsyncHTTPClient
 import OpenAIKit
 
 public struct OpenAIEmbeddings: Embeddings {
-    public init() {
-        
+    let session: URLSession
+    public init(session: URLSession = URLSession(configuration: .default)) {
+        self.session = session
     }
     
 //    public func embedDocuments(texts: [String]) -> [[Float]] {
@@ -20,21 +21,16 @@ public struct OpenAIEmbeddings: Embeddings {
 //    }
     
     public func embedQuery(text: String) async -> [Float] {
-        let eventLoopGroup = ThreadManager.thread
        
         let env = Env.loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
             let baseUrl = env["OPENAI_API_BASE"] ?? "api.openai.com"
             
-            let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
             let configuration = Configuration(apiKey: apiKey, api: API(scheme: .https, host: baseUrl))
 
-            let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
-            defer {
-                // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
-                try? httpClient.syncShutdown()
-            }
+            let openAIClient = OpenAIKit.Client(session: session, configuration: configuration)
+
             do {
                 let embedding = try await openAIClient.embeddings.create(input: text)
                 
