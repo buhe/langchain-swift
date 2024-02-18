@@ -17,7 +17,7 @@ public class MultiVectorRetriever: BaseRetriever {
     }
     
     public override func _get_relevant_documents(query: String) async throws  -> [Document] {
-        let sub_docs = await self.vectorstore.similaritySearch(query: query, k: 1)
+        let sub_docs = await self.vectorstore.similaritySearch(query: query, k: 2)
         var ids: [String] = []
         for d in sub_docs {
             ids.append(d.metadata[self.id_key]!)
