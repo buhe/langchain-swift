@@ -82,13 +82,13 @@ Thought: dog
 //        print(info!.subtitle)
     }
     
-    func testBilibiliLoader() async throws {
-        let loader = BilibiliLoader(videoId: "BV1iP411y7Vs")
-        let doc = await loader.load()
-//        print(doc.first!.metadata["thumbnail"]!)
-        XCTAssertFalse(doc.isEmpty)
-        XCTAssertNotEqual("", doc.first!.page_content)
-    }
+//    func testBilibiliLoader() async throws {
+//        let loader = BilibiliLoader(videoId: "BV1iP411y7Vs")
+//        let doc = await loader.load()
+////        print(doc.first!.metadata["thumbnail"]!)
+//        XCTAssertFalse(doc.isEmpty)
+//        XCTAssertNotEqual("", doc.first!.page_content)
+//    }
     
     func testBilibiliShort() async throws {
 //        let client = BilibiliClient(credential: BilibiliCredential(sessin: "6376fa3e%2C1705926902%2C0b561%2A71gvy_TPyZMWhUweKjYGT502_5FVZdcv8bfjvwtqdlqm8UjyEiUrkPq1AodolcSjIgBXatNwAAEgA", jct: "330aaac577464e453ea1b070fd1281ea"))

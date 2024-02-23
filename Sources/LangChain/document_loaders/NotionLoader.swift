@@ -85,6 +85,7 @@ public class NotionLoader: BaseLoader {
 //            print("🍰\(docs.count)")
             return docs
         } else {
+            print("NOTION_API_KEY or NOTION_ROOT_NODE_ID not set.")
             return []
         }
     }
