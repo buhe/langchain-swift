@@ -266,8 +266,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/buhe/SwiftyNotion",
       "state" : {
-        "revision" : "61af40905bfd5eb8cad454e02095dfbdea0498cb",
-        "version" : "0.1.3"
+        "revision" : "64e053ad708827655589a39dc0dbf897e109219c",
+        "version" : "0.1.4"
       }
     },
     {
