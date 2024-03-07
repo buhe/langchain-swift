@@ -24,18 +24,15 @@ public class VectorStore {
     }
     
     func add_documents(documents: [Document]) async {
-        await withTaskGroup(of: Void.self) { [self] group in
-            for document in documents {
-                group.addTask { await self.addText(text: document.page_content, metadata: document.metadata)}
-            }
+        for document in documents {
+            await self.addText(text: document.page_content, metadata: document.metadata)
         }
     }
     
+    
     func remove_documents(sha256s: [String]) async {
-        await withTaskGroup(of: Void.self) { [self] group in
-            for sha256 in sha256s {
-                group.addTask { await self.removeText(sha256: sha256)}
-            }
+        for sha256 in sha256s {
+            await self.removeText(sha256: sha256)
         }
     }
 //    def add_documents(self, documents: List[Document], **kwargs: Any) -> List[str]:
