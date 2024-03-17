@@ -9,12 +9,20 @@ import Foundation
 import SwiftyJSON
 
 public struct AgentAction{
-    let action: String
-    let input: String
-    let log: String
+    public let action: String
+    public let input: String
+    public let log: String
+    public init(action: String, input: String, log: String) {
+        self.action = action
+        self.input = input
+        self.log = log
+    }
 }
 public struct AgentFinish {
-    let final: String
+    public let final: String
+    public init(final: String) {
+        self.final = final
+    }
 }
 
 public enum Parsed {
