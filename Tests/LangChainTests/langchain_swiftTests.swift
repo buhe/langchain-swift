@@ -73,14 +73,14 @@ Thought: dog
         XCTAssertEqual(4, ctx["history"]!.count)
     }
     
-    func testBilibilClient() async throws {
-        let client = BilibiliClient(credential: BilibiliCredential(sessin: "18fd8de0%2C1725423814%2Cd660c%2A31CjBvcAJdiQipDSyegdKwKZwll8WpFhPWcUa3DTiPuTS0yT-nkNpUKYUY1Lfw9EMeJCYSVlR1c1NzX3BNLVFoU3BrdVVTa3YxWC1YTWpubVBMZzktQnJ1a0kwenRPOFNPQ3JkTFpiZDNxWVNoOElmRE1pT0Z6M3BFTGcyM3Blb0dGVU9NZ3JBVXFBIIEC", jct: "844400cf8502ad24d168297ba93c4f23"))
-        let info = await client.fetchVideoInfo(bvid: "BV1iP411y7Vs")
-        XCTAssertNotNil(info)
-        XCTAssertNotEqual(info?.subtitle, "")
-        
-//        print(info!.subtitle)
-    }
+//    func testBilibilClient() async throws {
+//        let client = BilibiliClient(credential: BilibiliCredential(sessin: "18fd8de0%2C1725423814%2Cd660c%2A31CjBvcAJdiQipDSyegdKwKZwll8WpFhPWcUa3DTiPuTS0yT-nkNpUKYUY1Lfw9EMeJCYSVlR1c1NzX3BNLVFoU3BrdVVTa3YxWC1YTWpubVBMZzktQnJ1a0kwenRPOFNPQ3JkTFpiZDNxWVNoOElmRE1pT0Z6M3BFTGcyM3Blb0dGVU9NZ3JBVXFBIIEC", jct: "844400cf8502ad24d168297ba93c4f23"))
+//        let info = await client.fetchVideoInfo(bvid: "BV1iP411y7Vs")
+//        XCTAssertNotNil(info)
+//        XCTAssertNotEqual(info?.subtitle, "")
+//        
+////        print(info!.subtitle)
+//    }
     
 //    func testBilibiliLoader() async throws {
 //        let loader = BilibiliLoader(videoId: "BV1iP411y7Vs")
