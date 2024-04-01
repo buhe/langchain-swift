@@ -7,14 +7,16 @@
 
 ## Setup
 1. Please set up before using this library
-``swift
+
+```swift
         LC.initSet([
             "NOTION_API_KEY":"xx",
             "NOTION_ROOT_NODE_ID":"xx",
             "OPENAI_API_KEY":"xx",
             "OPENAI_API_BASE":"xx",
         ])
-``
+```
+
 2. Set some var like OPENAI_API_KEY or OPENAI_API_BASE
 
 Such as.
