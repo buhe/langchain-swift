@@ -12,7 +12,7 @@ import Foundation
 public class InvalidTool: BaseTool {
     let tool_name: String
     
-    init(tool_name: String) {
+    public init(tool_name: String) {
         self.tool_name = tool_name
     }
     
