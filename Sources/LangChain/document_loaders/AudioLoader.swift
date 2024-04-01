@@ -37,7 +37,7 @@ public class AudioLoader: BaseLoader {
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
        
-        let env = Env.loadEnv()
+        let env = LC.loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
             let baseUrl = env["OPENAI_API_BASE"] ?? "api.openai.com"

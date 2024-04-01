@@ -34,7 +34,7 @@ struct GoogleSerperAPIWrapper {
 //            return search_results
     
     func _google_serper_api_results(search_term: String, search_type: String = "search", k: Int = 10, gl: String = "us", hl: String = "en") async -> String {
-        let env = Env.loadEnv()
+        let env = LC.loadEnv()
         let eventLoopGroup = ThreadManager.thread
 
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))

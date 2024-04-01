@@ -19,7 +19,7 @@ struct HFInferenceApi {
     let task: String
     
     func inference(text: String) async throws -> JSON {
-        let env = Env.loadEnv()
+        let env = LC.loadEnv()
         let eventLoopGroup = ThreadManager.thread
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         defer {

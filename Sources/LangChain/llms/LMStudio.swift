@@ -54,7 +54,7 @@ public class LMStudio: LLM {
     }
     
     public override func _send(text: String, stops: [String] = []) async throws -> LLMResult {
-        let env = Env.loadEnv()
+        let env = LC.loadEnv()
         let baseUrl = env["LMSTUDIO_URL"] ?? "localhost:1234"
         let eventLoopGroup = ThreadManager.thread
 

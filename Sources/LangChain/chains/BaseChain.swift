@@ -15,7 +15,7 @@ public class DefaultChain {
         self.outputKey = outputKey
         self.inputKey = inputKey
         var cbs: [BaseCallbackHandler] = callbacks
-        if Env.addTraceCallbak() && !cbs.contains(where: { item in item is TraceCallbackHandler}) {
+        if LC.addTraceCallbak() && !cbs.contains(where: { item in item is TraceCallbackHandler}) {
             cbs.append(TraceCallbackHandler())
         }
 //        assert(cbs.count == 1)

@@ -25,7 +25,7 @@ public class Baidu: LLM {
             // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
             try? httpClient.syncShutdown()
         }
-        let env = Env.loadEnv()
+        let env = LC.loadEnv()
         if let ak = env["BAIDU_LLM_AK"],
            let sk = env["BAIDU_LLM_SK"]{
             return LLMResult(llm_output: try await BaiduClient.llmSync(ak: ak, sk: sk, httpClient: httpClient, text: text, temperature: temperature))

@@ -22,7 +22,7 @@ public class Llama2: LLM {
     }
     
     public override func _send(text: String, stops: [String] = []) async -> LLMResult {
-        let env = Env.loadEnv()
+        let env = LC.loadEnv()
         
         if let apiKey = env["LLAMA2_API_KEY"] {
             let responce = await LlamaAPIWrapper().execute(text: text, key: apiKey, temperature: self.temperature, max_tokens: 2048, topP: 1.0, n: 1, stops: [])

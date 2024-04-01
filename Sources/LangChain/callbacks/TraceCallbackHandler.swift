@@ -16,8 +16,8 @@ public class TraceCallbackHandler: BaseCallbackHandler {
         Task {
             var m = metadata
             m[ReportKey.STEP_START_KEY] = ReportKey.TRUE
-            let env = Env.loadEnv()
-            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "LLM", message: truncate(prompt), metadata: m, createAt: Date.now))
+            let env = LC.loadEnv()
+            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[LC.ID_KEY]!, type: "LLM", message: truncate(prompt), metadata: m, createAt: Date.now))
         }
     }
     
@@ -25,8 +25,8 @@ public class TraceCallbackHandler: BaseCallbackHandler {
         Task {
             var m = metadata
             m[ReportKey.STEP_END_KEY] = ReportKey.TRUE
-            let env = Env.loadEnv()
-            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "LLM", message: truncate(output), metadata: m, createAt: Date.now))
+            let env = LC.loadEnv()
+            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[LC.ID_KEY]!, type: "LLM", message: truncate(output), metadata: m, createAt: Date.now))
         }
     }
     
@@ -34,8 +34,8 @@ public class TraceCallbackHandler: BaseCallbackHandler {
         Task {
             var m = metadata
             m[ReportKey.STEP_END_KEY] = ReportKey.TRUE
-            let env = Env.loadEnv()
-            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "Chain", message: truncate(error.localizedDescription), metadata: m, createAt: Date.now))
+            let env = LC.loadEnv()
+            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[LC.ID_KEY]!, type: "Chain", message: truncate(error.localizedDescription), metadata: m, createAt: Date.now))
         }
     }
     
@@ -43,8 +43,8 @@ public class TraceCallbackHandler: BaseCallbackHandler {
         Task {
             var m = metadata
             m[ReportKey.STEP_END_KEY] = ReportKey.TRUE
-            let env = Env.loadEnv()
-            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "Chain", message: truncate(output), metadata: m, createAt: Date.now))
+            let env = LC.loadEnv()
+            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[LC.ID_KEY]!, type: "Chain", message: truncate(output), metadata: m, createAt: Date.now))
         }
     }
     
@@ -52,8 +52,8 @@ public class TraceCallbackHandler: BaseCallbackHandler {
         Task {
             var m = metadata
             m[ReportKey.STEP_START_KEY] = ReportKey.TRUE
-            let env = Env.loadEnv()
-            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "Chain", message: truncate(prompts), metadata: m, createAt: Date.now))
+            let env = LC.loadEnv()
+            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[LC.ID_KEY]!, type: "Chain", message: truncate(prompts), metadata: m, createAt: Date.now))
         }
     }
     
@@ -62,8 +62,8 @@ public class TraceCallbackHandler: BaseCallbackHandler {
         Task {
             var m = metadata
             m[ReportKey.STEP_START_KEY] = ReportKey.TRUE
-            let env = Env.loadEnv()
-            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "Tool", message: truncate(input), metadata: m, createAt: Date.now))
+            let env = LC.loadEnv()
+            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[LC.ID_KEY]!, type: "Tool", message: truncate(input), metadata: m, createAt: Date.now))
         }
     }
     
@@ -71,8 +71,8 @@ public class TraceCallbackHandler: BaseCallbackHandler {
         Task {
             var m = metadata
             m[ReportKey.STEP_END_KEY] = ReportKey.TRUE
-            let env = Env.loadEnv()
-            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "Tool", message: truncate(output), metadata: m, createAt: Date.now))
+            let env = LC.loadEnv()
+            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[LC.ID_KEY]!, type: "Tool", message: truncate(output), metadata: m, createAt: Date.now))
         }
     }
     
@@ -80,8 +80,8 @@ public class TraceCallbackHandler: BaseCallbackHandler {
         Task {
             var m = metadata
             m[ReportKey.STEP_START_KEY] = ReportKey.TRUE
-            let env = Env.loadEnv()
-            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "Agent", message: truncate(prompt), metadata: m, createAt: Date.now))
+            let env = LC.loadEnv()
+            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[LC.ID_KEY]!, type: "Agent", message: truncate(prompt), metadata: m, createAt: Date.now))
         }
     }
     
@@ -89,8 +89,8 @@ public class TraceCallbackHandler: BaseCallbackHandler {
         Task {
             var m = metadata
             m[ReportKey.STEP_END_KEY] = ReportKey.TRUE
-            let env = Env.loadEnv()
-            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "Agent", message: truncate(action.log), metadata: m, createAt: Date.now))
+            let env = LC.loadEnv()
+            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[LC.ID_KEY]!, type: "Agent", message: truncate(action.log), metadata: m, createAt: Date.now))
         }
     }
     
@@ -98,8 +98,8 @@ public class TraceCallbackHandler: BaseCallbackHandler {
         Task {
             var m = metadata
             m[ReportKey.STEP_END_KEY] = ReportKey.TRUE
-            let env = Env.loadEnv()
-            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "Agent", message: truncate(action.final), metadata: m, createAt: Date.now))
+            let env = LC.loadEnv()
+            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[LC.ID_KEY]!, type: "Agent", message: truncate(action.final), metadata: m, createAt: Date.now))
         }
     }
     
@@ -107,8 +107,8 @@ public class TraceCallbackHandler: BaseCallbackHandler {
         Task {
             var m = metadata
             m[ReportKey.STEP_END_KEY] = ReportKey.TRUE
-            let env = Env.loadEnv()
-            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[Env.ID_KEY]!, type: "LLM", message: truncate(error.localizedDescription), metadata: m, createAt: Date.now))
+            let env = LC.loadEnv()
+            await TraceManager.shared.insertReport(report: Report(appDisplayName: Bundle.main.appDisplayName, reportId: env[LC.ID_KEY]!, type: "LLM", message: truncate(error.localizedDescription), metadata: m, createAt: Date.now))
         }
     }
 }

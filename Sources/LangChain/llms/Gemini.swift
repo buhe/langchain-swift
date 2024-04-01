@@ -10,7 +10,7 @@ import GoogleGenerativeAI
 
 public class Gemini: LLM {
     override func _send(text: String, stops: [String]) async throws -> LLMResult {
-        let env = Env.loadEnv()
+        let env = LC.loadEnv()
         
         if let apiKey = env["GOOGLEAI_API_KEY"] {
             let model = GenerativeModel(name: "gemini-pro", apiKey: apiKey)

@@ -34,7 +34,7 @@ public class WeatherTool: BaseTool {
     }
     
     public override func _run(args: String) async throws -> String {
-        let env = Env.loadEnv()
+        let env = LC.loadEnv()
         
         if let apiKey = env["OPENWEATHER_API_KEY"] {
             do {

@@ -16,7 +16,7 @@ public class BilibiliLoader: BaseLoader {
     }
         
     public override func _load() async throws -> [Document] {
-        let env = Env.loadEnv()
+        let env = LC.loadEnv()
         
         if let session = env["BILIBILI_SESSION"], let jct = env["BILIBILI_JCT"] {
             let client = BilibiliClient(credential: BilibiliCredential(sessin: session, jct: jct))

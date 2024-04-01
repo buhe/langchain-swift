@@ -22,7 +22,7 @@ public struct OpenAIEmbeddings: Embeddings {
     
     public func embedQuery(text: String) async -> [Float] {
        
-        let env = Env.loadEnv()
+        let env = LC.loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
             let baseUrl = env["OPENAI_API_BASE"] ?? "api.openai.com"

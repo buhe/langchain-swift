@@ -23,7 +23,7 @@ public class ChatOpenAI: LLM {
         super.init(callbacks: callbacks, cache: cache)
     }
     public override func _send(text: String, stops: [String] = []) async throws -> LLMResult {
-        let env = Env.loadEnv()
+        let env = LC.loadEnv()
         
         if let apiKey = env["OPENAI_API_KEY"] {
             let baseUrl = env["OPENAI_API_BASE"] ?? "api.openai.com"

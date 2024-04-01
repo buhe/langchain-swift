@@ -50,7 +50,7 @@ struct ChatGLMAPIWrapper {
         return jwt.token!
     }
     func call(text: String) async throws -> String {
-        let env = Env.loadEnv()
+        let env = LC.loadEnv()
         if let apiKey = env["CHATGLM_API_KEY"] {
             let splited = apiKey.components(separatedBy: ".")
             let eventLoopGroup = ThreadManager.thread

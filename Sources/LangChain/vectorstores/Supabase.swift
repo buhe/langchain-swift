@@ -23,7 +23,7 @@ public class Supabase: VectorStore {
     let embeddings: Embeddings
     public init(embeddings: Embeddings) {
         self.embeddings = embeddings
-        let env = Env.loadEnv()
+        let env = LC.loadEnv()
         client = SupabaseClient(supabaseURL: URL(string: env["SUPABASE_URL"]!)!, supabaseKey: env["SUPABASE_KEY"]!)
     }
     

@@ -73,7 +73,7 @@ public class NotionLoader: BaseLoader {
     }
     
     public override func _load() async throws -> [Document] {
-        let env = Env.loadEnv()
+        let env = LC.loadEnv()
         
         if let apiKey = env["NOTION_API_KEY"], let rootId = env["NOTION_ROOT_NODE_ID"] {
             let notion = NotionAPIGateway(secretKey: apiKey)
