@@ -37,6 +37,8 @@ OPENWEATHER_API_KEY=xxx
 LLAMA2_API_KEY=xxx
 GOOGLEAI_API_KEY=xxx
 LMSTUDIO_URL=xxx
+OLLAMA_URL=xxx
+OLLAMA_MODEL=xxx
 NOTION_API_KEY=xxx
 NOTION_ROOT_NODE_ID=xxx
 BILIBILI_SESSION=xxx
@@ -404,6 +406,7 @@ Task(priority: .background)  {
     - [x] Llama 2
     - [x] Gemini
     - [x] LMStudio API
+    - [x] Ollama API
     - [x] Local Model
 - Vectorstore
     - [x] Supabase
