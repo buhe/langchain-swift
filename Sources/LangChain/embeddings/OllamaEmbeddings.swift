@@ -36,23 +36,10 @@ extension Ollama: Embeddings {
     /// - Parameter text: The text to create embeddings vector for.
     /// - Returns: An array of embeddings for the given text.
     public func getEmbeddings(for text: String) async throws -> [Float] {
-        let httpClient = getHTTPClient()
-        defer {
-            try? httpClient.syncShutdown()
-        }
-        let requestURL = "http://\(baseURL)/api/embeddings"
-        var request = HTTPClientRequest(url: requestURL)
-        request.method = .POST
-        request.headers.add(name: "Content-Type", value: "application/json")
-        request.headers.add(name: "Accept", value: "application/json")
         let embeddingRequest = EmbeddingRequest(model: model, prompt: text)
-        let requestBody = try JSONEncoder().encode(embeddingRequest)
-        request.body = .bytes(requestBody)
-        let response = try await httpClient.execute(request, timeout: .seconds(Int64(requestTimeout)))
-        guard response.status == .ok else {
+        guard let data = try await sendJSON(request: embeddingRequest, endpoint: "embeddings") else {
             return []
         }
-        let data = Data(buffer: try await response.body.collect(upTo: 2048 * 1024))
         let apiResponse = try JSONDecoder().decode(Embedding.self, from: data)
         return apiResponse.embedding
     }

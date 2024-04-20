@@ -19,6 +19,42 @@ public class Ollama: LLM {
     let options: [String: String]?
     let requestTimeout: Int
 
+    /// Images encoded as base64 strings.
+    public var images: [String]?
+    /// A system prompt overriding the default system prompt.
+    public var systemPrompt: String?
+    /// The template to use (overriding what is in the model file).
+    public var template: String?
+    /// The context to use.
+    ///
+    /// The context parameter returned from a previous request to `/generate`,
+    /// this can be used to keep a short conversational memory.
+    public var context: [Int]?
+    /// Request streaming content.
+    ///
+    /// This acts as a flag to the API whether to use
+    /// streaming or not.  If set to `false`, the API
+    /// will return a single response object rather than
+    /// a stream of responses.
+    public var stream = false
+    /// Use raw content.
+    ///
+    /// If set to `true`, this indicates to the API that
+    /// no formatting has been applied to the input prompt.
+    /// You may choose to use the raw parameter if you are
+    /// providing a full templated prompt in your request.
+    public var raw: Bool?
+    /// Model options to use.
+    ///
+    /// Dictionary of additional model parameters listed in the
+    /// documentation for the Modelfile such as `temperature`.
+    public var modelOptions: [String: String]?
+    /// Keep-alive time for the model.
+    ///
+    /// If set, this will keep the model alive for the given
+    /// amount of time after the last request, overriding
+    /// the Ollama default.
+    public var keepAliveTime: String?
 
     /// Create an Ollama language model.
     ///
@@ -35,7 +71,14 @@ public class Ollama: LLM {
     ///   - cache: Cache to use for storing results.
     public init(baseURL: String? = nil, model: String? = nil, options: [String : String]? = nil, timeout: Int = 3600, callbacks: [BaseCallbackHandler] = [], cache: BaseCache? = nil) {
         let env = LC.loadEnv()
-        self.baseURL = baseURL ?? env["OLLAMA_URL"] ?? "localhost:11434"
+        let urlString = baseURL ?? env["OLLAMA_URL"] ?? "localhost:11434"
+        let url: String
+        if urlString.hasPrefix("http://") || urlString.hasPrefix("https://") {
+            url = urlString
+        } else {
+            url = "http://" + urlString
+        }
+        self.baseURL = url
         self.model = model ?? env["OLLAMA_MODEL"] ?? "llama3"
         self.options = options
         self.requestTimeout = timeout
@@ -52,26 +95,56 @@ public class Ollama: LLM {
     ///   - stops: An array of strings that, if present in the response, will stop the generation.
     /// - Returns:
     public override func _send(text: String, stops: [String] = []) async throws -> LLMResult {
+        let apiRequest = GenerateRequest(model: model, prompt: text, images: images, system: systemPrompt, template: template, context: context, options: modelOptions, keepAlive: keepAliveTime, format: "json", raw: self.raw, stream: false)
+        guard let data = try await sendJSON(request: apiRequest) else {
+            return LLMResult()
+        }
+        let llmResponse = try JSONDecoder().decode(GenerateResponse.self, from: data)
+        return LLMResult(llm_output: llmResponse.response)
+    }
+
+    /// Send a request to the Ollama API.
+    ///
+    /// This function implements the main interaction with the Ollama
+    /// through API.
+    ///
+    /// - Parameters:
+    ///   - request: The request to send to the Ollama API.
+    ///   - endpoint: The API endpoint to use.
+    /// - Returns: The response data from the Ollama API (or `nil` if unsuccessful).
+    public func sendJSON<Request: Encodable>(request: Request?, endpoint: String = "generate") async throws -> Data? {
         let httpClient = getHTTPClient()
         defer {
             try? httpClient.syncShutdown()
         }
-        let requestURL = "http://\(baseURL)/api/chat"
-        var request = HTTPClientRequest(url: requestURL)
-        request.method = .POST
-        request.headers.add(name: "Content-Type", value: "application/json")
-        request.headers.add(name: "Accept", value: "application/json")
-        let chatRequest = ChatRequest(model: model, options: options, format: "json", stream: false, messages: [ChatGLMMessage(role: "user", content: text)])
-        let requestBody = try JSONEncoder().encode(chatRequest)
-        request.body = .bytes(requestBody)
-        let response = try await httpClient.execute(request, timeout: .seconds(Int64(requestTimeout)))
+        let requestURL = baseURL + "/api/" + endpoint
+        var http = HTTPClientRequest(url: requestURL)
+        http.headers.add(name: "Content-Type", value: "application/json")
+        http.headers.add(name: "Accept", value: "application/json")
+        if let request {
+            let requestBody = try JSONEncoder().encode(request)
+            http.body = .bytes(requestBody)
+            http.method = .POST
+        }
+        let response = try await httpClient.execute(http, timeout: .seconds(Int64(requestTimeout)))
         guard response.status == .ok else {
             print("http code is not 200.")
-            return LLMResult()
+            return nil
         }
         let data = Data(buffer: try await response.body.collect(upTo: 2048 * 1024))
-        let llmResponse = try JSONDecoder().decode(ChatResponse.self, from: data)
-        return LLMResult(llm_output: llmResponse.message.content)
+        return data
+    }
+
+    /// Send a query to the given endpoint.
+    ///
+    /// This function sends a query (a request without a body)
+    /// to the given endpoint and returns the response as `Data`.
+    ///
+    /// - Parameter endpoint: The endpoint to send the query to.
+    /// - Returns: The response data from the Ollama API (or `nil` if unsuccessful).
+    @inlinable
+    public func sendQuery(endpoint: String = "tags") async throws -> Data? {
+        try await sendJSON(request: Optional<Bool>.none, endpoint: endpoint)
     }
 
     /// Get an Ollama HTTP client.
@@ -85,6 +158,68 @@ public class Ollama: LLM {
 }
 
 public extension Ollama {
+    /// Ollama generation request.
+    ///
+    /// This message is sent to the `generate` API
+    /// endpoint to generate a response.
+    struct GenerateRequest: Codable {
+        let model: String
+        let prompt: String
+        let images: [String]?
+        let system: String?
+        let template: String?
+        let context: [Int]?
+        let options: [String: String]?
+        let keepAlive: String?
+        let format: String?
+        let raw: Bool?
+        let stream: Bool?
+
+        enum CodingKeys: String, CodingKey {
+            case model
+            case prompt
+            case images
+            case system
+            case template
+            case context
+            case options
+            case keepAlive = "keep_alive"
+            case format
+            case raw
+            case stream
+        }
+    }
+    /// Ollama generation response.
+    ///
+    /// This response object contains the response
+    /// generated by the Ollama `generate` API endpoint.
+    struct GenerateResponse: Codable {
+        let response: String
+        let createdAt: String
+        let model: String
+        let done: Bool
+        let context: [Int]?
+        let totalDuration: Int?
+        let loadDuration: Int?
+        let promptEvalDuration: Int?
+        let evalDuration: Int?
+        let promptEvalCount: Int?
+        let evalCount: Int?
+
+        enum CodingKeys: String, CodingKey {
+            case response
+            case createdAt = "created_at"
+            case model
+            case done
+            case context
+            case totalDuration = "total_duration"
+            case loadDuration = "load_duration"
+            case promptEvalDuration = "prompt_eval_duration"
+            case evalDuration = "eval_duration"
+            case promptEvalCount = "prompt_eval_count"
+            case evalCount = "eval_count"
+        }
+    }
     /// Generate the next message in a chat with a provided model.
     ///
     /// This is a streaming endpoint, so there can be a series of responses.
@@ -176,17 +311,9 @@ public extension Ollama {
     /// 
     /// - Returns: An array of model names.
     func localModels() async throws -> [Model] {
-        let httpClient = getHTTPClient()
-        defer {
-            try? httpClient.syncShutdown()
-        }
-        let requestURL = "http://\(baseURL)/api/tags"
-        let request = HTTPClientRequest(url: requestURL)
-        let response = try await httpClient.execute(request, timeout: .seconds(Int64(requestTimeout)))
-        guard response.status == .ok else {
+        guard let data = try await sendQuery(endpoint: "tags") else {
             return []
         }
-        let data = Data(buffer: try await response.body.collect(upTo: 1024 * 1024))
         let local = try JSONDecoder().decode(Models.self, from: data)
         return local.models
     }
