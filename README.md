@@ -417,6 +417,7 @@ Task(priority: .background)  {
     - [x] FileStore
 - Embedding
     - [x] OpenAI
+    - [x] Ollama
     - [ ] Distilbert
 - Chain
     - [x] Base

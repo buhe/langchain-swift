@@ -550,6 +550,32 @@ Action Input: the input to the action
         }
     }
 
+    func testOllamaEmbeddings() async throws {
+        let ollama = Ollama()
+        do {
+            let models = try await ollama.localModels()
+            XCTAssertGreaterThanOrEqual(models.count, 0)
+            guard let smallestModel = models.min(by: { $0.size < $1.size }) else {
+                print("No Ollama models, skipping embeddings test.")
+                return
+            }
+            let embeddingModel = Ollama(model: smallestModel.name)
+            let embeddings = try await embeddingModel.getEmbeddings(for: "Here is a simple phrase for creating embeddings.  Embeddings are ...")
+            XCTAssertFalse(embeddings.isEmpty)
+            let vs = SimilaritySearchKit(embeddings: embeddingModel)
+            let originalString = "Hello, World!"
+            let hashedString = vs.sha256(str: originalString)
+            print("🚗\(hashedString)")
+            XCTAssertNotNil(hashedString)
+        } catch {
+            if error is NIOConnectionError {
+                print("Ollama not active, skipping API test.")
+                return
+            }
+            throw error
+        }
+    }
+
 
 //
 //    func testYoutubeHackClientList() async throws {
