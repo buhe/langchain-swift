@@ -4,6 +4,7 @@
 
 🚀 LangChain for Swift. Optimized for iOS, macOS, watchOS (part) and visionOS.(beta)
 
+This is a pure client library, no server required
 
 ## Setup
 1. Please set up before using this library
