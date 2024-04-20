@@ -61,7 +61,8 @@ public class Ollama: LLM {
         request.method = .POST
         request.headers.add(name: "Content-Type", value: "application/json")
         request.headers.add(name: "Accept", value: "application/json")
-        let requestBody = try JSONEncoder().encode(ChatRequest(model: model, options: options, format: "json", stream: false, messages: [ChatGLMMessage(role: "user", content: text)]))
+        let chatRequest = ChatRequest(model: model, options: options, format: "json", stream: false, messages: [ChatGLMMessage(role: "user", content: text)])
+        let requestBody = try JSONEncoder().encode(chatRequest)
         request.body = .bytes(requestBody)
         let response = try await httpClient.execute(request, timeout: .seconds(Int64(requestTimeout)))
         guard response.status == .ok else {
