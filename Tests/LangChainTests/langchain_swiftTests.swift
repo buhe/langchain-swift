@@ -527,6 +527,86 @@ Action Input: the input to the action
         XCTAssertNotNil(hashedString)
     }
     
+    func testOllamaAPI() async throws {
+        let ollama = Ollama()
+        do {
+            let models = try await ollama.localModels()
+            XCTAssertGreaterThanOrEqual(models.count, 0)
+            guard let smallestModel = models.min(by: { $0.size < $1.size }) else {
+                print("No Ollama models, skipping generation test.")
+                return
+            }
+            let llm = Ollama(model: smallestModel.name)
+            let result = try await llm._send(text: "What is a large language model?")
+            XCTAssertNotNil(result.llm_output)
+            guard let output = result.llm_output else { return }
+            XCTAssertFalse(output.isEmpty)
+        } catch {
+            if error is NIOConnectionError {
+                print("Ollama not active, skipping API test.")
+                return
+            }
+            throw error
+        }
+    }
+
+    func testChatOllamaAPI() async throws {
+        let ollama = ChatOllama()
+        do {
+            let models = try await ollama.localModels()
+            XCTAssertGreaterThanOrEqual(models.count, 0)
+            guard let smallestModel = models.min(by: { $0.size < $1.size }) else {
+                print("No Ollama models, skipping chat test.")
+                return
+            }
+            let llm = ChatOllama(model: smallestModel.name)
+            XCTAssertTrue(llm.history.isEmpty)
+            let userQuery = "What is a large language model?"
+            let result = try await llm._send(text: userQuery)
+            XCTAssertNotNil(result.llm_output)
+            guard let output = result.llm_output else { return }
+            XCTAssertFalse(output.isEmpty)
+            XCTAssertFalse(llm.history.isEmpty)
+            XCTAssertEqual(llm.history.first?.role, "user")
+            XCTAssertEqual(llm.history.first?.content, userQuery)
+            XCTAssertEqual(llm.history.last?.role, "assistant")
+            XCTAssertNotEqual(llm.history.last?.content, userQuery)
+            XCTAssertFalse(llm.history.last?.content.isEmpty ?? true)
+        } catch {
+            if error is NIOConnectionError {
+                print("Ollama not active, skipping API test.")
+                return
+            }
+            throw error
+        }
+    }
+
+    func testOllamaEmbeddings() async throws {
+        let ollama = Ollama()
+        do {
+            let models = try await ollama.localModels()
+            XCTAssertGreaterThanOrEqual(models.count, 0)
+            guard let smallestModel = models.min(by: { $0.size < $1.size }) else {
+                print("No Ollama models, skipping embeddings test.")
+                return
+            }
+            let embeddingModel = Ollama(model: smallestModel.name)
+            let embeddings = try await embeddingModel.getEmbeddings(for: "Here is a simple phrase for creating embeddings.  Embeddings are ...")
+            XCTAssertFalse(embeddings.isEmpty)
+            let vs = SimilaritySearchKit(embeddings: embeddingModel)
+            let originalString = "Hello, World!"
+            let hashedString = vs.sha256(str: originalString)
+            print("🚗\(hashedString)")
+            XCTAssertNotNil(hashedString)
+        } catch {
+            if error is NIOConnectionError {
+                print("Ollama not active, skipping API test.")
+                return
+            }
+            throw error
+        }
+    }
+
     
 //
 //    func testYoutubeHackClientList() async throws {
