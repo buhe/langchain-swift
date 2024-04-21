@@ -17,12 +17,12 @@ final class langchain_swiftTests: XCTestCase {
         XCTAssertNotNil(s1)
         XCTAssertEqual(s1, "dog | cat")
     }
-
+    
     func testZeroShotAgent() throws {
-
+      
         let tools: [BaseTool] = [Dummy()]
         let p = ZeroShotAgent.create_prompt(tools: tools)
-
+       
 //        print(p.format(args: ["cat", "dog"]))
         let c = """
 Answer the following questions as best you can. You have access to the following tools:
@@ -47,11 +47,11 @@ Thought: dog
 """
         XCTAssertEqual(c, p.format(args: ["question": "cat","thought": "dog"]))
     }
-
+    
     func testCharacterTextSplitter() throws {
         let split = CharacterTextSplitter(chunk_size: 2000, chunk_overlap: 200)
-
-
+       
+        
         let docs = split.split_text(text: bySplit)
         print(bySplit.count)
         XCTAssertEqual(docs.count, 21)
@@ -61,27 +61,27 @@ Thought: dog
         }
 //        print(docs.first!.count)
     }
-
+    
     func testConversationBufferWindowMemory() throws {
         let memory = ConversationBufferWindowMemory(k: 4)
         memory.save_context(inputs: ["Q:": "1"], outputs: ["A:": "2"])
         memory.save_context(inputs: ["Q:": "3"], outputs: ["A:": "4"])
         let ctx = memory.load_memory_variables(inputs: [:])
-
+        
 //        print(ctx)
-
+        
         XCTAssertEqual(4, ctx["history"]!.count)
     }
-
+    
 //    func testBilibilClient() async throws {
 //        let client = BilibiliClient(credential: BilibiliCredential(sessin: "e0f5f5ef%2C1725005380%2Cb71c5%2A31CjD3aNTEjUzgdcs3TlxijwG1rF7pYn65uwh1XTuMp0-uwGpqU4K2I6GGjPtEdvioiKcSVjA3ajg4SnJOMXdsa2Zka21yN0JvRmJkeFREOFp0amVvejlFQ0FJT2p1MC1lcGZucTI0QzRnUk5VT09PYVJyZVFzYnFNQ2M0THZJRS1lVzJjem11M1R3IIEC", jct: "b4662a4c178853f2d1a31ef89b53c89a"))
 //        let info = await client.fetchVideoInfo(bvid: "BV1iP411y7Vs")
 //        XCTAssertNotNil(info)
 //        XCTAssertNotEqual(info?.subtitle, "")
-//
+//        
 ////        print(info!.subtitle)
 //    }
-
+    
 //    func testBilibiliLoader() async throws {
 //        let loader = BilibiliLoader(videoId: "BV1iP411y7Vs")
 //        let doc = await loader.load()
@@ -89,20 +89,20 @@ Thought: dog
 //        XCTAssertFalse(doc.isEmpty)
 //        XCTAssertNotEqual("", doc.first!.page_content)
 //    }
-
+    
     func testBilibiliShort() async throws {
 //        let client = BilibiliClient(credential: BilibiliCredential(sessin: "6376fa3e%2C1705926902%2C0b561%2A71gvy_TPyZMWhUweKjYGT502_5FVZdcv8bfjvwtqdlqm8UjyEiUrkPq1AodolcSjIgBXatNwAAEgA", jct: "330aaac577464e453ea1b070fd1281ea"))
         let long = await BilibiliClient.getLongUrl(short: "https://b23.tv/zxgbvRd")!
         if let _ = URL(string: "https://path?bbb=xxx") {
             let components = URLComponents(url: URL(string: long)!, resolvingAgainstBaseURL: false)
-
+            
 //            if let queryItems = components?.queryItems {
 //                for item in queryItems {
 //                    print(item.name) // 输出参数名
 //                    print(item.value) // 输出参数值
 //                }
 //            }
-
+            
             let newURL = String(format: "%@://%@%@", (components?.scheme)!, (components?.host)!, components!.path)
             XCTAssertEqual("https://www.bilibili.com/video/BV1Ch4y1Z7K6", newURL)
         } else {
@@ -110,7 +110,7 @@ Thought: dog
             // else branch must fail
         }
     }
-
+    
     func testHtmlLoader() async throws {
         let url = "https://medium.com/@michaellong/swiftui-ready-for-prime-time-53d3b96dfff0"
         let eventLoopGroup = ThreadManager.thread
@@ -123,7 +123,7 @@ Thought: dog
             var request = HTTPClientRequest(url: url)
             request.headers.add(name: "User-Agent", value: "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/115.0.5790.130 Mobile/15E148 Safari/604.1")
             request.method = .GET
-
+            
             let response = try await httpClient.execute(request, timeout: .seconds(120))
             print(response.headers)
             if response.status == .ok {
@@ -132,7 +132,7 @@ Thought: dog
                 let doc = await loader.load()
 //                print("thumbnail: \(doc.first!.metadata["thumbnail"]!)")
 //                print("title: \(doc.first!.metadata["title"]!)")
-
+                
                 XCTAssertFalse(doc.isEmpty)
                 XCTAssertNotEqual("", doc.first!.page_content)
                 XCTAssertNotEqual("", doc.first!.metadata["thumbnail"]!)
@@ -143,7 +143,7 @@ Thought: dog
             print(error)
         }
     }
-
+    
     func testListOutputParser() throws {
         let parser = ListOutputParser()
         let parsed = parser.parse(text: "a,b,c,d")
@@ -153,9 +153,9 @@ Thought: dog
             XCTAssertEqual("a", list.first!)
         default: XCTAssertTrue(false)
         }
-
+        
     }
-
+    
     func testSimpleJsonOutputParser() throws {
         let parser = SimpleJsonOutputParser()
         let parsed = parser.parse(text: """
@@ -169,11 +169,11 @@ Thought: dog
             XCTAssertEqual(5, json["a"]["b"].intValue)
         default: XCTAssertTrue(false)
         }
-
+        
     }
-
+    
     func testBaiduAccessToken() async throws {
-
+        
         let eventLoopGroup = ThreadManager.thread
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         defer {
@@ -184,9 +184,9 @@ Thought: dog
 //        print("accessToken: \(accessToken!)")
         XCTAssertNotNil(accessToken)
     }
-
+    
     func testOCR() async throws {
-
+        
         let eventLoopGroup = ThreadManager.thread
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         defer {
@@ -198,7 +198,7 @@ Thought: dog
         XCTAssertNotNil(result)
         XCTAssertNotNil(result!["words_result"])
     }
-
+    
     func testMultiPromptRouter() async throws {
         let raw = MultiPromptRouter.formatDestinations(destinations: "abc")
 //        print(raw)
@@ -237,7 +237,7 @@ Thought: dog
         """
         XCTAssertEqual(c, input)
     }
-
+    
     func testObjectOutputParser() async throws {
         struct Unit: Codable {
             let num: Int
@@ -266,7 +266,7 @@ Thought: dog
             XCTFail()
         }
     }
-
+   
     func testObjectOutputParser2() async throws {
         struct Unit: Codable {
             let num: Int
@@ -294,7 +294,7 @@ Thought: dog
             XCTFail()
         }
     }
-
+    
     func testHtmlLoaderForWX() async throws {
         let url = "https://mp.weixin.qq.com/s/WPyNxKlaBuzFlJyYb2-Lpw"
         let eventLoopGroup = ThreadManager.thread
@@ -307,7 +307,7 @@ Thought: dog
             var request = HTTPClientRequest(url: url)
             request.headers.add(name: "User-Agent", value: "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/115.0.5790.130 Mobile/15E148 Safari/604.1")
             request.method = .GET
-
+            
             let response = try await httpClient.execute(request, timeout: .seconds(120))
             print(response.headers)
             if response.status == .ok {
@@ -316,7 +316,7 @@ Thought: dog
                 let doc = await loader.load()
 //                print("thumbnail: \(doc.first!.metadata["thumbnail"]!)")
 //                print("title: \(doc.first!.metadata["title"]!)")
-
+                
                 XCTAssertFalse(doc.isEmpty)
                 XCTAssertNotEqual("", doc.first!.page_content)
                 XCTAssertNotEqual("", doc.first!.metadata["thumbnail"]!)
@@ -327,7 +327,7 @@ Thought: dog
             print(error)
         }
     }
-
+    
     func testSimpleSequentialChain() async throws {
         class A: DefaultChain {
             init() {
@@ -346,14 +346,14 @@ Thought: dog
             }
         }
         let simpleSequentialChain = SimpleSequentialChain(chains: [A(), B()])
-
+        
         let llmResult = await simpleSequentialChain._call(args: "0")
-
+        
 //        print("llm: \(llmResult.0!.llm_output!)")
-
+        
         XCTAssertEqual("0_A_B", llmResult.0!.llm_output!)
     }
-
+    
     func testSequentialChain() async throws {
         class A: DefaultChain {
             init(outputKey: String) {
@@ -372,31 +372,31 @@ Thought: dog
             }
         }
         let sequentialChain = SequentialChain(chains: [A(outputKey: "_A_"), B(outputKey: "_B_")])
-
+        
         let result = try await sequentialChain.predict(args: "0")
-
+        
 //        print("llm: \(result)")
         XCTAssertEqual("0_A", result["_A_"]!)
         XCTAssertEqual("0_A_B", result["_B_"]!)
     }
-
+    
     func testTransformChain() async throws {
         let tc = TransformChain{
             args in
             return LLMResult(llm_output: args + "_T")
         }
-
+        
         let result = await tc._call(args: "HO")
 //        print("llm: \(result.0!.llm_output!)")
         XCTAssertEqual("HO_T", result.0!.llm_output!)
     }
-
+    
     func testDatetimePrompt() async throws {
         let datetimeParse = DateOutputParser()
         let prompt = datetimeParse.get_format_instructions()
         print(prompt)
     }
-
+    
     func testDatetimeParse() async throws {
         let datetimeParse = DateOutputParser()
         let res = datetimeParse.parse(text: "2001 10 13")
@@ -406,18 +406,18 @@ Thought: dog
         }
 //        print(res)
     }
-
+    
     func testLoaderThrow() async throws {
         let textLoader = TextLoader(file_path: "abc.txt", callbacks:[StdOutCallbackHandler()])
         let docs = await textLoader.load()
         XCTAssertTrue(docs.isEmpty)
     }
-
+    
     func testAddCallback() async throws {
         let llm = OpenAI(callbacks: [StdOutCallbackHandler()])
         let _ = initialize_agent(llm: llm, tools: [], callbacks: [StdOutCallbackHandler()])
     }
-
+    
     func testMRKLOutputParser() async throws {
         let p = MRKLOutputParser()
         let inputString = """
@@ -430,7 +430,7 @@ Action Input: the input to the action
         default: XCTAssertTrue(false)
         }
 //        print(a)
-
+        
     }
     func testWikipediaSearchAPI() async throws {
         let client = WikipediaAPIWrapper()
@@ -438,28 +438,28 @@ Action Input: the input to the action
 //        print(wikis)
         XCTAssertEqual(wikis.count, 3)
     }
-
+    
     func testWikipediaFetchPageContentAPI() async throws {
         let page = WikipediaPage(title: "American Broadcasting Company", pageid: 62027)
         let content = try await page.content()
 //        print(content)
         XCTAssertNotEqual(content.count, 0)
     }
-
+    
     func testWikipediaSearchLoad() async throws {
         let client = WikipediaAPIWrapper()
         let docs = try await client.load(query: "abc")
 //        print(docs)
         XCTAssertEqual(docs.count, 3)
     }
-
+    
     func testPubmedSearchAPI() async throws {
         let client = PubmedAPIWrapper()
         let pubmeds = try await client.search(query: "ai")
 //        print(pubmeds)
         XCTAssertEqual(pubmeds.count, 5)
     }
-
+    
     func testPubmedFetchPageContentAPI() async throws {
         let page = PubmedPage(uid: "37926277", webenv: "MCID_6548a476fc7406607a2fa42d")
         let content = try await page.content()
@@ -467,20 +467,20 @@ Action Input: the input to the action
 //        print(content.count)
         XCTAssertNotEqual(content.count, 0)
     }
-
+    
     func testPubmedSearchLoad() async throws {
         let client = PubmedAPIWrapper()
         let docs = try await client.load(query: "ai")
 //        print(docs)
         XCTAssertEqual(docs.count, 5)
     }
-
+    
     func testOpenWeatherAPI() async throws {
         let client = OpenWeatherAPIWrapper()
         let currentWeather = try await client.search(query: "10.99:44.34", apiKey: "7463430d465b51d78562f11033424be7")
         print(currentWeather!)
     }
-
+    
     func testInMemoryStore() async throws {
         let store = InMemoryStore()
         await store.mset(kvpairs: [("1", "a"), ("2", "b")])
@@ -490,7 +490,7 @@ Action Input: the input to the action
         let keys = await store.keys()
         XCTAssertEqual(keys, ["2"])
     }
-
+    
     func testRecursiveCharacterTextSplitter() async throws {
         //This text splitter is used to create the parent documents
         let parent_splitter = RecursiveCharacterTextSplitter(chunk_size: 2000, chunk_overlap: 200)
@@ -508,7 +508,7 @@ Action Input: the input to the action
             XCTAssertTrue(doc.count <= 400)
         }
     }
-
+    
     func testFileStore() async throws {
         let store = LocalFileStore(prefix: "+abc")
         await store.mset(kvpairs: [("1", "a"), ("2", "b")])
@@ -518,7 +518,7 @@ Action Input: the input to the action
         let keys = await store.keys()
         XCTAssertEqual(keys, ["2"])
     }
-
+    
     func testSimilaritySearchKitSHA256() throws {
         let vs = SimilaritySearchKit(embeddings: OpenAIEmbeddings())
         let originalString = "Hello, World!"
@@ -526,7 +526,7 @@ Action Input: the input to the action
         print("🚗\(hashedString)")
         XCTAssertNotNil(hashedString)
     }
-
+    
     func testOllamaAPI() async throws {
         let ollama = Ollama()
         do {
@@ -607,7 +607,7 @@ Action Input: the input to the action
         }
     }
 
-
+    
 //
 //    func testYoutubeHackClientList() async throws {
 //        let eventLoopGroup = ThreadManager.thread
@@ -621,15 +621,15 @@ Action Input: the input to the action
 //                                                            httpClient: httpClient)
 ////        print(list.manually_created_transcripts.count)
 //        XCTAssertEqual(2, list!.manually_created_transcripts.count)
-//
+//        
 //        let t = list!.find_transcript(language_codes: ["zh"])
 //        XCTAssertNotNil(t)
 ////        print(t!)
 //        let dict = await t!.fetch()
 ////        print(dict!)
-//
+//        
 //    }
-//
+//    
 //    func testYoutubeHackClientTranslate() async throws {
 //        let eventLoopGroup = ThreadManager.thread
 //
@@ -642,7 +642,7 @@ Action Input: the input to the action
 //                                                            httpClient: httpClient)
 ////        print(list.manually_created_transcripts.count)
 //        XCTAssertEqual(2, list!.manually_created_transcripts.count)
-//
+//        
 //        let t = list!.find_transcript(language_codes: ["zh"])
 //        XCTAssertNotNil(t)
 ////        print(t!)
@@ -651,7 +651,7 @@ Action Input: the input to the action
 ////        print(dict!)
 //        XCTAssertNotNil(dict)
 //    }
-//
+//    
 //    func testYoutubeHackClientTranslateEN() async throws {
 //        let eventLoopGroup = ThreadManager.thread
 //
@@ -664,7 +664,7 @@ Action Input: the input to the action
 //                                                            httpClient: httpClient)
 ////        print(list.manually_created_transcripts.count)
 //        XCTAssertEqual(2, list!.manually_created_transcripts.count)
-//
+//        
 //        let t = list!.manually_created_transcripts.first!.value
 ////        print(t!)
 //        let en = t.translate(language_code: "en")
@@ -672,18 +672,18 @@ Action Input: the input to the action
 ////        print(dict!)
 //        XCTAssertNotNil(dict)
 //    }
-//
+//    
 //    func testYoutubeInfoFetch() async throws {
 //        let eventLoopGroup = ThreadManager.thread
-//
+//        
 //        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
 //        defer {
 //            // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
 //            try? httpClient.syncShutdown()
 //        }
-//
+//        
 //        let info = await YoutubeHackClient.info(video_id: "JdM6AruIKT4", httpClient: httpClient)
-//
+//        
 //        print(info!)
 //    }
 }
