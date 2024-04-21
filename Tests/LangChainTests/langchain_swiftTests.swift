@@ -560,10 +560,18 @@ Action Input: the input to the action
                 return
             }
             let llm = ChatOllama(model: smallestModel.name)
-            let result = try await llm._send(text: "What is a large language model?")
+            XCTAssertTrue(llm.history.isEmpty)
+            let userQuery = "What is a large language model?"
+            let result = try await llm._send(text: userQuery)
             XCTAssertNotNil(result.llm_output)
             guard let output = result.llm_output else { return }
             XCTAssertFalse(output.isEmpty)
+            XCTAssertFalse(llm.history.isEmpty)
+            XCTAssertEqual(llm.history.first?.role, "user")
+            XCTAssertEqual(llm.history.first?.content, userQuery)
+            XCTAssertEqual(llm.history.last?.role, "assistant")
+            XCTAssertNotEqual(llm.history.last?.content, userQuery)
+            XCTAssertFalse(llm.history.last?.content.isEmpty ?? true)
         } catch {
             if error is NIOConnectionError {
                 print("Ollama not active, skipping API test.")
