@@ -435,7 +435,6 @@ Task(priority: .background)  {
     - [x] Dummy
     - [x] InvalidTool
     - [x] Serper
-    - [ ] Zapier
     - [x] JavascriptREPLTool(Via JSC)
     - [x] GetLocation(Via CoreLocation)
     - [x] Weather
