@@ -533,10 +533,33 @@ Action Input: the input to the action
             let models = try await ollama.localModels()
             XCTAssertGreaterThanOrEqual(models.count, 0)
             guard let smallestModel = models.min(by: { $0.size < $1.size }) else {
-                print("No Ollama models, skipping chat test.")
+                print("No Ollama models, skipping generation test.")
                 return
             }
             let llm = Ollama(model: smallestModel.name)
+            let result = try await llm._send(text: "What is a large language model?")
+            XCTAssertNotNil(result.llm_output)
+            guard let output = result.llm_output else { return }
+            XCTAssertFalse(output.isEmpty)
+        } catch {
+            if error is NIOConnectionError {
+                print("Ollama not active, skipping API test.")
+                return
+            }
+            throw error
+        }
+    }
+
+    func testChatOllamaAPI() async throws {
+        let ollama = ChatOllama()
+        do {
+            let models = try await ollama.localModels()
+            XCTAssertGreaterThanOrEqual(models.count, 0)
+            guard let smallestModel = models.min(by: { $0.size < $1.size }) else {
+                print("No Ollama models, skipping chat test.")
+                return
+            }
+            let llm = ChatOllama(model: smallestModel.name)
             let result = try await llm._send(text: "What is a large language model?")
             XCTAssertNotNil(result.llm_output)
             guard let output = result.llm_output else { return }
