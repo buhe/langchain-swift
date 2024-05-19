@@ -14,10 +14,10 @@ import OpenAIKit
 /// This class is a wrapper around the Ollama API.
 public class Ollama: LLM {
 
-    let baseURL: String
-    let model: String
-    let options: [String: String]?
-    let requestTimeout: Int
+    public let baseURL: String
+    public let model: String
+    public let options: [String: String]?
+    public let requestTimeout: Int
 
     /// Images encoded as base64 strings.
     public var images: [String]?
