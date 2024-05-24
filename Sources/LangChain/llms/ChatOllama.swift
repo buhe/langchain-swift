@@ -15,7 +15,7 @@ public class ChatOllama: Ollama {
     ///
     /// This array contains the chat history
     /// of the conversation so far.
-    var history = [ChatGLMMessage]()
+    public var history = [ChatGLMMessage]()
 
     /// Create a new Ollama chat instance.
     ///
@@ -60,26 +60,26 @@ public extension ChatOllama {
     /// This is a streaming endpoint, so there can be a series of responses.
     /// Streaming can be disabled using "stream": false.
     struct ChatRequest: Codable, Sendable {
-        let model: String
-        let options: [String: String]?
-        let format: String
-        let stream: Bool
-        let messages: [ChatGLMMessage]
+        public let model: String
+        public let options: [String: String]?
+        public let format: String
+        public let stream: Bool
+        public let messages: [ChatGLMMessage]
     }
     /// Ollama response to a `ChatRequest`.
     ///
     /// This response object includes the next message in a chat conversation.
     /// The final response object will include statistics and additional data from the request.
     struct ChatResponse: Codable, Sendable {
-        let message: ChatGLMMessage
-        let model: String
-        let done: Bool
-        let totalDuration: Int?
-        let loadDuration: Int?
-        let promptEvalDuration: Int?
-        let evalDuration: Int?
-        let promptEvalCount: Int?
-        let evalCount: Int?
+        public let message: ChatGLMMessage
+        public let model: String
+        public let done: Bool
+        public let totalDuration: Int?
+        public let loadDuration: Int?
+        public let promptEvalDuration: Int?
+        public let evalDuration: Int?
+        public let promptEvalCount: Int?
+        public let evalCount: Int?
 
         /// Return the message content.
         public var content: String { message.content }
