@@ -100,6 +100,7 @@ public class Ollama: LLM {
             return LLMResult()
         }
         let llmResponse = try JSONDecoder().decode(GenerateResponse.self, from: data)
+        context = llmResponse.context
         return LLMResult(llm_output: llmResponse.response)
     }
 
