@@ -9,9 +9,15 @@ import AsyncHTTPClient
 import Foundation
 import NIOPosix
 
-struct ChatGLMMessage: Codable {
-    let role: String
-    let content: String
+/// A ChatGLM message.
+///
+/// This structure represents a message in a chat.
+public struct ChatGLMMessage: Codable, Sendable {
+    /// The role of the entity sending the message,
+    /// such as "user", "assistant", or "developer".
+    public let role: String
+    /// The content of the message.
+    public let content: String
 }
 struct ChatGLMPayload: Codable {
     let prompt: [ChatGLMMessage]
