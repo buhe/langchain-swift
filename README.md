@@ -46,7 +46,7 @@ BILIBILI_SESSION=xxx
 BILIBILI_JCT=xxx
 ```
 
-## Get stated
+## Get started
 
 <details>
 <summary>🔥 Local Model</summary>
