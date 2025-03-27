@@ -28,6 +28,7 @@ let package = Package(
         .package(url: "https://github.com/google/generative-ai-swift", .upToNextMajor(from: "0.4.4")),
         .package(url: "https://github.com/buhe/SwiftyNotion", .upToNextMajor(from: "0.1.5")),
         .package(url: "https://github.com/nmdias/FeedKit", .upToNextMajor(from: "9.1.2")),
+        .package(url: "https://github.com/ggerganov/llama.cpp/", branch: "master"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -36,6 +37,7 @@ let package = Package(
             name: "LangChain",
             dependencies: [
                 .product(name: "OpenAIKit", package: "openai-kit"),
+                .product(name: "llama", package: "llama.cpp"),
                 .product(name: "Supabase", package: "supabase-swift"),
                 .product(name: "SwiftyJSON", package: "SwiftyJSON"),
                 .product(name: "SWXMLHash", package: "SWXMLHash"),
