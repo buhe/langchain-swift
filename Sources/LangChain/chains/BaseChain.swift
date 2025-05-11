@@ -70,15 +70,15 @@ public class DefaultChain {
         
             callStart(prompt: args, reqId: reqId)
         let outputs = await self._call(args: args)
-        if let llmResult = outputs.0 {
+        if let llmResult = outputs.0, let llmOutput = llmResult.llm_output {
             cost = Date.now.timeIntervalSince1970 - now
             //call end trace
             //            if !outputs.0.stream {
-            callEnd(output: llmResult.llm_output!, reqId: reqId, cost: cost)
+            callEnd(output: llmOutput, reqId: reqId, cost: cost)
             //            } else {
             //                callEnd(output: "[LLM is streamable]", reqId: reqId, cost: cost)
             //            }
-            let _ = prep_outputs(inputs: [inputKey: args], outputs: [self.outputKey: llmResult.llm_output!])
+            let _ = prep_outputs(inputs: [inputKey: args], outputs: [self.outputKey: llmOutput])
             return outputs.1
         } else {
             callCatch(error: LangChainError.ChainError, reqId: reqId, cost: cost)
